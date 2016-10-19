@@ -32,3 +32,5 @@
 *.app
 /build/.vs
 /build/*.db
+/build/obj
+/build/*.opendb
