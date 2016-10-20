@@ -34,3 +34,5 @@
 /build/*.db
 /build/obj
 /build/*.opendb
+/third_party/grpc
+/build/bin
