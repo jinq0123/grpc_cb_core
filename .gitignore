@@ -36,3 +36,4 @@
 /build/*.opendb
 /third_party/grpc
 /build/bin
+/build/*.filters
