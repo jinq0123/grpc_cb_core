@@ -38,3 +38,4 @@
 /build/.vs
 /build/bin
 /build/obj
+/build/*.sdf
