@@ -39,3 +39,4 @@
 /build/bin
 /build/obj
 /build/*.sdf
+/build/*.user
