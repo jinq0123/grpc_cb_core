@@ -1,11 +1,11 @@
 from conans import ConanFile, CMake
 
 class GrpccbConan(ConanFile):
-    name = "grpc_cb"
+    name = "grpc_cb_core"
     version = "0.1"
     license = "Apache-2.0"
-    url = "https://github.com/jinq0123/grpc_cb"
-    description = "C++ gRPC library with callback interface."
+    url = "https://github.com/jinq0123/grpc_cb_core"
+    description = "C++ gRPC core library with callback interface."
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False]}
     default_options = "shared=False"
@@ -13,7 +13,7 @@ class GrpccbConan(ConanFile):
     # conan remote add jinq0123 https://api.bintray.com/conan/jinq0123/test
     # before install, or create from:
     # https://github.com/jinq0123/conan-grpc
-    requires = "gRPC/1.4.2@jinq0123/stable", "Protobuf/3.4.1@jinq0123/testing"
+    requires = "gRPC/1.4.2@jinq0123/stable"
     
     generators = "cmake", "Premake"  # A custom generator: PremakeGen/0.1@memsharded/testing
     build_requires = "PremakeGen/0.1@memsharded/testing"
@@ -33,4 +33,4 @@ class GrpccbConan(ConanFile):
         self.copy("*.a", dst="lib", keep_path=False)
 
     def package_info(self):
-        self.cpp_info.libs = ["grpc_cb"]
+        self.cpp_info.libs = ["grpc_cb_core"]

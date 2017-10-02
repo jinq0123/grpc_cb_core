@@ -31,8 +31,6 @@
 *.out
 *.app
 
-/third_party/grpc
-
 /premake/*.db
 /premake/*.opendb
 /premake/.vs
@@ -48,8 +46,6 @@
 /premake/conanpremake_release_x64.lua
 /premake/conanbuildinfo.cmake
 /premake/conaninfo.txt
-
-/examples/protos/*.bat
 
 *.pyc
 test_package/build
