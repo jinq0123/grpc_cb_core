@@ -18,7 +18,7 @@ endif()
 include_directories("include")
 include_directories(${CONAN_INCLUDE_DIRS})
 
-file(GLOB_RECURSE SRC_LIST "src/cpp_cb/*.cc")  
+file(GLOB_RECURSE SRC_LIST "src/*.cc")  
 add_library(grpc_cb_core ${SRC_LIST})
 target_link_libraries(grpc_cb_core ${CONAN_LIBS})
 

@@ -42,7 +42,7 @@ project "grpc_cb_core"
 	}
 	files {
 		"../include/grpc_cb/**.h",
-		"../src/cpp_cb/**",
+		"../src/**",
 		"../doc/**",
 		"../*.md",
 		"../*.py",
