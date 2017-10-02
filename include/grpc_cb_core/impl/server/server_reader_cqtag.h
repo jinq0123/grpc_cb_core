@@ -9,14 +9,14 @@
 
 #include <grpc/support/port_platform.h>    // for GRPC_MUST_USE_RESULT
 
-#include <grpc_cb/impl/call.h>             // for StartBatch()
-#include <grpc_cb/impl/call_cqtag.h>       // for CallCqTag
-#include <grpc_cb/impl/call_op_data.h>     // for CodSendInitMd
-#include <grpc_cb/impl/call_operations.h>  // for CallOperations
-#include <grpc_cb/server_reader.h>         // for ServerReader
-#include <grpc_cb/support/config.h>        // for GRPC_FINAL
+#include <grpc_cb_core/impl/call.h>             // for StartBatch()
+#include <grpc_cb_core/impl/call_cqtag.h>       // for CallCqTag
+#include <grpc_cb_core/impl/call_op_data.h>     // for CodSendInitMd
+#include <grpc_cb_core/impl/call_operations.h>  // for CallOperations
+#include <grpc_cb_core/server_reader.h>         // for ServerReader
+#include <grpc_cb_core/support/config.h>        // for GRPC_FINAL
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 template <class MsgType>
 class ServerReaderCqTag GRPC_FINAL : public CallCqTag {
@@ -78,6 +78,6 @@ void ServerReaderCqTag<MsgType>::DoComplete(bool success) {
     "Failed to read client stream."));
 }
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_IMPL_SERVER_SERVER_READER_CQTAG_H

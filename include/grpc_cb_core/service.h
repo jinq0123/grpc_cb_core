@@ -6,13 +6,13 @@
 
 #include <string>
 
-#include <grpc_cb/impl/call_sptr.h>  // for CallSptr
-#include <grpc_cb/support/grpc_cb_api.h>  // for GRPC_CB_API
-#include <grpc_cb/support/protobuf_fwd.h>  // for ServiceDescriptor
+#include <grpc_cb_core/impl/call_sptr.h>  // for CallSptr
+#include <grpc_cb_core/support/grpc_cb_api.h>  // for GRPC_CB_API
+#include <grpc_cb_core/support/protobuf_fwd.h>  // for ServiceDescriptor
 
 struct grpc_byte_buffer;
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 // Service base class.
 class GRPC_CB_API Service {
@@ -33,6 +33,6 @@ class GRPC_CB_API Service {
       const = 0;
 };
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_SERVICE_H

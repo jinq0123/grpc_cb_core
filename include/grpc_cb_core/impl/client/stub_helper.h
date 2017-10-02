@@ -6,12 +6,12 @@
 
 #include <google/protobuf/message.h>  // for Message
 
-#include <grpc_cb/service_stub.h>  // for ServiceStub
-#include <grpc_cb/status.h>  // for Status
-#include <grpc_cb/status_callback.h>  // for ErrorCallback
-#include <grpc_cb/impl/client/wrap_response_callback.h>  // for WrapResponseCallback()
+#include <grpc_cb_core/service_stub.h>  // for ServiceStub
+#include <grpc_cb_core/status.h>  // for Status
+#include <grpc_cb_core/status_callback.h>  // for ErrorCallback
+#include <grpc_cb_core/impl/client/wrap_response_callback.h>  // for WrapResponseCallback()
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 // Helper to request stub.
 class StubHelper {
@@ -57,5 +57,5 @@ void StubHelper::AsyncRequest(const std::string& method,
       WrapResponseCallback(cb, ecb), ecb);
 }
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 #endif  // GRPC_CB_IMPL_CLIENT_STUB_HELPER_H

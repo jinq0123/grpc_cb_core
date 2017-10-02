@@ -7,16 +7,16 @@
 #include <cstdint>  // for int64_t
 #include <string>
 
-#include <grpc_cb/channel.h>                         // for MakeSharedCall()
-#include <grpc_cb/impl/client/client_sync_reader_data.h>  // for ClientSyncReaderDataSptr
-#include <grpc_cb/impl/client/client_recv_init_md_cqtag.h>  // for ClientRecvInitMdCqTag
-#include <grpc_cb/impl/client/client_send_close_cqtag.h>    // for ClientSendCloseCqTag
-#include <grpc_cb/impl/client/client_sync_reader_helper.h>  // for ClientSyncReaderHelper
-#include <grpc_cb/impl/client/client_sync_writer_helper.h>  // for ClientSyncWriterHelper
-#include <grpc_cb/impl/cqueue_for_pluck.h>  // for CQueueForPluck
-#include <grpc_cb/status.h>                      // for Status
+#include <grpc_cb_core/channel.h>                         // for MakeSharedCall()
+#include <grpc_cb_core/impl/client/client_sync_reader_data.h>  // for ClientSyncReaderDataSptr
+#include <grpc_cb_core/impl/client/client_recv_init_md_cqtag.h>  // for ClientRecvInitMdCqTag
+#include <grpc_cb_core/impl/client/client_send_close_cqtag.h>    // for ClientSendCloseCqTag
+#include <grpc_cb_core/impl/client/client_sync_reader_helper.h>  // for ClientSyncReaderHelper
+#include <grpc_cb_core/impl/client/client_sync_writer_helper.h>  // for ClientSyncWriterHelper
+#include <grpc_cb_core/impl/cqueue_for_pluck.h>  // for CQueueForPluck
+#include <grpc_cb_core/status.h>                      // for Status
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 template <class Request, class Response>
 class ClientSyncReaderWriterImpl GRPC_FINAL {
@@ -129,6 +129,6 @@ void ClientSyncReaderWriterImpl<Request, Response>::RecvInitMdIfNot() {
   status.SetInternalError("Failed to receive init metadata.");
 }
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_CLIENT_CLIENT_SYNC_READER_WRITER_IMPL_H

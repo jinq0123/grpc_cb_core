@@ -8,7 +8,7 @@
 
 #include <grpc/grpc.h>                     // for grpc_metadata
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 using MetadataVector = std::vector<grpc_metadata>;
 

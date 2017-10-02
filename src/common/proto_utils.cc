@@ -30,7 +30,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#include <grpc_cb/impl/proto_utils.h>
+#include <grpc_cb_core/impl/proto_utils.h>
 
 #include <google/protobuf/io/coded_stream.h>  // for SetTotalBytesLimit()
 #include <google/protobuf/io/zero_copy_stream.h>  // for ZeroCopyOutputStream
@@ -40,11 +40,11 @@
 #include <grpc/impl/codegen/byte_buffer_reader.h>  // for grpc_byte_buffer_reader
 #include <grpc/impl/codegen/slice.h>  // for grpc_slice_buffer
 
-#include <grpc_cb/status.h>  // for Status
+#include <grpc_cb_core/status.h>  // for Status
 
 #define GPR_CODEGEN_ASSERT assert
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 namespace internal {
 
@@ -222,4 +222,4 @@ Status Deserialize(grpc_byte_buffer* buffer, ::google::protobuf::Message* msg,
 }  // Deserialize()
 
 }  // namespace Proto
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core

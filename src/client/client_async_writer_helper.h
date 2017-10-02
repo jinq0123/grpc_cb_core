@@ -7,13 +7,13 @@
 #include <functional>  // for function<>
 #include <memory>  // for enable_shared_from_this<>
 
-#include <grpc_cb/impl/call_sptr.h>         // for CallSptr
-#include <grpc_cb/impl/message_queue.h>     // for MessageQueue
-#include <grpc_cb/impl/message_sptr.h>      // for MessageSptr
-#include <grpc_cb/status.h>                 // for Status
-#include <grpc_cb/support/config.h>         // for GRPC_FINAL
+#include <grpc_cb_core/impl/call_sptr.h>         // for CallSptr
+#include <grpc_cb_core/impl/message_queue.h>     // for MessageQueue
+#include <grpc_cb_core/impl/message_sptr.h>      // for MessageSptr
+#include <grpc_cb_core/status.h>                 // for Status
+#include <grpc_cb_core/support/config.h>         // for GRPC_FINAL
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 // Cache messages and write one by one.
 // Used by ClientAsyncWriter and ClientAsyncReaderWriter.
@@ -62,5 +62,5 @@ class ClientAsyncWriterHelper GRPC_FINAL
   bool is_queue_ended_ = false;
 };  // class ClientAsyncWriterHelper
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 #endif  // GRPC_CB_CLIENT_CLIENT_ASYNC_WRITER_HELPER_H

@@ -6,9 +6,9 @@
 
 #include <memory>
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 class CQueueForNext;
 using CQueueForNextSptr = std::shared_ptr<CQueueForNext>;
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_IMPL_CQUEUE_FOR_NEXT_SPTR_H

@@ -9,13 +9,13 @@
 #include <grpc/grpc.h>          // for grpc_metadata_array
 #include <grpc/support/time.h>  // for gpr_timespec
 
-#include <grpc_cb/impl/cqueue_for_next_sptr.h>  // for CQueueForNextSptr
-#include <grpc_cb/impl/completion_queue_tag.h>   // for CompletionQueueTag
-#include <grpc_cb/support/config.h>              // for GRPC_FINAL
+#include <grpc_cb_core/impl/cqueue_for_next_sptr.h>  // for CQueueForNextSptr
+#include <grpc_cb_core/impl/completion_queue_tag.h>   // for CompletionQueueTag
+#include <grpc_cb_core/support/config.h>              // for GRPC_FINAL
 
 struct grpc_call;
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 class Service;
 

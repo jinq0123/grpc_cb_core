@@ -5,10 +5,10 @@
 
 #include <grpc/impl/codegen/grpc_types.h>  // for grpc_event
 
-#include <grpc_cb/impl/cqueue_for_next.h>      // for CQueueForNext
-#include <grpc_cb/impl/completion_queue_tag.h>  // for CompletionQueueTag
+#include <grpc_cb_core/impl/cqueue_for_next.h>      // for CQueueForNext
+#include <grpc_cb_core/impl/completion_queue_tag.h>  // for CompletionQueueTag
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 // Blocking go next and complete.
 // Return false if shutdown.

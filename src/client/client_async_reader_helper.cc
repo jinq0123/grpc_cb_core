@@ -5,10 +5,10 @@
 
 #include <cassert>  // for assert()
 
-#include <grpc_cb/impl/client/client_async_read_handler.h>  // for HandleMsg()
-#include <grpc_cb/impl/client/client_reader_read_cqtag.h>  // for ClientReaderReadCqTag
+#include <grpc_cb_core/impl/client/client_async_read_handler.h>  // for HandleMsg()
+#include <grpc_cb_core/impl/client/client_reader_read_cqtag.h>  // for ClientReaderReadCqTag
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 ClientAsyncReaderHelper::ClientAsyncReaderHelper(CallSptr call_sptr,
     const ClientAsyncReadHandlerSptr& read_handler_sptr, const OnEnd& on_end)
@@ -73,4 +73,4 @@ void ClientAsyncReaderHelper::OnRead(bool success, ClientReaderReadCqTag& tag) {
   Next();
 }
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core

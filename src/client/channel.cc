@@ -1,17 +1,17 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#include <grpc_cb/channel.h>
+#include <grpc_cb_core/channel.h>
 
 #include <cassert>
 
 #include <grpc/grpc.h>  // for grpc_channel_create_call()
 
-#include <grpc_cb/impl/call.h>
-#include <grpc_cb/impl/completion_queue.h>  // for CompletionQueue
-#include <grpc_cb/support/slice.h>  // for SliceFromCopiedString()
+#include <grpc_cb_core/impl/call.h>
+#include <grpc_cb_core/impl/completion_queue.h>  // for CompletionQueue
+#include <grpc_cb_core/support/slice.h>  // for SliceFromCopiedString()
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 Channel::Channel(const std::string& target)
     : c_channel_uptr_(grpc_insecure_channel_create(
@@ -43,4 +43,4 @@ CallSptr Channel::MakeSharedCall(const std::string& method, CompletionQueue& cq,
   return CallSptr(new Call(c_call));  // shared_ptr
 }
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core

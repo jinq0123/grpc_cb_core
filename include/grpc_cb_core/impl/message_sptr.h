@@ -6,12 +6,12 @@
 
 #include <memory>
 
-#include <grpc_cb/support/protobuf_fwd.h>  // for Message
+#include <grpc_cb_core/support/protobuf_fwd.h>  // for Message
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 using MessageSptr = std::shared_ptr<::google::protobuf::Message>;
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_IMPL_CALL_SPTR_H

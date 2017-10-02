@@ -6,13 +6,13 @@
 
 #include <grpc/support/port_platform.h>    // for GRPC_MUST_USE_RESULT
 
-#include <grpc_cb/impl/call.h>                // for StartBatch()
-#include <grpc_cb/impl/call_op_data.h>        // for CodRecvMsg
-#include <grpc_cb/impl/call_operations.h>     // for CallOperations
-#include <grpc_cb/impl/general_call_cqtag.h>  // for GeneralCallCqTag
-#include <grpc_cb/support/config.h>           // for GRPC_FINAL
+#include <grpc_cb_core/impl/call.h>                // for StartBatch()
+#include <grpc_cb_core/impl/call_op_data.h>        // for CodRecvMsg
+#include <grpc_cb_core/impl/call_operations.h>     // for CallOperations
+#include <grpc_cb_core/impl/general_call_cqtag.h>  // for GeneralCallCqTag
+#include <grpc_cb_core/support/config.h>           // for GRPC_FINAL
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 class ClientWriterCloseCqTag GRPC_FINAL : public GeneralCallCqTag {
  public:
@@ -48,6 +48,6 @@ Status ClientWriterCloseCqTag::GetResponse(
   return cod_recv_msg_.GetResultMsg(response, GetCallSptr()->GetMaxMsgSize());
 }
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_CLIENT_CLIENT_WRITER_CLOSE_CQTAG_H

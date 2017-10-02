@@ -6,15 +6,15 @@
 
 #include <string>
 
-#include <grpc_cb/impl/channel_sptr.h>      // for ChannelSptr
-#include <grpc_cb/impl/completion_queue_sptr.h>  // for CompletionQueueSptr
-#include <grpc_cb/impl/message_sptr.h>           // for MessageSptr
-#include <grpc_cb/support/config.h>              // for GRPC_FINAL
+#include <grpc_cb_core/impl/channel_sptr.h>      // for ChannelSptr
+#include <grpc_cb_core/impl/completion_queue_sptr.h>  // for CompletionQueueSptr
+#include <grpc_cb_core/impl/message_sptr.h>           // for MessageSptr
+#include <grpc_cb_core/support/config.h>              // for GRPC_FINAL
 
 // for ClientAsyncWriterCloseHandlerSptr
 #include "client_async_writer_close_handler_sptr.h"
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 class ClientAsyncWriterImpl2;
 
@@ -39,5 +39,5 @@ class ClientAsyncWriterImpl GRPC_FINAL {
   std::shared_ptr<ClientAsyncWriterImpl2> impl2_sptr_;
 };  // class ClientAsyncWriterImpl
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 #endif  // GRPC_CB_CLIENT_ASYNC_WRITER_IMPL_H

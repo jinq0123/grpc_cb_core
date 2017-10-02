@@ -6,9 +6,9 @@
 
 #include <memory>
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 class CQueueForPluck;
 using CQueueForPluckSptr = std::shared_ptr<CQueueForPluck>;
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_IMPL_CQUEUE_FOR_PLUCK_SPTR_H

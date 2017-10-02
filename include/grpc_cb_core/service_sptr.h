@@ -6,11 +6,11 @@
 
 #include <memory>  // for shared_ptr<>
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 class Service;
 using ServiceSptr = std::shared_ptr<Service>;
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_SERVICE_SPTR_H

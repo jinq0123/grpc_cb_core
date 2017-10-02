@@ -4,9 +4,9 @@
 #ifndef GRPC_CB_CLIENT_ASYNC_WRITER_CLOSE_HANDLER_H
 #define GRPC_CB_CLIENT_ASYNC_WRITER_CLOSE_HANDLER_H
 
-#include <grpc_cb/support/protobuf_fwd.h>  // for Message
+#include <grpc_cb_core/support/protobuf_fwd.h>  // for Message
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 class Status;
 
@@ -20,6 +20,6 @@ class ClientAsyncWriterCloseHandler {
   virtual void OnClose(const Status& status) = 0;
 };  // class ClientAsyncWriterCloseHandler
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_CLIENT_ASYNC_WRITER_CLOSE_HANDLER_H

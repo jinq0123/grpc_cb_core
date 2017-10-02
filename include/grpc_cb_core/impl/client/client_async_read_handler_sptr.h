@@ -6,11 +6,11 @@
 
 #include <memory>  // for shared_ptr
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 class ClientAsyncReadHandler;
 using ClientAsyncReadHandlerSptr = std::shared_ptr<ClientAsyncReadHandler>;
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_CLIENT_CLIENT_ASYNC_READ_HANDLER_SPTR_H

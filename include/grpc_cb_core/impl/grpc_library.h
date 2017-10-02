@@ -36,9 +36,9 @@
 
 #include <grpc/grpc.h>
 
-#include <grpc_cb/support/grpc_cb_api.h>  // for GRPC_CB_API
+#include <grpc_cb_core/support/grpc_cb_api.h>  // for GRPC_CB_API
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 class GRPC_CB_API GrpcLibrary {
  public:
@@ -46,6 +46,6 @@ class GRPC_CB_API GrpcLibrary {
   virtual ~GrpcLibrary() { grpc_shutdown(); }
 };
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_IMPL_GRPC_LIBRARY_H

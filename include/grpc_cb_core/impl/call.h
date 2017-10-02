@@ -11,13 +11,13 @@
 #include <grpc/grpc.h>
 #include <grpc/support/port_platform.h>  // for GRPC_MUST_USE_RESULT
 
-#include <grpc_cb/impl/call_operations.h>  // for CallOperations
-#include <grpc_cb/impl/call_sptr.h>
-#include <grpc_cb/support/config.h>  // for GRPC_FINAL
+#include <grpc_cb_core/impl/call_operations.h>  // for CallOperations
+#include <grpc_cb_core/impl/call_sptr.h>
+#include <grpc_cb_core/support/config.h>  // for GRPC_FINAL
 
 struct grpc_call;
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 // Wrap of the C call object.
 // Thread-safe.
@@ -65,6 +65,6 @@ bool Call::StartBatch(const CallOperations& ops, void* tag) {
   return GRPC_CALL_OK == result;
 }
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_IMPL_CALL_H

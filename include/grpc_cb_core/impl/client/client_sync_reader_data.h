@@ -3,12 +3,12 @@
 
 #include <memory>  // for shared_ptr<>
 
-#include <grpc_cb/impl/call_sptr.h>              // for CallSptr
-#include <grpc_cb/impl/cqueue_for_pluck_sptr.h>  // for CQueueFforPluckSptr
-#include <grpc_cb/status.h>                      // for Status
-#include <grpc_cb/status_callback.h>             // for StatusCallback
+#include <grpc_cb_core/impl/call_sptr.h>              // for CallSptr
+#include <grpc_cb_core/impl/cqueue_for_pluck_sptr.h>  // for CQueueFforPluckSptr
+#include <grpc_cb_core/status.h>                      // for Status
+#include <grpc_cb_core/status_callback.h>             // for StatusCallback
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 // Todo: Delete it.
 
@@ -27,5 +27,5 @@ struct ClientSyncReaderData {
 template <class Response>
 using ClientSyncReaderDataSptr = std::shared_ptr<ClientSyncReaderData<Response>>;
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 #endif  // GRPC_CB_IMPL_CLINET_CLIENT_SYNC_READER_DATA_H

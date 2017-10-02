@@ -6,13 +6,13 @@
 
 #include <cassert>     // for assert()
 
-#include <grpc_cb/impl/call_sptr.h>                              // for CallSptr
-#include <grpc_cb/impl/client/client_reader_read_cqtag.h>  // for ClientReaderReadCqTag
-#include <grpc_cb/impl/client/client_reader_recv_status_cqtag.h>  // for ClientReaderRecvStatusCqTag
-#include <grpc_cb/impl/cqueue_for_pluck.h>  // for Pluck()
-#include <grpc_cb/status.h>                 // for Status
+#include <grpc_cb_core/impl/call_sptr.h>                              // for CallSptr
+#include <grpc_cb_core/impl/client/client_reader_read_cqtag.h>  // for ClientReaderReadCqTag
+#include <grpc_cb_core/impl/client/client_reader_recv_status_cqtag.h>  // for ClientReaderRecvStatusCqTag
+#include <grpc_cb_core/impl/cqueue_for_pluck.h>  // for Pluck()
+#include <grpc_cb_core/status.h>                 // for Status
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 namespace ClientSyncReaderHelper {
 // ClientSyncReaderHelper is used in ClientSyncReader and ClientSyncReaderWriter.
 
@@ -62,6 +62,6 @@ inline Status SyncRecvStatus(
 }
 
 }  // namespace ClientSyncReaderHelper
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_IMPL_CLIENT_CLIENT_SYNC_READER_HELPER_H

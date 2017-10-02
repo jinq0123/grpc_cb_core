@@ -6,10 +6,10 @@
 
 #include <functional>  // for std::function()
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 class Status;
 using StatusCallback = std::function<void (const Status& status)>;
 using ErrorCallback = StatusCallback;
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_STATUS_CALLBACK_H

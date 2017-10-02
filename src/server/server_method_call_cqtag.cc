@@ -3,11 +3,11 @@
 
 #include "server_method_call_cqtag.h"
 
-#include <grpc_cb/service.h>  // for Service
-#include <grpc_cb/impl/call.h>  // for Call
-#include <grpc_cb/impl/cqueue_for_next.h>  // for c_cq()
+#include <grpc_cb_core/service.h>  // for Service
+#include <grpc_cb_core/impl/call.h>  // for Call
+#include <grpc_cb_core/impl/cqueue_for_next.h>  // for c_cq()
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 ServerMethodCallCqTag::ServerMethodCallCqTag(grpc_server* server,
                                              Service* service,
@@ -60,4 +60,4 @@ void ServerMethodCallCqTag::DoComplete(bool success)
                             registered_method_, cq4n_sptr_);
 }
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core

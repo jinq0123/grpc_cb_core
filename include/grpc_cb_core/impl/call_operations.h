@@ -10,16 +10,16 @@
 
 #include <grpc/impl/codegen/grpc_types.h>  // for grpc_op
 #include <grpc/support/port_platform.h>    // for GRPC_MUST_USE_RESULT
-#include <grpc_cb/impl/call_op_data.h>     // for CodSendInitMd
-#include <grpc_cb/impl/metadata_vector.h>  // for MetadataVector
-#include <grpc_cb/status.h>                // for Status
-#include <grpc_cb/support/config.h>        // for GRPC_FINAL
-#include <grpc_cb/support/protobuf_fwd.h>  // for Message
-#include <grpc_cb/support/slice.h>         // for SliceFromCopiedString()
+#include <grpc_cb_core/impl/call_op_data.h>     // for CodSendInitMd
+#include <grpc_cb_core/impl/metadata_vector.h>  // for MetadataVector
+#include <grpc_cb_core/status.h>                // for Status
+#include <grpc_cb_core/support/config.h>        // for GRPC_FINAL
+#include <grpc_cb_core/support/protobuf_fwd.h>  // for Message
+#include <grpc_cb_core/support/slice.h>         // for SliceFromCopiedString()
 
 struct grpc_slice;
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 // Like grpc++ CallOpSet<>.
 // Non-thread-safe.

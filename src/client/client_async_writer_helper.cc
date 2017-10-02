@@ -5,10 +5,10 @@
 
 #include <cassert>     // for assert()
 
-#include <grpc_cb/impl/client/client_send_msg_cqtag.h>  // for ClientSendMsgCqTag
-#include <grpc_cb/status.h>                             // for Status::ok()
+#include <grpc_cb_core/impl/client/client_send_msg_cqtag.h>  // for ClientSendMsgCqTag
+#include <grpc_cb_core/status.h>                             // for Status::ok()
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 // Todo: thread-safe
 
@@ -84,4 +84,4 @@ void ClientAsyncWriterHelper::OnWritten(bool success) {
     on_end_();  // normal end
 }
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core

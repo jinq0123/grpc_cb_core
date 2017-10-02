@@ -4,10 +4,10 @@
 
 #include <memory>
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 class CQueueForNext;  // = CompletionQueueForNext
 using CompletionQueueForNextSptr = std::shared_ptr<CQueueForNext>;
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 #endif  // GRPC_CB_COMPLETION_QUEUE_FOR_NEXT_SPTR_H

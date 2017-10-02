@@ -8,16 +8,16 @@
 #include <memory>  // for unique_ptr<>
 #include <string>
 
-#include <grpc_cb/impl/call_sptr.h>  // for CallSptr
-#include <grpc_cb/impl/channel_sptr.h>  // for ChannelSptr
-#include <grpc_cb/impl/grpc_library.h>  // for GrpcLibrary
-#include <grpc_cb/support/config.h>  // for GRPC_OVERRIDE
-#include <grpc_cb/support/grpc_cb_api.h>  // for GRPC_CB_API
+#include <grpc_cb_core/impl/call_sptr.h>  // for CallSptr
+#include <grpc_cb_core/impl/channel_sptr.h>  // for ChannelSptr
+#include <grpc_cb_core/impl/grpc_library.h>  // for GrpcLibrary
+#include <grpc_cb_core/support/config.h>  // for GRPC_OVERRIDE
+#include <grpc_cb_core/support/grpc_cb_api.h>  // for GRPC_CB_API
 
 struct grpc_channel;
 struct grpc_completion_queue;
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 class CompletionQueue;
 
@@ -48,6 +48,6 @@ class GRPC_CB_API Channel : public GrpcLibrary,
   std::atomic_int64_t call_timeout_ms_{ INT64_MAX };
 };
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_CHANNEL_H

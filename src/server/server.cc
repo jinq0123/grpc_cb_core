@@ -1,21 +1,21 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#include <grpc_cb/server.h>
+#include <grpc_cb_core/server.h>
 
 #include <algorithm>  // for for_each()
 
 #include <grpc/grpc.h>
 #include <grpc/grpc_security.h>  // for grpc_server_add_secure_http2_port()
 
-#include <grpc_cb/run.h>  // for Run()
-#include <grpc_cb/impl/cqueue_for_next.h>        // for CQueueForNext
-#include <grpc_cb/security/server_credentials.h>  // for InsecureServerCredentials
-#include <grpc_cb/service.h>
+#include <grpc_cb_core/run.h>  // for Run()
+#include <grpc_cb_core/impl/cqueue_for_next.h>        // for CQueueForNext
+#include <grpc_cb_core/security/server_credentials.h>  // for InsecureServerCredentials
+#include <grpc_cb_core/service.h>
 
 #include "server_method_call_cqtag.h"   // for ServerMethodCallCqTag
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 Server::Server()
     : cq4n_sptr_(new CQueueForNext),  // shared_ptr
@@ -95,7 +95,7 @@ void Server::Run() {
   grpc_server_start(c_server_uptr_.get());
   RequestMethodsCalls();
 
-  grpc_cb::Run(cq4n_sptr_);
+  grpc_cb_core::Run(cq4n_sptr_);
 }
 
 void Server::RequestMethodsCalls() const {
@@ -122,4 +122,4 @@ Server::GrpcServerUptr Server::MakeUniqueGrpcServer() {
   return GrpcServerUptr(svr, grpc_server_destroy);
 }
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core

@@ -1,18 +1,18 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#include <grpc_cb/impl/server/server_writer_impl.h>
+#include <grpc_cb_core/impl/server/server_writer_impl.h>
 
 #include <thread>  // for yield()
 
 #include <google/protobuf/message.h>
 
-#include <grpc_cb/impl/message_sptr.h>  // for MessageSptr
+#include <grpc_cb_core/impl/message_sptr.h>  // for MessageSptr
 
 #include "server_writer_send_status_cqtag.h"  // for ServerWriterSendStatusCqTag
 #include "server_writer_write_cqtag.h"        // for ServerWriterWriteCqTag
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 ServerWriterImpl::ServerWriterImpl(const CallSptr& call_sptr)
     : call_sptr_(call_sptr) {
@@ -151,4 +151,4 @@ bool ServerWriterImpl::SendMsg(const ::google::protobuf::Message& msg) {
   return false;
 }
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core

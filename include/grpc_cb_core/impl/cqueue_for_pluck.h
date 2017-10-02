@@ -3,10 +3,10 @@
 #ifndef GRPC_CB_IMPL_CQUEUE_FOR_PLUCK_H
 #define GRPC_CB_IMPL_CQUEUE_FOR_PLUCK_H
 
-#include <grpc_cb/impl/completion_queue.h>  // for CompletionQueue
-#include <grpc_cb/impl/cqueue_for_pluck_sptr.h>
+#include <grpc_cb_core/impl/completion_queue.h>  // for CompletionQueue
+#include <grpc_cb_core/impl/cqueue_for_pluck_sptr.h>
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 /// A thin wrapper around grpc_completion_queue for pluck.
 /// Thread-safe.
@@ -48,6 +48,6 @@ class CQueueForPluck : public CompletionQueue {
   grpc_event PluckInternal(void* tag, gpr_timespec deadline);
 };
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_IMPL_CQUEUE_FOR_PLUCK_H

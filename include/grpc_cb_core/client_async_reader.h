@@ -8,14 +8,14 @@
 #include <functional>  // for std::function
 #include <string>
 
-#include <grpc_cb/impl/channel_sptr.h>                      // for ChannelSptr
-#include <grpc_cb/impl/client/client_async_read_handler.h>  // for ClientAsyncReadHandler
-#include <grpc_cb/impl/client/client_async_reader_impl.h>  // for ClientAsyncReaderImpl
-#include <grpc_cb/impl/completion_queue_sptr.h>  // for CompletionQueueSptr
-#include <grpc_cb/status_callback.h>             // for StatusCallback
-#include <grpc_cb/support/protobuf_fwd.h>        // for Message
+#include <grpc_cb_core/impl/channel_sptr.h>                      // for ChannelSptr
+#include <grpc_cb_core/impl/client/client_async_read_handler.h>  // for ClientAsyncReadHandler
+#include <grpc_cb_core/impl/client/client_async_reader_impl.h>  // for ClientAsyncReaderImpl
+#include <grpc_cb_core/impl/completion_queue_sptr.h>  // for CompletionQueueSptr
+#include <grpc_cb_core/status_callback.h>             // for StatusCallback
+#include <grpc_cb_core/support/protobuf_fwd.h>        // for Message
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 // Copyable. Thread-safe.
 template <class Response>
@@ -51,5 +51,5 @@ class ClientAsyncReader GRPC_FINAL {
   const std::shared_ptr<ClientAsyncReaderImpl> impl_sptr_;
 };  // class ClientAsyncReader<>
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 #endif  // GRPC_CB_CLIENT_ASYNC_READER_H

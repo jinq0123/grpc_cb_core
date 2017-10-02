@@ -4,7 +4,7 @@
 #ifndef GRPC_CB_SERVER_READER_H
 #define GRPC_CB_SERVER_READER_H
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 class Status;
 
@@ -22,6 +22,6 @@ class ServerReader {
   virtual void OnEnd() {}
 };  // class ServerReader
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_SERVER_READER_H

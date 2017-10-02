@@ -5,14 +5,14 @@
 
 #include <cassert>  // for assert()
 
-#include <grpc_cb/channel.h>  // for MakeSharedCall()
-#include <grpc_cb/impl/client/client_async_writer_close_handler.h>  // for OnClose()
-#include <grpc_cb/impl/client/client_send_init_md_cqtag.h>  // for ClientSendInitMdCqTag
-#include <grpc_cb/impl/client/client_writer_close_cqtag.h>  // for ClientWriterCloseCqTag
+#include <grpc_cb_core/channel.h>  // for MakeSharedCall()
+#include <grpc_cb_core/impl/client/client_async_writer_close_handler.h>  // for OnClose()
+#include <grpc_cb_core/impl/client/client_send_init_md_cqtag.h>  // for ClientSendInitMdCqTag
+#include <grpc_cb_core/impl/client/client_writer_close_cqtag.h>  // for ClientWriterCloseCqTag
 
 #include "client_async_writer_helper.h"       // for ClientAsyncWriterHelper
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 ClientAsyncWriterImpl2::ClientAsyncWriterImpl2(
     const ChannelSptr& channel, const std::string& method,
@@ -137,4 +137,4 @@ void ClientAsyncWriterImpl2::SetInternalError(const std::string& sError) {
   }
 }
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core

@@ -6,12 +6,12 @@
 
 #include <queue>
 
-#include <grpc_cb/impl/message_sptr.h>  // for MessageSptr
+#include <grpc_cb_core/impl/message_sptr.h>  // for MessageSptr
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 using MessageQueue = std::queue<MessageSptr>;
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_IMPL_CALL_SPTR_H

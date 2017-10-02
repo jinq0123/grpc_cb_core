@@ -31,7 +31,7 @@
  *
  */
 
-#include <grpc_cb/security/server_credentials.h>
+#include <grpc_cb_core/security/server_credentials.h>
 
-namespace grpc_cb {
-}  // namespace grpc_cb
+namespace grpc_cb_core {
+}  // namespace grpc_cb_core

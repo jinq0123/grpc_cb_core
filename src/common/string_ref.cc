@@ -31,7 +31,7 @@
  *
  */
 
-#include <grpc_cb/support/string_ref.h>
+#include <grpc_cb_core/support/string_ref.h>
 
 #include <string.h>
 
@@ -39,7 +39,7 @@
 #include <iostream>
 #include <string>
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 const size_t string_ref::npos = size_t(-1);
 
@@ -102,4 +102,4 @@ std::ostream& operator<<(std::ostream& out, const string_ref& string) {
   return out << std::string(string.begin(), string.end());
 }
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core

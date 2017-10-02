@@ -5,10 +5,10 @@
 
 #include <cassert>
 
-#include <grpc_cb/impl/client/client_reader_async_recv_status_cqtag.h>  // for ClientReaderAsyncRecvStatusCqTag
-#include <grpc_cb/status.h>  // for Status
+#include <grpc_cb_core/impl/client/client_reader_async_recv_status_cqtag.h>  // for ClientReaderAsyncRecvStatusCqTag
+#include <grpc_cb_core/status.h>  // for Status
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 namespace ClientAsyncReader {
 
 void RecvStatus(const CallSptr& call_sptr, const StatusCallback& on_status) {
@@ -24,4 +24,4 @@ void RecvStatus(const CallSptr& call_sptr, const StatusCallback& on_status) {
 }
 
 }  // namespace ClientAsyncReader
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core

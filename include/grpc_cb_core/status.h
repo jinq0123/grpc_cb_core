@@ -38,9 +38,9 @@
 
 #include <grpc/status.h>
 
-#include <grpc_cb/support/grpc_cb_api.h>  // for GRPC_CB_API
+#include <grpc_cb_core/support/grpc_cb_api.h>  // for GRPC_CB_API
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 // Non-thread-safe.
 class GRPC_CB_API Status {
@@ -82,6 +82,6 @@ class GRPC_CB_API Status {
   std::string details_;
 };
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_STATUS_H

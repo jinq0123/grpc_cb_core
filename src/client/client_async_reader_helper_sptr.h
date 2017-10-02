@@ -6,9 +6,9 @@
 
 #include <memory>
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 class ClientAsyncReaderHelper;
 using ClientAsyncReaderHelperSptr = std::shared_ptr<ClientAsyncReaderHelper>;
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_CLIENT_CLIENT_ASYNC_READER_HELPER_SPTR_H

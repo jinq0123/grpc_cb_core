@@ -6,9 +6,9 @@
 
 #include <memory>
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 class Call;
 using CallSptr = std::shared_ptr<Call>;
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_IMPL_CALL_SPTR_H

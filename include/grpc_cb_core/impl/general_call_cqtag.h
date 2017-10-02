@@ -7,10 +7,10 @@
 #include <cassert>  // for assert()
 #include <functional>  // for function<>
 
-#include <grpc_cb/impl/call_cqtag.h>  // for CallCqTag
-#include <grpc_cb/support/config.h>   // for GRPC_OVERRIDE
+#include <grpc_cb_core/impl/call_cqtag.h>  // for CallCqTag
+#include <grpc_cb_core/support/config.h>   // for GRPC_OVERRIDE
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 // Call completion queue tag with OnComplete callback.
 class GeneralCallCqTag : public CallCqTag {
@@ -34,6 +34,6 @@ class GeneralCallCqTag : public CallCqTag {
   OnComplete on_complete_;
 };  // class GeneralCallCqTag
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_IMPL_GENERAL_CALL_CQTAG_H

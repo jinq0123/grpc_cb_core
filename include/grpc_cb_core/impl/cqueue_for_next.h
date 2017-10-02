@@ -3,9 +3,9 @@
 #ifndef GRPC_CB_IMPL_CQUEUE_FOR_NEXT_H
 #define GRPC_CB_IMPL_CQUEUE_FOR_NEXT_H
 
-#include <grpc_cb/impl/completion_queue.h>  // for CompletionQueue
+#include <grpc_cb_core/impl/completion_queue.h>  // for CompletionQueue
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 /// A thin wrapper around grpc_completion_queue for next.
 /// Thread-safe.
@@ -43,6 +43,6 @@ class CQueueForNext : public CompletionQueue {
   grpc_event NextInternal(gpr_timespec deadline);
 };
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_IMPL_CQUEUE_FOR_NEXT_H

@@ -6,12 +6,12 @@
 
 #include <memory>  // for shared_ptr<>
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 class ClientAsyncWriterCloseHandler;
 using ClientAsyncWriterCloseHandlerSptr = std::shared_ptr<
     ClientAsyncWriterCloseHandler>;
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_CLIENT_ASYNC_WRITER_CLOSE_HANDLER_SPTR_H

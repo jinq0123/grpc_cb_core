@@ -4,10 +4,10 @@
 #ifndef GRPC_CB_IMPL_CALL_CQTAG_H
 #define GRPC_CB_IMPL_CALL_CQTAG_H
 
-#include <grpc_cb/impl/call_sptr.h>             // for CallSptr
-#include <grpc_cb/impl/completion_queue_tag.h>  // for CompletionQueueTag
+#include <grpc_cb_core/impl/call_sptr.h>             // for CallSptr
+#include <grpc_cb_core/impl/completion_queue_tag.h>  // for CompletionQueueTag
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 // Call completion queue tag.
 // Used as base class of other call CqTag which keeps a CallSptr.
@@ -25,6 +25,6 @@ class CallCqTag : public CompletionQueueTag {
   CallSptr call_sptr_;
 };
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_IMPL_CALL_CQTAG_H

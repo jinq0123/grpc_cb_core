@@ -37,9 +37,9 @@
 #include <iterator>
 #include <iosfwd>
 
-#include <grpc_cb/support/config.h>
+#include <grpc_cb_core/support/config.h>
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 /// This class is a non owning reference to a string.
 ///
@@ -118,6 +118,6 @@ bool operator>=(string_ref x, string_ref y);
 
 std::ostream& operator<<(std::ostream& stream, const string_ref& string);
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_SUPPORT_STRING_REF_H

@@ -6,10 +6,10 @@
 
 #include <functional>
 
-#include <grpc_cb/status.h>
-#include <grpc_cb/status_callback.h>  // for ErrorCallback
+#include <grpc_cb_core/status.h>
+#include <grpc_cb_core/status_callback.h>  // for ErrorCallback
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 // Wrap message callback to string callback,
 // i.e. from function<void (const HelloReply& response)>
@@ -33,5 +33,5 @@ WrapResponseCallback(
   };  // return
 }  // WrapResponseCallback()
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 #endif  // GRPC_CB_IMPL_CLIENT_WRAP_RESPONSE_CALLBACK_H

@@ -6,11 +6,11 @@
 
 #include <memory>  // for unique_ptr<>
 
-#include <grpc_cb/server_reader.h>  // for ServerReader<>
-#include <grpc_cb/support/config.h>  // for GRPC_OVERRIDE
-#include <grpc_cb/server_writer.h>  // for ServerWriter<>
+#include <grpc_cb_core/server_reader.h>  // for ServerReader<>
+#include <grpc_cb_core/support/config.h>  // for GRPC_OVERRIDE
+#include <grpc_cb_core/server_writer.h>  // for ServerWriter<>
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 class Status;
 
@@ -48,6 +48,6 @@ class ServerReaderForBidiStreaming : public ServerReader<Request> {
   std::unique_ptr<Writer> writer_uptr_;
 };  // class ServerReaderForBidiStreaming
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_SERVER_READER_FOR_BIDI_STREAMING_H

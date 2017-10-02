@@ -6,9 +6,9 @@
 
 #include <memory>  // for shared_ptr
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 class Channel;
 using ChannelSptr = std::shared_ptr<Channel>;
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_CHANNEL_SPTR_H

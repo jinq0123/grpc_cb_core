@@ -9,16 +9,16 @@
 
 #include <grpc/support/time.h>  // for gpr_inf_future()
 
-#include <grpc_cb/completion_queue_for_next_sptr.h>  // for CompletionQueueForNextSptr
-#include <grpc_cb/impl/grpc_library.h>  // for GrpcLibrary
-#include <grpc_cb/service_sptr.h>  // for ServiceSptr
-#include <grpc_cb/support/config.h>  // for GRPC_FINAL
-#include <grpc_cb/support/grpc_cb_api.h>  // for GRPC_CB_API
-#include <grpc_cb/support/time.h>  // for TimePoint
+#include <grpc_cb_core/completion_queue_for_next_sptr.h>  // for CompletionQueueForNextSptr
+#include <grpc_cb_core/impl/grpc_library.h>  // for GrpcLibrary
+#include <grpc_cb_core/service_sptr.h>  // for ServiceSptr
+#include <grpc_cb_core/support/config.h>  // for GRPC_FINAL
+#include <grpc_cb_core/support/grpc_cb_api.h>  // for GRPC_CB_API
+#include <grpc_cb_core/support/time.h>  // for TimePoint
 
 struct grpc_server;
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 class InsecureServerCredentials;
 class ServerCredentials;
@@ -102,6 +102,6 @@ class GRPC_CB_API Server GRPC_FINAL : public GrpcLibrary {
   std::unordered_map<std::string, RegisteredService> service_map_;
 };
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_SERVER_H

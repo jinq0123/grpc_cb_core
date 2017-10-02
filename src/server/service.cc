@@ -1,11 +1,11 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#include <grpc_cb/service.h>
+#include <grpc_cb_core/service.h>
 
 #include <google/protobuf/descriptor.h>
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 const std::string& Service::GetFullName() const {
   return GetDescriptor().full_name();
@@ -24,4 +24,4 @@ bool Service::IsMethodClientStreaming(size_t method_index) const {
   return method_desc->client_streaming();
 }
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core

@@ -1,14 +1,14 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#include <grpc_cb/impl/call_op_data.h>
+#include <grpc_cb_core/impl/call_op_data.h>
 
-#include <grpc_cb/status.h>  // for Status
-#include <grpc_cb/support/slice.h>  // for StringFromCopiedSlice()
+#include <grpc_cb_core/status.h>  // for Status
+#include <grpc_cb_core/support/slice.h>  // for StringFromCopiedSlice()
 
 #include "byte_buffer_to_string.h"  // for ByteBufferToString()
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 Status CodClientRecvStatus::GetStatus() const {
   return Status(status_code_, StringFromCopiedSlice(status_details_));
@@ -29,4 +29,4 @@ Status CodRecvMsg::GetResultString(std::string& result) const {
   return ByteBufferToString(*recv_buf_, result);
 }
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core

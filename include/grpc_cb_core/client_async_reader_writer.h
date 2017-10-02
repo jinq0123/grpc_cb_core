@@ -7,12 +7,12 @@
 #include <cassert>
 #include <cstdint>  // for int64_t
 
-#include <grpc_cb/impl/client/client_async_read_handler.h>  // for ClientAsyncReadHandler
-#include <grpc_cb/impl/client/client_async_reader_writer_impl.h>  // for ClientAsyncReaderWriterImpl<>
-#include <grpc_cb/status_callback.h>  // for StatusCallback
-#include <grpc_cb/support/config.h>   // for GRPC_FINAL
+#include <grpc_cb_core/impl/client/client_async_read_handler.h>  // for ClientAsyncReadHandler
+#include <grpc_cb_core/impl/client/client_async_reader_writer_impl.h>  // for ClientAsyncReaderWriterImpl<>
+#include <grpc_cb_core/status_callback.h>  // for StatusCallback
+#include <grpc_cb_core/support/config.h>   // for GRPC_FINAL
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 // Copyable. Thread-safe.
 template <class Request, class Response>
@@ -62,6 +62,6 @@ class ClientAsyncReaderWriter GRPC_FINAL {
   const std::shared_ptr<Impl> impl_sptr_;
 };  // class ClientAsyncReaderWriter<>
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_CLIENT_ASYNC_READER_WRITER_H

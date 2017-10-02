@@ -1,10 +1,10 @@
-#include <grpc_cb/impl/completion_queue.h>
+#include <grpc_cb_core/impl/completion_queue.h>
 
 #include <cassert>
 
 #include <grpc/grpc.h>
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 CompletionQueue::CompletionQueue(grpc_completion_queue* take)
     : c_cq_uptr_(take, grpc_completion_queue_destroy) {
@@ -20,4 +20,4 @@ void CompletionQueue::Shutdown() {
   grpc_completion_queue_shutdown(c_cq_uptr_.get());
 }
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core

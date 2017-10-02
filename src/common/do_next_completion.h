@@ -4,7 +4,7 @@
 #ifndef GRPC_CB_COMMON_DO_NEXT_COMPLETION_H
 #define GRPC_CB_COMMON_DO_NEXT_COMPLETION_H
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 class CQueueForNext;
 

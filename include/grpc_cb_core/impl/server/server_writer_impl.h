@@ -8,12 +8,12 @@
 #include <memory>  // for enable_shared_from_this<>
 #include <mutex>
 
-#include <grpc_cb/impl/call_sptr.h>              // for CallSptr
-#include <grpc_cb/impl/message_queue.h>          // for MessageQueue
-#include <grpc_cb/support/config.h>              // for GRPC_FINAL
-#include <grpc_cb/support/protobuf_fwd.h>        // for Message
+#include <grpc_cb_core/impl/call_sptr.h>              // for CallSptr
+#include <grpc_cb_core/impl/message_queue.h>          // for MessageQueue
+#include <grpc_cb_core/support/config.h>              // for GRPC_FINAL
+#include <grpc_cb_core/support/protobuf_fwd.h>        // for Message
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 class Status;
 
@@ -75,6 +75,6 @@ class ServerWriterImpl GRPC_FINAL
   using Guard = std::lock_guard<std::mutex>;
 };  // class ServerWriterImpl
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_SERVER_SERVER_WRITER_IMPL_H

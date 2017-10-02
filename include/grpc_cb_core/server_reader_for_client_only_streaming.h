@@ -6,11 +6,11 @@
 
 #include <memory>  // for unique_ptr<>
 
-#include <grpc_cb/server_reader.h>  // for ServerReader<>
-#include <grpc_cb/server_replier.h>  // for ReplyError()
-#include <grpc_cb/support/config.h>  // for GRPC_OVERRIDE
+#include <grpc_cb_core/server_reader.h>  // for ServerReader<>
+#include <grpc_cb_core/server_replier.h>  // for ReplyError()
+#include <grpc_cb_core/support/config.h>  // for GRPC_OVERRIDE
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 class Status;
 
@@ -55,6 +55,6 @@ class ServerReaderForClientOnlyStreaming : public ServerReader<Request> {
   std::unique_ptr<Replier> replier_uptr_;
 };  // class ServerReaderForClientOnlyStreaming
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_SERVER_READER_FOR_CLIENT_ONLY_STREAMING_H

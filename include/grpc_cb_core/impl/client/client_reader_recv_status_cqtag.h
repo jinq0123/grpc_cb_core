@@ -6,13 +6,13 @@
 
 #include <grpc/support/port_platform.h>  // for GRPC_MUST_USE_RESULT
 
-#include <grpc_cb/impl/call.h>             // for StartBatch()
-#include <grpc_cb/impl/call_cqtag.h>       // for CallCqTag
-#include <grpc_cb/impl/call_op_data.h>     // for CodClientRecvStatus
-#include <grpc_cb/impl/call_operations.h>  // for CallOperations
-#include <grpc_cb/impl/call_sptr.h>        // for CallSptr
+#include <grpc_cb_core/impl/call.h>             // for StartBatch()
+#include <grpc_cb_core/impl/call_cqtag.h>       // for CallCqTag
+#include <grpc_cb_core/impl/call_op_data.h>     // for CodClientRecvStatus
+#include <grpc_cb_core/impl/call_operations.h>  // for CallOperations
+#include <grpc_cb_core/impl/call_sptr.h>        // for CallSptr
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 // Recv status for ClientReader and ClientReaderWriter.
 // Base class of ClientReaderAsyncReadStatusCqTag.
@@ -43,5 +43,5 @@ bool ClientReaderRecvStatusCqTag::Start() {
   return GetCallSptr()->StartBatch(ops, this);
 }
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 #endif  // GRPC_CB_CLIENT_READER_RECV_STATUS_CQTAG_H

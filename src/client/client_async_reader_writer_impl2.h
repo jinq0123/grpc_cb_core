@@ -9,16 +9,16 @@
 #include <mutex>
 #include <string>
 
-#include <grpc_cb/impl/call_sptr.h>     // for CallSptr
-#include <grpc_cb/impl/channel_sptr.h>  // for ChannelSptr
-#include <grpc_cb/impl/client/client_async_read_handler_sptr.h>  // for ClientAsyncReadHandlerSptr
-#include <grpc_cb/impl/completion_queue_sptr.h>  // for CompletionQueueSptr
-#include <grpc_cb/impl/message_sptr.h>           // for MessageSptr
-#include <grpc_cb/status.h>                      // for Status
-#include <grpc_cb/status_callback.h>             // for StatusCallback
-#include <grpc_cb/support/config.h>              // for GRPC_FINAL
+#include <grpc_cb_core/impl/call_sptr.h>     // for CallSptr
+#include <grpc_cb_core/impl/channel_sptr.h>  // for ChannelSptr
+#include <grpc_cb_core/impl/client/client_async_read_handler_sptr.h>  // for ClientAsyncReadHandlerSptr
+#include <grpc_cb_core/impl/completion_queue_sptr.h>  // for CompletionQueueSptr
+#include <grpc_cb_core/impl/message_sptr.h>           // for MessageSptr
+#include <grpc_cb_core/status.h>                      // for Status
+#include <grpc_cb_core/status_callback.h>             // for StatusCallback
+#include <grpc_cb_core/support/config.h>              // for GRPC_FINAL
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 class ClientAsyncReaderHelper;
 class ClientAsyncWriterHelper;
@@ -85,6 +85,6 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
 
 // Todo: SyncGetInitMd();
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_CLIENT_CLIENT_ASYNC_READER_WRITER_IMPL2_H

@@ -1,11 +1,11 @@
-#include <grpc_cb/impl/cqueue_for_pluck.h>
+#include <grpc_cb_core/impl/cqueue_for_pluck.h>
 
 #include <cassert>
 
 #include <grpc/grpc.h>
-#include <grpc_cb/support/time.h>
+#include <grpc_cb_core/support/time.h>
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 CQueueForPluck::CQueueForPluck()
     : CompletionQueue(grpc_completion_queue_create_for_pluck(nullptr)) {
@@ -22,4 +22,4 @@ grpc_event CQueueForPluck::PluckInternal(void* tag, gpr_timespec deadline) {
   return grpc_completion_queue_pluck(&c_cq(), tag, deadline, nullptr);
 }
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core

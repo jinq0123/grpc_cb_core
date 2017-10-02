@@ -4,14 +4,14 @@
 #ifndef CPP_CB_SERVER_SERVER_WRITER_SEND_STATUS_CQTAT_H
 #define CPP_CB_SERVER_SERVER_WRITER_SEND_STATUS_CQTAT_H
 
-#include <grpc_cb/impl/call_cqtag.h>       // for CallCqTag
-#include <grpc_cb/impl/call_op_data.h>     // for CodServerSendStatus
-#include <grpc_cb/impl/call_operations.h>  // for CallOperations
-#include <grpc_cb/impl/call.h>             // for StartBatch()
-#include <grpc_cb/impl/call_sptr.h>        // for CallSptr
-#include <grpc_cb/support/config.h>        // for GRPC_FINAL
+#include <grpc_cb_core/impl/call_cqtag.h>       // for CallCqTag
+#include <grpc_cb_core/impl/call_op_data.h>     // for CodServerSendStatus
+#include <grpc_cb_core/impl/call_operations.h>  // for CallOperations
+#include <grpc_cb_core/impl/call.h>             // for StartBatch()
+#include <grpc_cb_core/impl/call_sptr.h>        // for CallSptr
+#include <grpc_cb_core/support/config.h>        // for GRPC_FINAL
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 class ServerWriterSendStatusCqTag GRPC_FINAL : public CallCqTag {
  public:
@@ -36,5 +36,5 @@ bool ServerWriterSendStatusCqTag::StartSend(const Status& status,
   return GetCallSptr()->StartBatch(ops, this);
 }
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 #endif  // CPP_CB_SERVER_SERVER_WRITER_SEND_STATUS_CQTAT_H

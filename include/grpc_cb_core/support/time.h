@@ -35,9 +35,9 @@
 #define GRPC_CB_SUPPORT_TIME_H
 
 #include <grpc/support/time.h>
-#include <grpc_cb/support/config.h>
+#include <grpc_cb_core/support/config.h>
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 /* If you are trying to use CompletionQueue::AsyncNext with a time class that
    isn't either gpr_timespec or std::chrono::system_clock::time_point, you
@@ -73,7 +73,7 @@ class TimePoint<gpr_timespec> {
   gpr_timespec time_;
 };
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #ifndef GRPC_CXX0X_NO_CHRONO
 
@@ -81,7 +81,7 @@ class TimePoint<gpr_timespec> {
 
 #include <grpc/support/time.h>
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 // from and to should be absolute time.
 void Timepoint2Timespec(const std::chrono::system_clock::time_point& from,
@@ -104,7 +104,7 @@ class TimePoint<std::chrono::system_clock::time_point> {
   gpr_timespec time_;
 };
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // !GRPC_CXX0X_NO_CHRONO
 

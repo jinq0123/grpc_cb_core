@@ -1,12 +1,12 @@
 #include "byte_buffer_to_string.h"
 
-#include <grpc_cb/status.h>  // for Status
+#include <grpc_cb_core/status.h>  // for Status
 
 #include <grpc/byte_buffer_reader.h>  // for grpc_byte_buffer_reader
 #include <grpc/byte_buffer.h>  // for grpc_byte_buffer_reader_init()
-#include <grpc_cb/support/slice.h>  // for StringFromCopiedSlice()
+#include <grpc_cb_core/support/slice.h>  // for StringFromCopiedSlice()
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 Status ByteBufferToString(grpc_byte_buffer& from, std::string& to) {
   grpc_byte_buffer_reader reader;
@@ -20,5 +20,5 @@ Status ByteBufferToString(grpc_byte_buffer& from, std::string& to) {
   return Status::OK;
 }
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 

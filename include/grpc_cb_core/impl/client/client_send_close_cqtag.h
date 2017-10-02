@@ -6,12 +6,12 @@
 
 #include <grpc/support/port_platform.h>    // for GRPC_MUST_USE_RESULT
 
-#include <grpc_cb/impl/call.h>             // for StartBatch()
-#include <grpc_cb/impl/call_cqtag.h>       // for CallCqTag
-#include <grpc_cb/impl/call_operations.h>  // for CallOperations
-#include <grpc_cb/support/config.h>        // for GRPC_FINAL
+#include <grpc_cb_core/impl/call.h>             // for StartBatch()
+#include <grpc_cb_core/impl/call_cqtag.h>       // for CallCqTag
+#include <grpc_cb_core/impl/call_operations.h>  // for CallOperations
+#include <grpc_cb_core/support/config.h>        // for GRPC_FINAL
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 class ClientSendCloseCqTag GRPC_FINAL : public CallCqTag {
  public:
@@ -25,6 +25,6 @@ bool ClientSendCloseCqTag::Start() {
   return GetCallSptr()->StartBatch(ops, this);
 }
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_CLIENT_CLIENT_SEND_CLOSE_CQTAG_H

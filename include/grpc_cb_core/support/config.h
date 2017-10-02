@@ -79,7 +79,7 @@
 
 #ifdef GRPC_CXX0X_NO_NULLPTR
 #include <memory>
-namespace grpc_cb {
+namespace grpc_cb_core {
 const class {
  public:
   template <class T>

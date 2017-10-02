@@ -6,12 +6,12 @@
 
 #include <grpc/support/port_platform.h>    // for GRPC_MUST_USE_RESULT
 
-#include <grpc_cb/impl/call.h>             // for StartBatch()
-#include <grpc_cb/impl/call_cqtag.h>       // for CallCqTag
-#include <grpc_cb/impl/call_op_data.h>     // for CodSendInitMd
-#include <grpc_cb/impl/call_operations.h>  // for CallOperations
+#include <grpc_cb_core/impl/call.h>             // for StartBatch()
+#include <grpc_cb_core/impl/call_cqtag.h>       // for CallCqTag
+#include <grpc_cb_core/impl/call_op_data.h>     // for CodSendInitMd
+#include <grpc_cb_core/impl/call_operations.h>  // for CallOperations
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 // Send init metadata.
 // Used in ClientWriter and ClientReaderWriter.
@@ -32,6 +32,6 @@ bool ClientSendInitMdCqTag::Start() {
   return GetCallSptr()->StartBatch(ops, this);
 }
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_IMPL_CLIENT_CLIENT_SEND_INIT_MD_CQTAG_H

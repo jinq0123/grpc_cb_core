@@ -7,13 +7,13 @@
 #include <cassert>  // for assert()
 #include <cstdint>  // for int64_t
 
-#include <grpc_cb/channel.h>                         // for MakeSharedCall()
-#include <grpc_cb/impl/client/client_sync_reader_data.h>  // for ClientSyncReaderDataSptr
-#include <grpc_cb/impl/client/client_reader_init_cqtag.h>  // for ClientReaderInitCqTag
-#include <grpc_cb/impl/client/client_sync_reader_helper.h>  // for ClientSyncReaderHelper
-#include <grpc_cb/status.h>                                 // for Status
+#include <grpc_cb_core/channel.h>                         // for MakeSharedCall()
+#include <grpc_cb_core/impl/client/client_sync_reader_data.h>  // for ClientSyncReaderDataSptr
+#include <grpc_cb_core/impl/client/client_reader_init_cqtag.h>  // for ClientReaderInitCqTag
+#include <grpc_cb_core/impl/client/client_sync_reader_helper.h>  // for ClientSyncReaderHelper
+#include <grpc_cb_core/status.h>                                 // for Status
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 // Copyable. Client sync reader.
 template <class Response>
@@ -67,6 +67,6 @@ ClientSyncReader<Response>::ClientSyncReader(
       "Failed to start client sync reader stream.");
 }  // ClientSyncReader()
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_CLIENT_SYNC_READER_H

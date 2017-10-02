@@ -6,7 +6,7 @@
 
 struct grpc_server_credentials;
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 // Wrapper around \a grpc_server_credentials, a way to authenticate a server.
 class ServerCredentials {
@@ -17,6 +17,6 @@ class ServerCredentials {
 class InsecureServerCredentials : public ServerCredentials {
 };
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_SERVER_CREDENTIALS_H

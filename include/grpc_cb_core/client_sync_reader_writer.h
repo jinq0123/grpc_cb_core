@@ -8,9 +8,9 @@
 #include <memory>  // for shared_ptr
 #include <string>
 
-#include <grpc_cb/impl/client/client_sync_reader_writer_impl.h>  // for ClientSyncReaderWriterImpl<>
+#include <grpc_cb_core/impl/client/client_sync_reader_writer_impl.h>  // for ClientSyncReaderWriterImpl<>
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 // Copyable.
 template <class Request, class Response>
@@ -49,6 +49,6 @@ class ClientSyncReaderWriter GRPC_FINAL {
 
 // Todo: same as ClientReader?
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_CLIENT_CLIENT_SYNC_READER_WRITER_H

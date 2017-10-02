@@ -6,9 +6,9 @@
 
 #include <memory>
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 class CompletionQueue;
 using CompletionQueueSptr = std::shared_ptr<CompletionQueue>;
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_COMPLETION_QUEUE_SPTR_H

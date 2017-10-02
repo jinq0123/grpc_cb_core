@@ -6,15 +6,15 @@
 
 #include <string>
 
-#include <grpc_cb/impl/call.h>             // for Call
-#include <grpc_cb/impl/call_cqtag.h>       // for CallCqTag
-#include <grpc_cb/impl/call_op_data.h>     // for CodSendInitMd
-#include <grpc_cb/impl/call_operations.h>  // for CallOperations
-#include <grpc_cb/impl/call_sptr.h>        // for CallSptr
-#include <grpc_cb/support/config.h>        // for GRPC_FINAL
-#include <grpc_cb/support/protobuf_fwd.h>  // for Message
+#include <grpc_cb_core/impl/call.h>             // for Call
+#include <grpc_cb_core/impl/call_cqtag.h>       // for CallCqTag
+#include <grpc_cb_core/impl/call_op_data.h>     // for CodSendInitMd
+#include <grpc_cb_core/impl/call_operations.h>  // for CallOperations
+#include <grpc_cb_core/impl/call_sptr.h>        // for CallSptr
+#include <grpc_cb_core/support/config.h>        // for GRPC_FINAL
+#include <grpc_cb_core/support/protobuf_fwd.h>  // for Message
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 class ServerReplierCqTag GRPC_FINAL : public CallCqTag {
  public:
@@ -76,5 +76,5 @@ void ServerReplierCqTag::SendMsgAndStatus(
   ops.ServerSendStatus(status, cod_server_send_status_);
 }
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 #endif  // CPP_CB_SERVER_SERVER_REPLIER_CQTAT_H

@@ -4,12 +4,12 @@
 #ifndef GRPC_CB_CLIENT_READER_ASYNC_RECV_STATUS_CQTAG_H
 #define GRPC_CB_CLIENT_READER_ASYNC_RECV_STATUS_CQTAG_H
 
-#include <grpc_cb/impl/call_sptr.h>   // for CallSptr
-#include <grpc_cb/impl/client/client_reader_recv_status_cqtag.h>  // for ClientReaderRecvStatusCqTag
-#include <grpc_cb/status_callback.h>  // for StatusCallback
-#include <grpc_cb/support/config.h>   // for GRPC_FINAL
+#include <grpc_cb_core/impl/call_sptr.h>   // for CallSptr
+#include <grpc_cb_core/impl/client/client_reader_recv_status_cqtag.h>  // for ClientReaderRecvStatusCqTag
+#include <grpc_cb_core/status_callback.h>  // for StatusCallback
+#include <grpc_cb_core/support/config.h>   // for GRPC_FINAL
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 // Recv status asynchronously for ClientReader and ClientReaderWriter.
 class ClientReaderAsyncRecvStatusCqTag GRPC_FINAL
@@ -40,5 +40,5 @@ void ClientReaderAsyncRecvStatusCqTag::DoComplete(bool success) {
   on_status_(Status::InternalError("Failed to receive status."));
 }
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 #endif  // GRPC_CB_CLIENT_READER_ASYNC_RECV_STATUS_CQTAG_H

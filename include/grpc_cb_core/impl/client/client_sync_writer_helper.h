@@ -6,11 +6,11 @@
 
 #include <cassert>     // for assert()
 
-#include <grpc_cb/impl/call_sptr.h>                    // for CallSptr
-#include <grpc_cb/impl/client/client_send_msg_cqtag.h>    // for ClientSendMsgCqTag
-#include <grpc_cb/status.h>                 // for Status
+#include <grpc_cb_core/impl/call_sptr.h>                    // for CallSptr
+#include <grpc_cb_core/impl/client/client_send_msg_cqtag.h>    // for ClientSendMsgCqTag
+#include <grpc_cb_core/status.h>                 // for Status
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 namespace ClientSyncWriterHelper {
 
 // Todo: SyncGetInitMd();
@@ -36,6 +36,6 @@ inline bool SyncWrite(
 }  // SyncWrite()
 
 }  // namespace ClientSyncWriterHelper
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_IMPL_CLIENT_CLIENT_SYNC_WRITER__HELPER_H

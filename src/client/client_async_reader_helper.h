@@ -8,14 +8,14 @@
 #include <functional>
 #include <memory>  // for enable_shared_from_this<>
 
-#include <grpc_cb/impl/call_sptr.h>         // for CallSptr
-#include <grpc_cb/impl/client/client_async_read_handler_sptr.h>  // for ClientAsyncReadHandlerSptr
-#include <grpc_cb/status.h>                      // for Status
-#include <grpc_cb/support/config.h>              // for GRPC_FINAL
+#include <grpc_cb_core/impl/call_sptr.h>         // for CallSptr
+#include <grpc_cb_core/impl/client/client_async_read_handler_sptr.h>  // for ClientAsyncReadHandlerSptr
+#include <grpc_cb_core/status.h>                      // for Status
+#include <grpc_cb_core/support/config.h>              // for GRPC_FINAL
 
 #include "client_async_reader_helper_sptr.h"
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 class ClientReaderReadCqTag;
 
@@ -51,5 +51,5 @@ class ClientAsyncReaderHelper GRPC_FINAL
   const OnEnd on_end_;
 };  // ClientAsyncReaderHelper
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 #endif  // GRPC_CB_CLIENT_CLIENT_ASYNC_READER_HELPER_H

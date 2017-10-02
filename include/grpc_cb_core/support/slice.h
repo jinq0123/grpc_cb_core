@@ -34,9 +34,9 @@
 #ifndef GRPC_CB_SUPPORT_SLICE_H
 #define GRPC_CB_SUPPORT_SLICE_H
 
-#include <grpc_cb/support/string_ref.h>
+#include <grpc_cb_core/support/string_ref.h>
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 inline string_ref StringRefFromSlice(const grpc_slice* slice) {
   return string_ref(
@@ -57,6 +57,6 @@ inline grpc_slice SliceFromCopiedString(const std::string& str) {
   return grpc_slice_from_copied_buffer(str.data(), str.length());
 }
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_SUPPORT_SLICE_H

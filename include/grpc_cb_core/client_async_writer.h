@@ -8,14 +8,14 @@
 #include <cstdint>  // for int64_t
 #include <string>
 
-#include <grpc_cb/impl/channel_sptr.h>  // for ChannelSptr
-#include <grpc_cb/impl/client/client_async_writer_close_handler.h>  // for ClientAsyncWriterCloseHandler
-#include <grpc_cb/impl/client/client_async_writer_impl.h>  // for ClientAsyncWriterImpl
-#include <grpc_cb/impl/completion_queue_sptr.h>  // for CompletionQueueSptr
-#include <grpc_cb/support/config.h>              // for GRPC_OVERRIDE
-#include <grpc_cb/support/protobuf_fwd.h>        // for Message
+#include <grpc_cb_core/impl/channel_sptr.h>  // for ChannelSptr
+#include <grpc_cb_core/impl/client/client_async_writer_close_handler.h>  // for ClientAsyncWriterCloseHandler
+#include <grpc_cb_core/impl/client/client_async_writer_impl.h>  // for ClientAsyncWriterImpl
+#include <grpc_cb_core/impl/completion_queue_sptr.h>  // for CompletionQueueSptr
+#include <grpc_cb_core/support/config.h>              // for GRPC_OVERRIDE
+#include <grpc_cb_core/support/protobuf_fwd.h>        // for Message
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 class Status;
 
@@ -73,6 +73,6 @@ class ClientAsyncWriter GRPC_FINAL {
   const std::shared_ptr<ClientAsyncWriterImpl> impl_sptr_;  // Easy to copy.
 };  // class ClientAsyncWriter<>
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_CLIENT_ASYNC_WRITER_H

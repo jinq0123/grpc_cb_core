@@ -1,11 +1,11 @@
 #ifndef GRPC_CB_IMPL_PROTO_UTILS_H
 #define GRPC_CB_IMPL_PROTO_UTILS_H
 
-#include <grpc_cb/support/protobuf_fwd.h>  // for Message
+#include <grpc_cb_core/support/protobuf_fwd.h>  // for Message
 
 struct grpc_byte_buffer;
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 class Status;
 
@@ -23,6 +23,6 @@ Status Deserialize(grpc_byte_buffer* buffer, ::google::protobuf::Message* msg,
                    int max_msg_size);
 
 }  // namespace Proto
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_IMPL_PROTO_UTILS_H

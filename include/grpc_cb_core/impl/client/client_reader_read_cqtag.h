@@ -6,14 +6,14 @@
 
 #include <grpc/support/port_platform.h>    // for GRPC_MUST_USE_RESULT
 
-#include <grpc_cb/impl/call.h>                // for GetMaxMsgSize()
-#include <grpc_cb/impl/call_op_data.h>        // for CodRecvMsg
-#include <grpc_cb/impl/call_operations.h>     // for CallOperations
-#include <grpc_cb/impl/general_call_cqtag.h>  // for GeneralCallCqTag
-#include <grpc_cb/support/config.h>           // for GRPC_FINAL
-#include <grpc_cb/support/protobuf_fwd.h>     // for Message
+#include <grpc_cb_core/impl/call.h>                // for GetMaxMsgSize()
+#include <grpc_cb_core/impl/call_op_data.h>        // for CodRecvMsg
+#include <grpc_cb_core/impl/call_operations.h>     // for CallOperations
+#include <grpc_cb_core/impl/general_call_cqtag.h>  // for GeneralCallCqTag
+#include <grpc_cb_core/support/config.h>           // for GRPC_FINAL
+#include <grpc_cb_core/support/protobuf_fwd.h>     // for Message
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 // Completion queue tag to read msg.
 // For ClientReader and ClientReaderWriter.
@@ -42,6 +42,6 @@ bool ClientReaderReadCqTag::Start() {
   return GetCallSptr()->StartBatch(ops, this);
 }
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_CLIENT_CLIENT_READER_READ_CQTAG_H

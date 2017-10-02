@@ -1,17 +1,17 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#include <grpc_cb/service_stub.h>
+#include <grpc_cb_core/service_stub.h>
 
-#include <grpc_cb/run.h>  // for Run()
-#include <grpc_cb/channel.h>  // for GetCallTimeoutMs()
-#include <grpc_cb/impl/call.h>
-#include <grpc_cb/impl/client/client_async_call_cqtag.h>  // for ClientAsyncCallCqTag
-#include <grpc_cb/impl/client/client_call_cqtag.h>  // for ClientCallCqTag
-#include <grpc_cb/impl/cqueue_for_next.h>  // for CQueueForNext
-#include <grpc_cb/impl/cqueue_for_pluck.h>  // for CQueueForPluck
+#include <grpc_cb_core/run.h>  // for Run()
+#include <grpc_cb_core/channel.h>  // for GetCallTimeoutMs()
+#include <grpc_cb_core/impl/call.h>
+#include <grpc_cb_core/impl/client/client_async_call_cqtag.h>  // for ClientAsyncCallCqTag
+#include <grpc_cb_core/impl/client/client_call_cqtag.h>  // for ClientCallCqTag
+#include <grpc_cb_core/impl/cqueue_for_next.h>  // for CQueueForNext
+#include <grpc_cb_core/impl/cqueue_for_pluck.h>  // for CQueueForPluck
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 ErrorCallback ServiceStub::default_error_callback_;  // Default empty.
 
@@ -61,7 +61,7 @@ void ServiceStub::AsyncRequest(const string& method, const string& request,
 // Blocking run stub.
 void ServiceStub::Run() {
   assert(cq4n_sptr_);
-  grpc_cb::Run(cq4n_sptr_);
+  grpc_cb_core::Run(cq4n_sptr_);
 }
 
 void ServiceStub::Shutdown() {
@@ -69,5 +69,5 @@ void ServiceStub::Shutdown() {
   cq4n_sptr_->Shutdown();
 }
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 

@@ -4,15 +4,15 @@
 #ifndef GRPC_CB_COMPLETION_QUEUE_TAG_H
 #define GRPC_CB_COMPLETION_QUEUE_TAG_H
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
-// Interface of grpc_cb completion queue tag. CqTag.
+// Interface of grpc_cb_core completion queue tag. CqTag.
 class CompletionQueueTag {
  public:
   virtual ~CompletionQueueTag() {}
   virtual void DoComplete(bool success) {};
 };
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_COMPLETION_QUEUE_TAG_H

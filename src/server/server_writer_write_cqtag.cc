@@ -3,10 +3,10 @@
 
 #include "server_writer_write_cqtag.h"
 
-#include <grpc_cb/impl/call.h>                // for StartBatch()
-#include <grpc_cb/impl/call_operations.h>     // for CallOperations
+#include <grpc_cb_core/impl/call.h>                // for StartBatch()
+#include <grpc_cb_core/impl/call_operations.h>     // for CallOperations
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 bool ServerWriterWriteCqTag::Start(
     const ::google::protobuf::Message& message, bool send_init_md) {
@@ -19,4 +19,4 @@ bool ServerWriterWriteCqTag::Start(
   return GetCallSptr()->StartBatch(ops, this);
 }
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core

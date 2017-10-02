@@ -14,7 +14,7 @@
 
 //  Contributed by Dave Abrahams
 
-namespace grpc_cb
+namespace grpc_cb_core
 {
   class noncopyable
   {
@@ -25,6 +25,6 @@ namespace grpc_cb
       noncopyable( const noncopyable& ) = delete;
       noncopyable& operator=( const noncopyable& ) = delete;
   };
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_SUPPORT_NONCOPYABLE_H

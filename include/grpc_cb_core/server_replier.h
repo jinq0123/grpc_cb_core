@@ -6,10 +6,10 @@
 
 #include <memory>
 
-#include <grpc_cb/impl/call_sptr.h>       // for CallSptr
-#include <grpc_cb/impl/server/server_replier_impl.h>  // for ServerReplierImpl
+#include <grpc_cb_core/impl/call_sptr.h>       // for CallSptr
+#include <grpc_cb_core/impl/server/server_replier_impl.h>  // for ServerReplierImpl
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 class Status;
 
@@ -42,6 +42,6 @@ private:
   const std::shared_ptr<ServerReplierImpl> impl_sptr_;  // copyable
 };  // class ServerReplier
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_SERVER_REPLIER_H

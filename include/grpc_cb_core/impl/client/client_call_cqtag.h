@@ -6,14 +6,14 @@
 
 #include <grpc/support/port_platform.h>  // for GRPC_MUST_USE_RESULT
 
-#include <grpc_cb/impl/call.h>             // for GetMaxMsgSize()
-#include <grpc_cb/impl/call_cqtag.h>       // for CallCqTag
-#include <grpc_cb/impl/call_op_data.h>     // for CodSendInitMd
-#include <grpc_cb/impl/call_operations.h>  // for CallOperations
-#include <grpc_cb/impl/metadata_vector.h>  // for MetadataVector
-#include <grpc_cb/support/protobuf_fwd.h>  // for Message
+#include <grpc_cb_core/impl/call.h>             // for GetMaxMsgSize()
+#include <grpc_cb_core/impl/call_cqtag.h>       // for CallCqTag
+#include <grpc_cb_core/impl/call_op_data.h>     // for CodSendInitMd
+#include <grpc_cb_core/impl/call_operations.h>  // for CallOperations
+#include <grpc_cb_core/impl/metadata_vector.h>  // for MetadataVector
+#include <grpc_cb_core/support/protobuf_fwd.h>  // for Message
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 // Completion queue tag (CqTag) for client call for both sync and async calls.
 // ClientAsyncCallCqTag derives from it.
@@ -71,5 +71,5 @@ bool ClientCallCqTag::Start(const std::string& request) {
   return StartOps(ops);
 }
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 #endif  // GRPC_CB_CLIENT_CALL_CQTAG_H

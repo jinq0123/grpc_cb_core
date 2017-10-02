@@ -4,11 +4,11 @@
 #ifndef GRPC_CB_CLIENT_ASYNC_CALL_CQTAG_H
 #define GRPC_CB_CLIENT_ASYNC_CALL_CQTAG_H
 
-#include <grpc_cb/impl/client/client_call_cqtag.h>  // for ClientCallCqTag
-#include <grpc_cb/status_callback.h>                // for ErrorCallback
-#include <grpc_cb/support/config.h>                 // for GRPC_FINAL
+#include <grpc_cb_core/impl/client/client_call_cqtag.h>  // for ClientCallCqTag
+#include <grpc_cb_core/status_callback.h>                // for ErrorCallback
+#include <grpc_cb_core/support/config.h>                 // for GRPC_FINAL
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 // Completion queue tag (CqTag) for client async call.
 // Derived from ClientCallCqTag, adding on_response, on_error.
@@ -55,5 +55,5 @@ class ClientAsyncCallCqTag GRPC_FINAL : public ClientCallCqTag {
   ErrorCallback on_error_;
 };  // class ClientAsyncCallCqTag
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 #endif  // GRPC_CB_CLIENT_ASYNC_CALL_CQTAG_H

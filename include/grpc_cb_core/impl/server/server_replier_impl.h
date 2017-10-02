@@ -7,11 +7,11 @@
 #include <atomic>  // for atomic_bool
 #include <memory>
 
-#include <grpc_cb/impl/call_sptr.h>                   // for CallSptr
-#include <grpc_cb/impl/server/server_replier_cqtag.h>  // for ServerReplierCqTag
-#include <grpc_cb/support/protobuf_fwd.h>  // for Message
+#include <grpc_cb_core/impl/call_sptr.h>                   // for CallSptr
+#include <grpc_cb_core/impl/server/server_replier_cqtag.h>  // for ServerReplierCqTag
+#include <grpc_cb_core/support/protobuf_fwd.h>  // for Message
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 class Status;
 
@@ -57,6 +57,6 @@ private:
 
 // Todo: SendInitMetadata and SetTrailingMetadata
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_SERVER_REPLIER_IMPL_H

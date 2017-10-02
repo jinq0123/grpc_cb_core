@@ -4,9 +4,9 @@
 #ifndef GRPC_CB_SERVER_WRITER_H
 #define GRPC_CB_SERVER_WRITER_H
 
-#include <grpc_cb/impl/server/server_writer_impl.h>  // for ServerWriterImpl
+#include <grpc_cb_core/impl/server/server_writer_impl.h>  // for ServerWriterImpl
 
-namespace grpc_cb {
+namespace grpc_cb_core {
 
 // Copyable. Thread-safe.
 template <class Response>
@@ -52,6 +52,6 @@ class ServerWriter GRPC_FINAL {
   const std::shared_ptr<ServerWriterImpl> impl_sptr_;
 };  // class ServerWriter<>
 
-}  // namespace grpc_cb
+}  // namespace grpc_cb_core
 
 #endif  // GRPC_CB_SERVER_WRITER_H
