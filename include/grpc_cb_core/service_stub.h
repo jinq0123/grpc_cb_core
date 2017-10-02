@@ -15,7 +15,7 @@
 #include <grpc_cb_core/impl/channel_sptr.h>  // for ChannelSptr
 #include <grpc_cb_core/impl/cqueue_for_next.h>   // to convert GetCq4n() to CompletionQueue
 #include <grpc_cb_core/status_callback.h>        // for ErrorCallback
-#include <grpc_cb_core/support/grpc_cb_api.h>    // for GRPC_CB_CORE_API
+#include <grpc_cb_core/support/grpc_cb_core_api.h>    // for GRPC_CB_CORE_API
 
 namespace grpc_cb_core {
 

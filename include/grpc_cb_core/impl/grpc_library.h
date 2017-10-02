@@ -36,7 +36,7 @@
 
 #include <grpc/grpc.h>
 
-#include <grpc_cb_core/support/grpc_cb_api.h>  // for GRPC_CB_CORE_API
+#include <grpc_cb_core/support/grpc_cb_core_api.h>  // for GRPC_CB_CORE_API
 
 namespace grpc_cb_core {
 
