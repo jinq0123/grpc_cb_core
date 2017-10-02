@@ -1,4 +1,4 @@
-project(grpc_cb CXX)
+project(grpc_cb_core CXX)
 cmake_minimum_required(VERSION 2.8)
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
@@ -19,9 +19,6 @@ include_directories("include")
 include_directories(${CONAN_INCLUDE_DIRS})
 
 file(GLOB_RECURSE SRC_LIST "src/cpp_cb/*.cc")  
-add_library(grpc_cb ${SRC_LIST})
-target_link_libraries(grpc_cb ${CONAN_LIBS})
+add_library(grpc_cb_core ${SRC_LIST})
+target_link_libraries(grpc_cb_core ${CONAN_LIBS})
 
-file(GLOB_RECURSE PLUGIN_SRC_LIST "src/compiler/*.cc")  
-add_executable(grpc_cpp_cb_plugin ${PLUGIN_SRC_LIST})
-target_link_libraries(grpc_cpp_cb_plugin ${CONAN_LIBS})
