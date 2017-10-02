@@ -1,4 +1,4 @@
-# gRPC_cb_core
+# grpc_cb_core
 
 C++ [gRPC](http://www.grpc.io/) core library with callback interface.
 It depends on grpc but not grpc++ nor protobuf.
