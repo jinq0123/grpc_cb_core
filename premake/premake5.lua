@@ -38,10 +38,10 @@ workspace "grpc_cb_core"
 project "grpc_cb_core"
 	kind "StaticLib"
 	includedirs {
-		"../src/cpp_cb",
+		"../src",
 	}
 	files {
-		"../include/grpc_cb/**.h",
+		"../include/**.h",
 		"../src/**",
 		"../doc/**",
 		"../*.md",
