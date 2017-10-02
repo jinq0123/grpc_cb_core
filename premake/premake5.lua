@@ -5,7 +5,7 @@ Usage examples:
 	fot linux:   premake5.exe --os=linux gmake
 ]]
 
-workspace "grpc_cb"
+workspace "grpc_cb_core"
 	location (_ACTION)  -- subdir vs2015 (or gmake, ...)
 	configurations { "Release", "Debug" }
 	platforms { "x64", "x32" }
@@ -23,15 +23,9 @@ workspace "grpc_cb"
 
 	filter "configurations:Debug"
 		flags { "Symbols" }
-		links {
-			"libprotobufd",
-		}
 	filter "configurations:Release"
 		defines { "NDEBUG" }
 		optimize "On"
-		links {
-			"libprotobuf",
-		}
 	filter "system:windows"
 		defines {
 			"_WIN32_WINNT=0x0600"  -- i.e. Windows 7 target
@@ -41,26 +35,7 @@ workspace "grpc_cb"
 		}
 	filter {}
 
-project "grpc_cpp_cb_plugin"
-	kind "ConsoleApp"
-	files {
-		"../src/compiler/**",
-	}
-	links {
-		"grpc_plugin_support",
-	}
-
-	filter "configurations:Debug"
-		links {
-			"libprotocd",
-		}
-	filter "configurations:Release"
-		links {
-			"libprotoc",
-		}
-	filter {}
-
-project "grpc_cb"
+project "grpc_cb_core"
 	kind "StaticLib"
 	includedirs {
 		"../src/cpp_cb",
@@ -73,47 +48,3 @@ project "grpc_cb"
 		"../*.py",
 		"../*.txt",
 	}
-
-group "examples"
-
-	project "greeter_cb_client"
-		kind "ConsoleApp"
-		files {
-			"../examples/cpp_cb/helloworld/**",
-		}
-		removefiles {
-			"../examples/cpp_cb/helloworld/greeter_cb_server.cc",
-		}
-		links { "grpc_cb" }
-
-	project "greeter_cb_server"
-		kind "ConsoleApp"
-		files {
-			"../examples/cpp_cb/helloworld/**",
-		}
-		removefiles {
-			"../examples/cpp_cb/helloworld/greeter_cb_client.cc",
-		}
-		links { "grpc_cb" }
-
-	project "route_guide_cb_client"
-		kind "ConsoleApp"
-		files {
-			"../examples/cpp_cb/route_guide/**",
-		}
-		removefiles {
-			"../examples/cpp_cb/route_guide/route_guide_cb_server.cc",
-		}
-		links { "grpc_cb" }
-
-	project "route_guide_cb_server"
-		kind "ConsoleApp"
-		files {
-			"../examples/cpp_cb/route_guide/**",
-		}
-		removefiles {
-			"../examples/cpp_cb/route_guide/route_guide_cb_client.cc",
-		}
-		links { "grpc_cb" }
-
-group ""  -- End of group "examples"
