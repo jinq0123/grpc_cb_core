@@ -1,6 +1,6 @@
 #include "../support/noncopyable.h"
-#ifndef GRPC_CB_IMPL_CALL_OP_DATA_H
-#define GRPC_CB_IMPL_CALL_OP_DATA_H
+#ifndef GRPC_CB_CORE_IMPL_CALL_OP_DATA_H
+#define GRPC_CB_CORE_IMPL_CALL_OP_DATA_H
 
 #include <cassert>
 
@@ -175,4 +175,4 @@ class CodServerSendStatus GRPC_FINAL {
 };  // class CodServerSendStatus
 
 }  // namespace grpc_cb_core
-#endif  // GRPC_CB_IMPL_CALL_OP_DATA_H
+#endif  // GRPC_CB_CORE_IMPL_CALL_OP_DATA_H

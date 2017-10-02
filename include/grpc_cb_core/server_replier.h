@@ -1,8 +1,8 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#ifndef GRPC_CB_SERVER_REPLIER_H
-#define GRPC_CB_SERVER_REPLIER_H
+#ifndef GRPC_CB_CORE_SERVER_REPLIER_H
+#define GRPC_CB_CORE_SERVER_REPLIER_H
 
 #include <memory>
 
@@ -44,4 +44,4 @@ private:
 
 }  // namespace grpc_cb_core
 
-#endif  // GRPC_CB_SERVER_REPLIER_H
+#endif  // GRPC_CB_CORE_SERVER_REPLIER_H

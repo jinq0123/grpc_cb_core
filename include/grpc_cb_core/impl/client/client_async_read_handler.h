@@ -1,8 +1,8 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#ifndef GRPC_CB_CLIENT_CLIENT_ASYNC_READ_HANDLER_H
-#define GRPC_CB_CLIENT_CLIENT_ASYNC_READ_HANDLER_H
+#ifndef GRPC_CB_CORE_CLIENT_CLIENT_ASYNC_READ_HANDLER_H
+#define GRPC_CB_CORE_CLIENT_CLIENT_ASYNC_READ_HANDLER_H
 
 #include <grpc_cb_core/support/protobuf_fwd.h>  // for Message
 
@@ -20,4 +20,4 @@ class ClientAsyncReadHandler {
 };  // class ClientAsyncReadHandler
 
 }  // namespace grpc_cb_core
-#endif  // GRPC_CB_CLIENT_CLIENT_ASYNC_READ_HANDLER_H
+#endif  // GRPC_CB_CORE_CLIENT_CLIENT_ASYNC_READ_HANDLER_H

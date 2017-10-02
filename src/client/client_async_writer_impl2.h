@@ -1,8 +1,8 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#ifndef GRPC_CB_CLIENT_ASYNC_WRITER_IMPL2_H
-#define GRPC_CB_CLIENT_ASYNC_WRITER_IMPL2_H
+#ifndef GRPC_CB_CORE_CLIENT_ASYNC_WRITER_IMPL2_H
+#define GRPC_CB_CORE_CLIENT_ASYNC_WRITER_IMPL2_H
 
 #include <cstdint>  // for int64_t
 #include <memory>  // for enable_shared_from_this<>
@@ -74,4 +74,4 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
 };  // class ClientAsyncWriterImpl2
 
 }  // namespace grpc_cb_core
-#endif  // GRPC_CB_CLIENT_ASYNC_WRITER_IMPL2_H
+#endif  // GRPC_CB_CORE_CLIENT_ASYNC_WRITER_IMPL2_H

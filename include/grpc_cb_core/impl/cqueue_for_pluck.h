@@ -1,7 +1,7 @@
 // Completion queue for pluck.
 
-#ifndef GRPC_CB_IMPL_CQUEUE_FOR_PLUCK_H
-#define GRPC_CB_IMPL_CQUEUE_FOR_PLUCK_H
+#ifndef GRPC_CB_CORE_IMPL_CQUEUE_FOR_PLUCK_H
+#define GRPC_CB_CORE_IMPL_CQUEUE_FOR_PLUCK_H
 
 #include <grpc_cb_core/impl/completion_queue.h>  // for CompletionQueue
 #include <grpc_cb_core/impl/cqueue_for_pluck_sptr.h>
@@ -50,4 +50,4 @@ class CQueueForPluck : public CompletionQueue {
 
 }  // namespace grpc_cb_core
 
-#endif  // GRPC_CB_IMPL_CQUEUE_FOR_PLUCK_H
+#endif  // GRPC_CB_CORE_IMPL_CQUEUE_FOR_PLUCK_H

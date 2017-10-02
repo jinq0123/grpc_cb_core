@@ -1,8 +1,8 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#ifndef GRPC_CB_CLIENT_READER_ASYNC_RECV_STATUS_CQTAG_H
-#define GRPC_CB_CLIENT_READER_ASYNC_RECV_STATUS_CQTAG_H
+#ifndef GRPC_CB_CORE_CLIENT_READER_ASYNC_RECV_STATUS_CQTAG_H
+#define GRPC_CB_CORE_CLIENT_READER_ASYNC_RECV_STATUS_CQTAG_H
 
 #include <grpc_cb_core/impl/call_sptr.h>   // for CallSptr
 #include <grpc_cb_core/impl/client/client_reader_recv_status_cqtag.h>  // for ClientReaderRecvStatusCqTag
@@ -41,4 +41,4 @@ void ClientReaderAsyncRecvStatusCqTag::DoComplete(bool success) {
 }
 
 }  // namespace grpc_cb_core
-#endif  // GRPC_CB_CLIENT_READER_ASYNC_RECV_STATUS_CQTAG_H
+#endif  // GRPC_CB_CORE_CLIENT_READER_ASYNC_RECV_STATUS_CQTAG_H

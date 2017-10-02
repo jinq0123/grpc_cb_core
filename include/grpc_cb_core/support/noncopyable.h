@@ -6,8 +6,8 @@
 
 //  See http://www.boost.org/libs/utility for documentation.
 
-#ifndef GRPC_CB_SUPPORT_NONCOPYABLE_H
-#define GRPC_CB_SUPPORT_NONCOPYABLE_H
+#ifndef GRPC_CB_CORE_SUPPORT_NONCOPYABLE_H
+#define GRPC_CB_CORE_SUPPORT_NONCOPYABLE_H
 
 //  Deleted copy constructor and copy assignment ensure classes derived from
 //  class noncopyable cannot be copied.
@@ -27,4 +27,4 @@ namespace grpc_cb_core
   };
 }  // namespace grpc_cb_core
 
-#endif  // GRPC_CB_SUPPORT_NONCOPYABLE_H
+#endif  // GRPC_CB_CORE_SUPPORT_NONCOPYABLE_H

@@ -1,8 +1,8 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#ifndef GRPC_CB_CHANNEL_H
-#define GRPC_CB_CHANNEL_H
+#ifndef GRPC_CB_CORE_CHANNEL_H
+#define GRPC_CB_CORE_CHANNEL_H
 
 #include <atomic>  // for atomic_int64_t
 #include <memory>  // for unique_ptr<>
@@ -12,7 +12,7 @@
 #include <grpc_cb_core/impl/channel_sptr.h>  // for ChannelSptr
 #include <grpc_cb_core/impl/grpc_library.h>  // for GrpcLibrary
 #include <grpc_cb_core/support/config.h>  // for GRPC_OVERRIDE
-#include <grpc_cb_core/support/grpc_cb_api.h>  // for GRPC_CB_API
+#include <grpc_cb_core/support/grpc_cb_api.h>  // for GRPC_CB_CORE_API
 
 struct grpc_channel;
 struct grpc_completion_queue;
@@ -23,7 +23,7 @@ class CompletionQueue;
 
 /// Channel represents a connection to an endpoint.
 /// Thread-safe.
-class GRPC_CB_API Channel : public GrpcLibrary,
+class GRPC_CB_CORE_API Channel : public GrpcLibrary,
                             public std::enable_shared_from_this<Channel> {
  public:
   explicit Channel(const std::string& target);
@@ -50,4 +50,4 @@ class GRPC_CB_API Channel : public GrpcLibrary,
 
 }  // namespace grpc_cb_core
 
-#endif  // GRPC_CB_CHANNEL_H
+#endif  // GRPC_CB_CORE_CHANNEL_H

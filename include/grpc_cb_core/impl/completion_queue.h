@@ -33,8 +33,8 @@
 
 /// A completion queue implements a concurrent producer-consumer queue.
 
-#ifndef GRPC_CB_COMPLETION_QUEUE_H
-#define GRPC_CB_COMPLETION_QUEUE_H
+#ifndef GRPC_CB_CORE_COMPLETION_QUEUE_H
+#define GRPC_CB_CORE_COMPLETION_QUEUE_H
 
 #include <cassert>
 #include <memory>  // for unique_ptr<>
@@ -85,4 +85,4 @@ class CompletionQueue : public GrpcLibrary {
 
 }  // namespace grpc_cb_core
 
-#endif  // GRPC_CB_COMPLETION_QUEUE_H
+#endif  // GRPC_CB_CORE_COMPLETION_QUEUE_H

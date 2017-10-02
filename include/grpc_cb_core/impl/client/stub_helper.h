@@ -1,8 +1,8 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#ifndef GRPC_CB_IMPL_CLIENT_STUB_HELPER_H
-#define GRPC_CB_IMPL_CLIENT_STUB_HELPER_H
+#ifndef GRPC_CB_CORE_IMPL_CLIENT_STUB_HELPER_H
+#define GRPC_CB_CORE_IMPL_CLIENT_STUB_HELPER_H
 
 #include <google/protobuf/message.h>  // for Message
 
@@ -58,4 +58,4 @@ void StubHelper::AsyncRequest(const std::string& method,
 }
 
 }  // namespace grpc_cb_core
-#endif  // GRPC_CB_IMPL_CLIENT_STUB_HELPER_H
+#endif  // GRPC_CB_CORE_IMPL_CLIENT_STUB_HELPER_H

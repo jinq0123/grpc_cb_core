@@ -1,8 +1,8 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#ifndef GRPC_CB_CLIENT_SYNC_READER_WRITER_H
-#define GRPC_CB_CLIENT_SYNC_READER_WRITER_H
+#ifndef GRPC_CB_CORE_CLIENT_SYNC_READER_WRITER_H
+#define GRPC_CB_CORE_CLIENT_SYNC_READER_WRITER_H
 
 #include <cstdint>  // for int64_t
 #include <memory>  // for shared_ptr
@@ -51,4 +51,4 @@ class ClientSyncReaderWriter GRPC_FINAL {
 
 }  // namespace grpc_cb_core
 
-#endif  // GRPC_CB_CLIENT_CLIENT_SYNC_READER_WRITER_H
+#endif  // GRPC_CB_CORE_CLIENT_CLIENT_SYNC_READER_WRITER_H

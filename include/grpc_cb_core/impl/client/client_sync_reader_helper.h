@@ -1,8 +1,8 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#ifndef GRPC_CB_IMPL_CLIENT_CLIENT_SYNC_READER_HELPER_H
-#define GRPC_CB_IMPL_CLIENT_CLIENT_SYNC_READER_HELPER_H
+#ifndef GRPC_CB_CORE_IMPL_CLIENT_CLIENT_SYNC_READER_HELPER_H
+#define GRPC_CB_CORE_IMPL_CLIENT_CLIENT_SYNC_READER_HELPER_H
 
 #include <cassert>     // for assert()
 
@@ -64,4 +64,4 @@ inline Status SyncRecvStatus(
 }  // namespace ClientSyncReaderHelper
 }  // namespace grpc_cb_core
 
-#endif  // GRPC_CB_IMPL_CLIENT_CLIENT_SYNC_READER_HELPER_H
+#endif  // GRPC_CB_CORE_IMPL_CLIENT_CLIENT_SYNC_READER_HELPER_H

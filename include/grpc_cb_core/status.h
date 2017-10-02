@@ -31,19 +31,19 @@
  *
  */
 
-#ifndef GRPC_CB_STATUS_H
-#define GRPC_CB_STATUS_H
+#ifndef GRPC_CB_CORE_STATUS_H
+#define GRPC_CB_CORE_STATUS_H
 
 #include <string>
 
 #include <grpc/status.h>
 
-#include <grpc_cb_core/support/grpc_cb_api.h>  // for GRPC_CB_API
+#include <grpc_cb_core/support/grpc_cb_api.h>  // for GRPC_CB_CORE_API
 
 namespace grpc_cb_core {
 
 // Non-thread-safe.
-class GRPC_CB_API Status {
+class GRPC_CB_CORE_API Status {
  public:
   /// Construct an OK instance.
   Status() : code_(GRPC_STATUS_OK) {}
@@ -84,4 +84,4 @@ class GRPC_CB_API Status {
 
 }  // namespace grpc_cb_core
 
-#endif  // GRPC_CB_STATUS_H
+#endif  // GRPC_CB_CORE_STATUS_H

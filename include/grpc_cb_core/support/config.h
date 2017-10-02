@@ -31,8 +31,8 @@
  *
  */
 
-#ifndef GRPC_CB_SUPPORT_CONFIG_H
-#define GRPC_CB_SUPPORT_CONFIG_H
+#ifndef GRPC_CB_CORE_SUPPORT_CONFIG_H
+#define GRPC_CB_CORE_SUPPORT_CONFIG_H
 
 #if !defined(GRPC_NO_AUTODETECT_PLATFORM)
 
@@ -102,4 +102,4 @@ const class {
 }
 #endif
 
-#endif  // GRPC_CB_SUPPORT_CONFIG_H
+#endif  // GRPC_CB_CORE_SUPPORT_CONFIG_H

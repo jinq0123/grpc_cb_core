@@ -1,8 +1,8 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#ifndef GRPC_CB_SERVER_READER_FOR_BIDI_STREAMING_H
-#define GRPC_CB_SERVER_READER_FOR_BIDI_STREAMING_H
+#ifndef GRPC_CB_CORE_SERVER_READER_FOR_BIDI_STREAMING_H
+#define GRPC_CB_CORE_SERVER_READER_FOR_BIDI_STREAMING_H
 
 #include <memory>  // for unique_ptr<>
 
@@ -50,4 +50,4 @@ class ServerReaderForBidiStreaming : public ServerReader<Request> {
 
 }  // namespace grpc_cb_core
 
-#endif  // GRPC_CB_SERVER_READER_FOR_BIDI_STREAMING_H
+#endif  // GRPC_CB_CORE_SERVER_READER_FOR_BIDI_STREAMING_H

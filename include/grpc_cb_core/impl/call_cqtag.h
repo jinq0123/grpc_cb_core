@@ -1,8 +1,8 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#ifndef GRPC_CB_IMPL_CALL_CQTAG_H
-#define GRPC_CB_IMPL_CALL_CQTAG_H
+#ifndef GRPC_CB_CORE_IMPL_CALL_CQTAG_H
+#define GRPC_CB_CORE_IMPL_CALL_CQTAG_H
 
 #include <grpc_cb_core/impl/call_sptr.h>             // for CallSptr
 #include <grpc_cb_core/impl/completion_queue_tag.h>  // for CompletionQueueTag
@@ -27,4 +27,4 @@ class CallCqTag : public CompletionQueueTag {
 
 }  // namespace grpc_cb_core
 
-#endif  // GRPC_CB_IMPL_CALL_CQTAG_H
+#endif  // GRPC_CB_CORE_IMPL_CALL_CQTAG_H

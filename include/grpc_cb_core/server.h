@@ -1,8 +1,8 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#ifndef GRPC_CB_SERVER_H
-#define GRPC_CB_SERVER_H
+#ifndef GRPC_CB_CORE_SERVER_H
+#define GRPC_CB_CORE_SERVER_H
 
 #include <unordered_map>
 #include <vector>
@@ -13,7 +13,7 @@
 #include <grpc_cb_core/impl/grpc_library.h>  // for GrpcLibrary
 #include <grpc_cb_core/service_sptr.h>  // for ServiceSptr
 #include <grpc_cb_core/support/config.h>  // for GRPC_FINAL
-#include <grpc_cb_core/support/grpc_cb_api.h>  // for GRPC_CB_API
+#include <grpc_cb_core/support/grpc_cb_api.h>  // for GRPC_CB_CORE_API
 #include <grpc_cb_core/support/time.h>  // for TimePoint
 
 struct grpc_server;
@@ -25,7 +25,7 @@ class ServerCredentials;
 class Service;
 
 /// Models a gRPC server.
-class GRPC_CB_API Server GRPC_FINAL : public GrpcLibrary {
+class GRPC_CB_CORE_API Server GRPC_FINAL : public GrpcLibrary {
  public:
   Server();
   ~Server();
@@ -104,4 +104,4 @@ class GRPC_CB_API Server GRPC_FINAL : public GrpcLibrary {
 
 }  // namespace grpc_cb_core
 
-#endif  // GRPC_CB_SERVER_H
+#endif  // GRPC_CB_CORE_SERVER_H

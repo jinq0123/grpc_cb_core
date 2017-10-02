@@ -1,8 +1,8 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#ifndef GRPC_CB_SERVER_SERVER_WRITER_IMPL_H
-#define GRPC_CB_SERVER_SERVER_WRITER_IMPL_H
+#ifndef GRPC_CB_CORE_SERVER_SERVER_WRITER_IMPL_H
+#define GRPC_CB_CORE_SERVER_SERVER_WRITER_IMPL_H
 
 #include <limits>  // for numeric_limits<>
 #include <memory>  // for enable_shared_from_this<>
@@ -77,4 +77,4 @@ class ServerWriterImpl GRPC_FINAL
 
 }  // namespace grpc_cb_core
 
-#endif  // GRPC_CB_SERVER_SERVER_WRITER_IMPL_H
+#endif  // GRPC_CB_CORE_SERVER_SERVER_WRITER_IMPL_H

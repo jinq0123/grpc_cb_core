@@ -31,8 +31,8 @@
  *
  */
 
-#ifndef GRPC_CB_SUPPORT_SLICE_H
-#define GRPC_CB_SUPPORT_SLICE_H
+#ifndef GRPC_CB_CORE_SUPPORT_SLICE_H
+#define GRPC_CB_CORE_SUPPORT_SLICE_H
 
 #include <grpc_cb_core/support/string_ref.h>
 
@@ -59,4 +59,4 @@ inline grpc_slice SliceFromCopiedString(const std::string& str) {
 
 }  // namespace grpc_cb_core
 
-#endif  // GRPC_CB_SUPPORT_SLICE_H
+#endif  // GRPC_CB_CORE_SUPPORT_SLICE_H

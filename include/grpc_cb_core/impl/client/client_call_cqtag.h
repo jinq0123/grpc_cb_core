@@ -1,8 +1,8 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#ifndef GRPC_CB_CLIENT_CALL_CQTAG_H
-#define GRPC_CB_CLIENT_CALL_CQTAG_H
+#ifndef GRPC_CB_CORE_CLIENT_CALL_CQTAG_H
+#define GRPC_CB_CORE_CLIENT_CALL_CQTAG_H
 
 #include <grpc/support/port_platform.h>  // for GRPC_MUST_USE_RESULT
 
@@ -72,4 +72,4 @@ bool ClientCallCqTag::Start(const std::string& request) {
 }
 
 }  // namespace grpc_cb_core
-#endif  // GRPC_CB_CLIENT_CALL_CQTAG_H
+#endif  // GRPC_CB_CORE_CLIENT_CALL_CQTAG_H

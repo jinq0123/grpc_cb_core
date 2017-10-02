@@ -1,8 +1,8 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#ifndef GRPC_CB_CLIENT_ASYNC_READER_H
-#define GRPC_CB_CLIENT_ASYNC_READER_H
+#ifndef GRPC_CB_CORE_CLIENT_ASYNC_READER_H
+#define GRPC_CB_CORE_CLIENT_ASYNC_READER_H
 
 #include <cstdint>  // for int64_t
 #include <functional>  // for std::function
@@ -52,4 +52,4 @@ class ClientAsyncReader GRPC_FINAL {
 };  // class ClientAsyncReader<>
 
 }  // namespace grpc_cb_core
-#endif  // GRPC_CB_CLIENT_ASYNC_READER_H
+#endif  // GRPC_CB_CORE_CLIENT_ASYNC_READER_H

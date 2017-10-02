@@ -1,8 +1,8 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#ifndef GRPC_CB_IMPL_GENERAL_CALL_CQTAG_H
-#define GRPC_CB_IMPL_GENERAL_CALL_CQTAG_H
+#ifndef GRPC_CB_CORE_IMPL_GENERAL_CALL_CQTAG_H
+#define GRPC_CB_CORE_IMPL_GENERAL_CALL_CQTAG_H
 
 #include <cassert>  // for assert()
 #include <functional>  // for function<>
@@ -36,4 +36,4 @@ class GeneralCallCqTag : public CallCqTag {
 
 }  // namespace grpc_cb_core
 
-#endif  // GRPC_CB_IMPL_GENERAL_CALL_CQTAG_H
+#endif  // GRPC_CB_CORE_IMPL_GENERAL_CALL_CQTAG_H

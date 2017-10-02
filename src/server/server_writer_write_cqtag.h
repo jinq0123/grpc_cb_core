@@ -1,8 +1,8 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#ifndef GRPC_CB_SERVER_SERVER_WRITER_WRITE_CQTAG_H
-#define GRPC_CB_SERVER_SERVER_WRITER_WRITE_CQTAG_H
+#ifndef GRPC_CB_CORE_SERVER_SERVER_WRITER_WRITE_CQTAG_H
+#define GRPC_CB_CORE_SERVER_SERVER_WRITER_WRITE_CQTAG_H
 
 #include <grpc/support/port_platform.h>       // for GRPC_MUST_USE_RESULT
 
@@ -29,4 +29,4 @@ class ServerWriterWriteCqTag GRPC_FINAL : public GeneralCallCqTag {
 
 }  // namespace grpc_cb_core
 
-#endif  // GRPC_CB_SERVER_SERVER_WRITER_WRITE_CQTAG_H
+#endif  // GRPC_CB_CORE_SERVER_SERVER_WRITER_WRITE_CQTAG_H

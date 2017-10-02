@@ -1,6 +1,6 @@
 // Complete queue for next.
-#ifndef GRPC_CB_COMPLETION_QUEUE_FOR_NEXT_H
-#define GRPC_CB_COMPLETION_QUEUE_FOR_NEXT_H
+#ifndef GRPC_CB_CORE_COMPLETION_QUEUE_FOR_NEXT_H
+#define GRPC_CB_CORE_COMPLETION_QUEUE_FOR_NEXT_H
 
 namespace grpc_cb_core {
 
@@ -10,4 +10,4 @@ class CQueueForNext;
 using CompletionQueueForNext = CQueueForNext;
 
 }  // namespace grpc_cb_core
-#endif  // GRPC_CB_COMPLETION_QUEUE_FOR_NEXT_H
+#endif  // GRPC_CB_CORE_COMPLETION_QUEUE_FOR_NEXT_H

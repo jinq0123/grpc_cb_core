@@ -1,5 +1,5 @@
-#ifndef GRPC_CB_IMPL_PROTO_UTILS_H
-#define GRPC_CB_IMPL_PROTO_UTILS_H
+#ifndef GRPC_CB_CORE_IMPL_PROTO_UTILS_H
+#define GRPC_CB_CORE_IMPL_PROTO_UTILS_H
 
 #include <grpc_cb_core/support/protobuf_fwd.h>  // for Message
 
@@ -25,4 +25,4 @@ Status Deserialize(grpc_byte_buffer* buffer, ::google::protobuf::Message* msg,
 }  // namespace Proto
 }  // namespace grpc_cb_core
 
-#endif  // GRPC_CB_IMPL_PROTO_UTILS_H
+#endif  // GRPC_CB_CORE_IMPL_PROTO_UTILS_H

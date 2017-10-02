@@ -31,16 +31,16 @@
  *
  */
 
-#ifndef GRPC_CB_IMPL_GRPC_LIBRARY_H
-#define GRPC_CB_IMPL_GRPC_LIBRARY_H
+#ifndef GRPC_CB_CORE_IMPL_GRPC_LIBRARY_H
+#define GRPC_CB_CORE_IMPL_GRPC_LIBRARY_H
 
 #include <grpc/grpc.h>
 
-#include <grpc_cb_core/support/grpc_cb_api.h>  // for GRPC_CB_API
+#include <grpc_cb_core/support/grpc_cb_api.h>  // for GRPC_CB_CORE_API
 
 namespace grpc_cb_core {
 
-class GRPC_CB_API GrpcLibrary {
+class GRPC_CB_CORE_API GrpcLibrary {
  public:
   GrpcLibrary() { grpc_init(); }
   virtual ~GrpcLibrary() { grpc_shutdown(); }
@@ -48,4 +48,4 @@ class GRPC_CB_API GrpcLibrary {
 
 }  // namespace grpc_cb_core
 
-#endif  // GRPC_CB_IMPL_GRPC_LIBRARY_H
+#endif  // GRPC_CB_CORE_IMPL_GRPC_LIBRARY_H

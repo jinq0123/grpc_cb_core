@@ -1,8 +1,8 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#ifndef GRPC_CB_SERVICE_STUB_H
-#define GRPC_CB_SERVICE_STUB_H
+#ifndef GRPC_CB_CORE_SERVICE_STUB_H
+#define GRPC_CB_CORE_SERVICE_STUB_H
 
 #include <atomic>  // for atomic_int64
 #include <cassert>
@@ -15,14 +15,14 @@
 #include <grpc_cb_core/impl/channel_sptr.h>  // for ChannelSptr
 #include <grpc_cb_core/impl/cqueue_for_next.h>   // to convert GetCq4n() to CompletionQueue
 #include <grpc_cb_core/status_callback.h>        // for ErrorCallback
-#include <grpc_cb_core/support/grpc_cb_api.h>    // for GRPC_CB_API
+#include <grpc_cb_core/support/grpc_cb_api.h>    // for GRPC_CB_CORE_API
 
 namespace grpc_cb_core {
 
 // The base of generated service stubs.
 // Copyable.
 // Thread-safe except for set methods.
-class GRPC_CB_API ServiceStub {
+class GRPC_CB_CORE_API ServiceStub {
  public:
   explicit ServiceStub(const ChannelSptr& channel_sptr,
       const CompletionQueueForNextSptr& cq4n_sptr = nullptr);
@@ -107,4 +107,4 @@ class GRPC_CB_API ServiceStub {
 
 }  // namespace grpc_cb_core
 
-#endif  // GRPC_CB_SERVICE_STUB_H
+#endif  // GRPC_CB_CORE_SERVICE_STUB_H

@@ -1,8 +1,8 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#ifndef GRPC_CB_COMMON_DO_NEXT_COMPLETION_H
-#define GRPC_CB_COMMON_DO_NEXT_COMPLETION_H
+#ifndef GRPC_CB_CORE_COMMON_DO_NEXT_COMPLETION_H
+#define GRPC_CB_CORE_COMMON_DO_NEXT_COMPLETION_H
 
 namespace grpc_cb_core {
 
@@ -13,4 +13,4 @@ class CQueueForNext;
 bool DoNextCompletion(CQueueForNext& cq4n);
 
 }  // namespace grpv_cb
-#endif  // GRPC_CB_COMMON_DO_NEXT_COMPLETION_H
+#endif  // GRPC_CB_CORE_COMMON_DO_NEXT_COMPLETION_H

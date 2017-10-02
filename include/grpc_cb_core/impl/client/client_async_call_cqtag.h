@@ -1,8 +1,8 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#ifndef GRPC_CB_CLIENT_ASYNC_CALL_CQTAG_H
-#define GRPC_CB_CLIENT_ASYNC_CALL_CQTAG_H
+#ifndef GRPC_CB_CORE_CLIENT_ASYNC_CALL_CQTAG_H
+#define GRPC_CB_CORE_CLIENT_ASYNC_CALL_CQTAG_H
 
 #include <grpc_cb_core/impl/client/client_call_cqtag.h>  // for ClientCallCqTag
 #include <grpc_cb_core/status_callback.h>                // for ErrorCallback
@@ -56,4 +56,4 @@ class ClientAsyncCallCqTag GRPC_FINAL : public ClientCallCqTag {
 };  // class ClientAsyncCallCqTag
 
 }  // namespace grpc_cb_core
-#endif  // GRPC_CB_CLIENT_ASYNC_CALL_CQTAG_H
+#endif  // GRPC_CB_CORE_CLIENT_ASYNC_CALL_CQTAG_H

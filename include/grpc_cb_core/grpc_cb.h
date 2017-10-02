@@ -1,8 +1,8 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#ifndef GRPC_CB_GRPC_CB_H
-#define GRPC_CB_GRPC_CB_H
+#ifndef GRPC_CB_CORE_GRPC_CB_CORE_H
+#define GRPC_CB_CORE_GRPC_CB_CORE_H
 
 #include <grpc_cb_core/run.h>  // for Run()
 #include <grpc_cb_core/channel.h>       // for Channel
@@ -26,4 +26,4 @@
 #include <grpc_cb_core/status.h>           // for Status
 #include <grpc_cb_core/status_callback.h>  // for StatusCallback
 
-#endif  // GRPC_CB_GRPC_CB_H
+#endif  // GRPC_CB_CORE_GRPC_CB_CORE_H

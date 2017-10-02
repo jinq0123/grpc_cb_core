@@ -1,8 +1,8 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#ifndef GRPC_CB_IMPL_SERVER_SERVER_READER_WRITER_CQTAG_H
-#define GRPC_CB_IMPL_SERVER_SERVER_READER_WRITER_CQTAG_H
+#ifndef GRPC_CB_CORE_IMPL_SERVER_SERVER_READER_WRITER_CQTAG_H
+#define GRPC_CB_CORE_IMPL_SERVER_SERVER_READER_WRITER_CQTAG_H
 
 #include <functional>
 #include <memory>  // for shared_ptr<>
@@ -79,4 +79,4 @@ void ServerReaderWriterCqTag<Request>::DoComplete(bool success) {
 
 }  // namespace grpc_cb_core
 
-#endif  // GRPC_CB_IMPL_SERVER_SERVER_READER_WRITER_CQTAG_H
+#endif  // GRPC_CB_CORE_IMPL_SERVER_SERVER_READER_WRITER_CQTAG_H

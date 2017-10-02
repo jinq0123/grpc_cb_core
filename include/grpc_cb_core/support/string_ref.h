@@ -31,8 +31,8 @@
  *
  */
 
-#ifndef GRPC_CB_SUPPORT_STRING_REF_H
-#define GRPC_CB_SUPPORT_STRING_REF_H
+#ifndef GRPC_CB_CORE_SUPPORT_STRING_REF_H
+#define GRPC_CB_CORE_SUPPORT_STRING_REF_H
 
 #include <iterator>
 #include <iosfwd>
@@ -120,4 +120,4 @@ std::ostream& operator<<(std::ostream& stream, const string_ref& string);
 
 }  // namespace grpc_cb_core
 
-#endif  // GRPC_CB_SUPPORT_STRING_REF_H
+#endif  // GRPC_CB_CORE_SUPPORT_STRING_REF_H

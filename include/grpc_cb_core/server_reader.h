@@ -1,8 +1,8 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#ifndef GRPC_CB_SERVER_READER_H
-#define GRPC_CB_SERVER_READER_H
+#ifndef GRPC_CB_CORE_SERVER_READER_H
+#define GRPC_CB_CORE_SERVER_READER_H
 
 namespace grpc_cb_core {
 
@@ -24,4 +24,4 @@ class ServerReader {
 
 }  // namespace grpc_cb_core
 
-#endif  // GRPC_CB_SERVER_READER_H
+#endif  // GRPC_CB_CORE_SERVER_READER_H

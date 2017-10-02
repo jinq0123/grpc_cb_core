@@ -1,5 +1,5 @@
-#ifndef GRPC_CB_IMPL_CLINET_CLIENT_SYNC_READER_DATA_H
-#define GRPC_CB_IMPL_CLINET_CLIENT_SYNC_READER_DATA_H
+#ifndef GRPC_CB_CORE_IMPL_CLINET_CLIENT_SYNC_READER_DATA_H
+#define GRPC_CB_CORE_IMPL_CLINET_CLIENT_SYNC_READER_DATA_H
 
 #include <memory>  // for shared_ptr<>
 
@@ -28,4 +28,4 @@ template <class Response>
 using ClientSyncReaderDataSptr = std::shared_ptr<ClientSyncReaderData<Response>>;
 
 }  // namespace grpc_cb_core
-#endif  // GRPC_CB_IMPL_CLINET_CLIENT_SYNC_READER_DATA_H
+#endif  // GRPC_CB_CORE_IMPL_CLINET_CLIENT_SYNC_READER_DATA_H
