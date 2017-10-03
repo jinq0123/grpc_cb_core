@@ -4,7 +4,7 @@
 #ifndef GRPC_CB_CORE_IMPL_CLIENT_STUB_HELPER_H
 #define GRPC_CB_CORE_IMPL_CLIENT_STUB_HELPER_H
 
-// DEL #include <google/protobuf/message.h>  // for Message
+#include <string>
 
 #include <grpc_cb_core/service_stub.h>  // for ServiceStub
 #include <grpc_cb_core/status.h>  // for Status
@@ -19,43 +19,37 @@ public:
     StubHelper(ServiceStub& stub) : stub_(stub) {}
 
 public:
-    using Message = ::google::protobuf::Message;
+    using string = std::string;
 
-    template <class Response>
-    inline Status SyncRequest(const std::string& method,
-        const Message& request, Response* response);
+    inline Status SyncRequest(const string& method,
+        const string& request, string* response);
 
-    template <class Response>
-    inline void AsyncRequest(const std::string& method,
-        const Message& request,
-        const std::function<void (const Response&)>& cb,
+    inline void AsyncRequest(const string& method,
+        const string& request,
+        const std::function<void (const string&)>& cb,
         const ErrorCallback& ecb);
 
 private:
     ServiceStub& stub_;
 };  // StubHelper
 
-template <class Response>
-Status StubHelper::SyncRequest(const std::string& method,
-    const Message& request, Response* response) {
-  std::string resp_str;
-  Status status = stub_.SyncRequest(method,
-      request.SerializeAsString(), resp_str);
-  if (!status.ok() || !response)
-    return status;
-  if (response->ParseFromString(resp_str))
-    return status;
-  return status.InternalError("Failed to parse response.");
+Status StubHelper::SyncRequest(const string& method,
+    const string& request, string* response) {
+  if (response)
+    return stub_.SyncRequest(method, request, *response);
+
+  string _;
+  return stub_.SyncRequest(method, request, _);
 }
 
-template <class Response>
-void StubHelper::AsyncRequest(const std::string& method,
-    const Message& request,
-    const std::function<void (const Response&)>& cb,
+void StubHelper::AsyncRequest(const string& method,
+    const string& request,
+    const std::function<void (const string&)>& cb,
     const ErrorCallback& ecb) {
-  stub_.AsyncRequest(method, request.SerializeAsString(),
-      WrapResponseCallback(cb, ecb), ecb);
+  stub_.AsyncRequest(method, request, cb, ecb);
 }
+
+// XXX StubHelper is not necessary?
 
 }  // namespace grpc_cb_core
 #endif  // GRPC_CB_CORE_IMPL_CLIENT_STUB_HELPER_H
