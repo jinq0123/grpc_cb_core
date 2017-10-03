@@ -15,8 +15,8 @@ namespace grpc_cb_core {
 
 ClientAsyncReaderImpl::ClientAsyncReaderImpl(
     const ChannelSptr& channel, const std::string& method,
-    const ::google::protobuf::Message& request,
-    const CompletionQueueSptr& cq_sptr, int64_t timeout_ms)
+    const std::string& request, const CompletionQueueSptr& cq_sptr,
+    int64_t timeout_ms)
     : call_sptr_(channel->MakeSharedCall(method, *cq_sptr, timeout_ms)) {
   assert(cq_sptr);
   assert(channel);

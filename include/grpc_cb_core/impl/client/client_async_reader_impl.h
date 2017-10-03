@@ -15,7 +15,6 @@
 #include <grpc_cb_core/status.h>                      // for Status
 #include <grpc_cb_core/status_callback.h>             // for StatusCallback
 #include <grpc_cb_core/support/config.h>              // for GRPC_FINAL
-#include <grpc_cb_core/support/protobuf_fwd.h>        // for Message
 
 namespace grpc_cb_core {
 
@@ -26,8 +25,8 @@ class ClientAsyncReaderImpl GRPC_FINAL
     : public std::enable_shared_from_this<ClientAsyncReaderImpl> {
  public:
   ClientAsyncReaderImpl(const ChannelSptr& channel, const std::string& method,
-                        const ::google::protobuf::Message& request,
-                        const CompletionQueueSptr& cq_sptr, int64_t timeout_ms);
+      const std::string& request, const CompletionQueueSptr& cq_sptr,
+      int64_t timeout_ms);
   ~ClientAsyncReaderImpl();
 
  public:
