@@ -12,7 +12,6 @@
 #include <grpc_cb_core/impl/call_operations.h>  // for CallOperations
 #include <grpc_cb_core/impl/call_sptr.h>        // for CallSptr
 #include <grpc_cb_core/support/config.h>        // for GRPC_FINAL
-#include <grpc_cb_core/support/protobuf_fwd.h>  // for Message
 
 namespace grpc_cb_core {
 
@@ -22,13 +21,10 @@ class ServerReplierCqTag GRPC_FINAL : public CallCqTag {
     : CallCqTag(call_sptr), send_init_md_(send_init_md) {}
 
   inline bool StartReply(const std::string& msg) GRPC_MUST_USE_RESULT;
-  inline bool StartReply(const ::google::protobuf::Message& msg) GRPC_MUST_USE_RESULT;
   inline bool StartReplyError(const Status& status) GRPC_MUST_USE_RESULT;
 
  private:
   inline void SendMsgAndStatus(const std::string& msg,
-                               CallOperations& ops);
-  inline void SendMsgAndStatus(const ::google::protobuf::Message& msg,
                                CallOperations& ops);
 
  private:
@@ -39,14 +35,6 @@ class ServerReplierCqTag GRPC_FINAL : public CallCqTag {
 };
 
 bool ServerReplierCqTag::StartReply(const std::string& msg) {
-  CallOperations ops;
-  if (send_init_md_) {  // Todo: use CodSendInitMd uptr?
-    ops.SendInitMd(cod_send_init_md_);  // Todo: init metadata
-  }
-  SendMsgAndStatus(msg, ops);
-  return GetCallSptr()->StartBatch(ops, this);
-}
-bool ServerReplierCqTag::StartReply(const ::google::protobuf::Message& msg) {
   CallOperations ops;
   if (send_init_md_) {  // Todo: use CodSendInitMd uptr?
     ops.SendInitMd(cod_send_init_md_);  // Todo: init metadata
@@ -68,12 +56,6 @@ void ServerReplierCqTag::SendMsgAndStatus(const std::string& msg,
                                           CallOperations& ops) {
   ops.SendMsg(msg, cod_send_msg_);
   ops.ServerSendStatus(Status::OK, cod_server_send_status_);
-}
-
-void ServerReplierCqTag::SendMsgAndStatus(
-    const ::google::protobuf::Message& msg, CallOperations& ops) {
-  Status status = ops.SendMsg(msg, cod_send_msg_);
-  ops.ServerSendStatus(status, cod_server_send_status_);
 }
 
 }  // namespace grpc_cb_core
