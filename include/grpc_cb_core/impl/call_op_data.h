@@ -9,7 +9,6 @@
 #include <grpc/support/port_platform.h>  // for GRPC_MUST_USE_RESULT
 
 #include <grpc_cb_core/impl/metadata_vector.h>  // for MetadataVector
-#include <grpc_cb_core/impl/proto_utils.h>      // for Proto::Serialize()
 #include <grpc_cb_core/status.h>                // for Status
 #include <grpc_cb_core/support/config.h>        // for GRPC_FINAL
 #include <grpc_cb_core/support/noncopyable.h>   // for noncopyable
@@ -63,7 +62,7 @@ class CodSendMsg GRPC_FINAL : noncopyable {
       GRPC_MUST_USE_RESULT {
     assert(!send_buf_);
     // send_buf_ is created here and destroyed in dtr().
-    Status status = Proto::Serialize(message, &send_buf_);
+    Status status;  // XXX = Proto::Serialize(message, &send_buf_);
     assert(send_buf_ || !status.ok());
     return status;
   }
@@ -107,7 +106,7 @@ class CodRecvMsg GRPC_FINAL : noncopyable {
   // To detect end of stream.
   bool HasGotMsg() const { return nullptr != recv_buf_; }
   Status GetResultMsg(::google::protobuf::Message& message, int max_msg_size) {
-    return Proto::Deserialize(recv_buf_, &message, max_msg_size);
+    return Status();  // XXX Proto::Deserialize(recv_buf_, &message, max_msg_size);
   }
   Status GetResultString(std::string& result) const;
 
