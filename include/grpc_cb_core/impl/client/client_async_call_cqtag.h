@@ -4,6 +4,8 @@
 #ifndef GRPC_CB_CORE_CLIENT_ASYNC_CALL_CQTAG_H
 #define GRPC_CB_CORE_CLIENT_ASYNC_CALL_CQTAG_H
 
+#include <string>
+
 #include <grpc_cb_core/impl/client/client_call_cqtag.h>  // for ClientCallCqTag
 #include <grpc_cb_core/status_callback.h>                // for ErrorCallback
 #include <grpc_cb_core/support/config.h>                 // for GRPC_FINAL
@@ -12,14 +14,13 @@ namespace grpc_cb_core {
 
 // Completion queue tag (CqTag) for client async call.
 // Derived from ClientCallCqTag, adding on_response, on_error.
-template <class ResponseType>
 class ClientAsyncCallCqTag GRPC_FINAL : public ClientCallCqTag {
  public:
   explicit ClientAsyncCallCqTag(const CallSptr call_sptr)
      : ClientCallCqTag(call_sptr) {}
 
  public:
-  using OnResponse = std::function<void (const ResponseType&)>;
+  using OnResponse = std::function<void (const std::string&)>;
   void SetOnResponse(const OnResponse& on_response) {
     on_response_ = on_response;
   }
@@ -34,7 +35,7 @@ class ClientAsyncCallCqTag GRPC_FINAL : public ClientCallCqTag {
       return;
     }
 
-    ResponseType resp;
+    std::string resp;
     Status status = GetResponse(resp);
     if (status.ok()) {
       if (on_response_)

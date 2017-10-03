@@ -46,7 +46,7 @@ void ServiceStub::AsyncRequest(const string& method, const string& request,
                                const OnResponse& on_response,
                                const ErrorCallback& on_error) {
   CallSptr call_sptr(MakeSharedCall(method));
-  using CqTag = ClientAsyncCallCqTag<std::string>;
+  using CqTag = ClientAsyncCallCqTag;
   CqTag* tag = new CqTag(call_sptr);
   tag->SetOnResponse(on_response);
   tag->SetOnError(on_error);
