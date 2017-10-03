@@ -5,6 +5,7 @@
 #define GRPC_CB_CORE_IMPL_CLIENT_CLIENT_SYNC_WRITER__HELPER_H
 
 #include <cassert>     // for assert()
+#include <string>
 
 #include <grpc_cb_core/impl/call_sptr.h>                    // for CallSptr
 #include <grpc_cb_core/impl/client/client_send_msg_cqtag.h>    // for ClientSendMsgCqTag
@@ -18,7 +19,7 @@ namespace ClientSyncWriterHelper {
 inline bool SyncWrite(
     const CallSptr& call_sptr,
     const CQueueForPluckSptr& cq4p_sptr,
-    const ::google::protobuf::Message& request,
+    const std::string& request,
     Status& status) {
   assert(call_sptr);
   assert(cq4p_sptr);
