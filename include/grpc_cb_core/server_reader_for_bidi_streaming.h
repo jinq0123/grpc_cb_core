@@ -5,6 +5,7 @@
 #define GRPC_CB_CORE_SERVER_READER_FOR_BIDI_STREAMING_H
 
 #include <memory>  // for unique_ptr<>
+#include <string>
 
 #include <grpc_cb_core/server_reader.h>  // for ServerReader
 #include <grpc_cb_core/support/config.h>  // for GRPC_OVERRIDE
@@ -16,7 +17,6 @@ class Status;
 
 // ServerReader for bidirectional streaming.
 // Thread-safe.
-template <class Request, class Response>
 class ServerReaderForBidiStreaming : public ServerReader {
  public:
   // Default constructable.
@@ -25,7 +25,7 @@ class ServerReaderForBidiStreaming : public ServerReader {
 
  public:
   // Set by generated codes.
-  using Writer = ServerWriter<Response>;
+  using Writer = ServerWriter;
   void SetWriter(const Writer& writer) {
     writer_uptr_.reset(new Writer(writer));
   }
@@ -37,7 +37,7 @@ class ServerReaderForBidiStreaming : public ServerReader {
   }
 
  public:
-  void OnMsg(const Request& msg) GRPC_OVERRIDE {}
+  void OnMsg(const std::string& msg) GRPC_OVERRIDE {}
   void OnError(const Status& status) GRPC_OVERRIDE {
     assert(writer_uptr_);
     writer_uptr_->AsyncClose(status);

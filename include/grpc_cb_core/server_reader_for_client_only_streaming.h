@@ -5,6 +5,7 @@
 #define GRPC_CB_CORE_SERVER_READER_FOR_CLIENT_ONLY_STREAMING_H
 
 #include <memory>  // for unique_ptr<>
+#include <string.h>
 
 #include <grpc_cb_core/server_reader.h>  // for ServerReader
 #include <grpc_cb_core/server_replier.h>  // for ReplyError()
@@ -16,7 +17,7 @@ class Status;
 
 // ServerReader for client only streaming.
 // Thread-safe.
-template <class Request, class Response>
+// XXX template <class Request, class Response>
 class ServerReaderForClientOnlyStreaming : public ServerReader {
  public:
   // Default constructable.
@@ -25,13 +26,13 @@ class ServerReaderForClientOnlyStreaming : public ServerReader {
 
  public:
   // Set by generated code.
-  using Replier = ServerReplier<Response>;
+  using Replier = ServerReplier;
   void SetReplier(const Replier& replier) {
     replier_uptr_.reset(new Replier(replier));
   }
 
  public:
-  void Reply(const Response& response) {
+  void Reply(const std::string& response) {
     assert(replier_uptr_);
     replier_uptr_->Reply(response);
   }
@@ -45,7 +46,7 @@ class ServerReaderForClientOnlyStreaming : public ServerReader {
   }
 
  public:
-  void OnMsg(const Request& msg) GRPC_OVERRIDE {}
+  void OnMsg(const std::string& msg) GRPC_OVERRIDE {}
   void OnError(const Status& status) GRPC_OVERRIDE {
     ReplyError(status);
   }

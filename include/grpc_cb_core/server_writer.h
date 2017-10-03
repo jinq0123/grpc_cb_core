@@ -4,12 +4,14 @@
 #ifndef GRPC_CB_CORE_SERVER_WRITER_H
 #define GRPC_CB_CORE_SERVER_WRITER_H
 
+#include <cassert>
+#include <string>
+
 #include <grpc_cb_core/impl/server/server_writer_impl.h>  // for ServerWriterImpl
 
 namespace grpc_cb_core {
 
 // Copyable. Thread-safe.
-template <class Response>
 class ServerWriter GRPC_FINAL {
  public:
   explicit ServerWriter(const CallSptr& call_sptr)
@@ -18,13 +20,13 @@ class ServerWriter GRPC_FINAL {
   }
 
  public:
-  bool Write(const Response& response) const {
+  bool Write(const std::string& response) const {
     return impl_sptr_->Write(response);
   }
-  bool SyncWrite(const Response& response) const {
+  bool SyncWrite(const std::string& response) const {
     return impl_sptr_->SyncWrite(response);
   }
-  void AsyncWrite(const Response& response) const {
+  void AsyncWrite(const std::string& response) const {
     impl_sptr_->AsyncWrite(response);
   }
 

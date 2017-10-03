@@ -5,6 +5,7 @@
 #define GRPC_CB_CORE_SERVER_REPLIER_H
 
 #include <memory>
+#include <string>
 
 #include <grpc_cb_core/impl/call_sptr.h>       // for CallSptr
 #include <grpc_cb_core/impl/server/server_replier_impl.h>  // for ServerReplierImpl
@@ -20,7 +21,6 @@ class Status;
 // Copyable. Thread-safe.
 // Safe to delete before completion.
 // Only accept the 1st reply and ignore other replies.
-template <class ResponseType>
 class ServerReplier {
  public:
   explicit ServerReplier(const CallSptr& call_sptr)
@@ -30,7 +30,7 @@ class ServerReplier {
   virtual ~ServerReplier() {};
 
  public:
-  void Reply(const ResponseType& response) const {
+  void Reply(const std::string& response) const {
     impl_sptr_->Reply(response);
   }
 
