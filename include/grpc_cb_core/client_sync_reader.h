@@ -16,13 +16,12 @@
 namespace grpc_cb_core {
 
 // Copyable. Client sync reader.
-template <class Response>
+template <class Response>  // XXX
 class ClientSyncReader GRPC_FINAL {
  public:
   // Todo: Also need to template request?
   inline ClientSyncReader(const ChannelSptr& channel, const std::string& method,
-                          const ::google::protobuf::Message& request,
-                          int64_t timeout_ms);
+                          const std::string& request, int64_t timeout_ms);
 
  public:
   // Return false if error or end of stream.
@@ -49,7 +48,7 @@ class ClientSyncReader GRPC_FINAL {
 template <class Response>
 ClientSyncReader<Response>::ClientSyncReader(
     const ChannelSptr& channel, const std::string& method,
-    const ::google::protobuf::Message& request, int64_t timeout_ms)
+    const std::string& request, int64_t timeout_ms)
     : data_sptr_(new ClientSyncReaderData<Response>) {
   assert(channel);
   CQueueForPluckSptr cq4p_sptr(new CQueueForPluck);

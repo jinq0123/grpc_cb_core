@@ -13,7 +13,6 @@
 #include <grpc_cb_core/impl/client/client_async_reader_impl.h>  // for ClientAsyncReaderImpl
 #include <grpc_cb_core/impl/completion_queue_sptr.h>  // for CompletionQueueSptr
 #include <grpc_cb_core/status_callback.h>             // for StatusCallback
-#include <grpc_cb_core/support/protobuf_fwd.h>        // for Message
 
 namespace grpc_cb_core {
 
@@ -22,13 +21,13 @@ template <class Response>
 class ClientAsyncReader GRPC_FINAL {
  public:
   ClientAsyncReader(const ChannelSptr& channel, const std::string& method,
-                    const ::google::protobuf::Message& request,
+                    const std::string& request,
                     const CompletionQueueSptr& cq_sptr, int64_t timeout_ms)
       : impl_sptr_(new ClientAsyncReaderImpl(channel, method, request, cq_sptr,
                                              timeout_ms)) {}
 
  public:
-  using OnMsg = std::function<void(const Response&)>;
+  using OnMsg = std::function<void(const Response&)>;  // XXX
   void ReadEach(const OnMsg& on_msg,
       const StatusCallback& on_status = StatusCallback()) const {
     class ReadHandler : public ClientAsyncReadHandler {

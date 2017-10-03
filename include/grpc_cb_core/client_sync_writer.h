@@ -33,7 +33,7 @@ class ClientSyncWriter GRPC_FINAL {
                                                  request, d.status);
   }
 
-  Status Close(::google::protobuf::Message* response) const;
+  Status Close(std::string* response) const;
 
  private:
   // Wrap all data in shared struct pointer to make copy quick.
@@ -68,8 +68,7 @@ ClientSyncWriter<Request>::ClientSyncWriter(const ChannelSptr& channel,
 }
 
 template <class Request>
-Status ClientSyncWriter<Request>::Close(
-    ::google::protobuf::Message* response) const {
+Status ClientSyncWriter<Request>::Close(std::string* response) const {
   assert(response);
   assert(data_sptr_);
   Data& data = *data_sptr_;
