@@ -5,7 +5,7 @@
 #define GRPC_CB_CORE_SERVER_READER_FOR_CLIENT_ONLY_STREAMING_H
 
 #include <memory>  // for unique_ptr<>
-#include <string.h>
+#include <string>
 
 #include <grpc_cb_core/server_reader.h>  // for ServerReader
 #include <grpc_cb_core/server_replier.h>  // for ReplyError()
@@ -17,7 +17,6 @@ class Status;
 
 // ServerReader for client only streaming.
 // Thread-safe.
-// XXX template <class Request, class Response>
 class ServerReaderForClientOnlyStreaming : public ServerReader {
  public:
   // Default constructable.
