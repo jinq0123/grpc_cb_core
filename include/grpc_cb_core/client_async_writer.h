@@ -13,7 +13,6 @@
 #include <grpc_cb_core/impl/client/client_async_writer_impl.h>  // for ClientAsyncWriterImpl
 #include <grpc_cb_core/impl/completion_queue_sptr.h>  // for CompletionQueueSptr
 #include <grpc_cb_core/support/config.h>              // for GRPC_OVERRIDE
-#include <grpc_cb_core/support/protobuf_fwd.h>        // for Message
 
 namespace grpc_cb_core {
 

@@ -11,7 +11,6 @@
 #include <grpc_cb_core/impl/call_operations.h>     // for CallOperations
 #include <grpc_cb_core/impl/general_call_cqtag.h>  // for GeneralCallCqTag
 #include <grpc_cb_core/support/config.h>           // for GRPC_FINAL
-#include <grpc_cb_core/support/protobuf_fwd.h>     // for Message
 
 namespace grpc_cb_core {
 

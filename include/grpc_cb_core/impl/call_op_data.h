@@ -12,7 +12,6 @@
 #include <grpc_cb_core/status.h>                // for Status
 #include <grpc_cb_core/support/config.h>        // for GRPC_FINAL
 #include <grpc_cb_core/support/noncopyable.h>   // for noncopyable
-#include <grpc_cb_core/support/protobuf_fwd.h>  // for Message
 
 namespace grpc_cb_core {
 
