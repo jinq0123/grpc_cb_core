@@ -8,7 +8,6 @@
 
 #include <grpc_cb_core/impl/channel_sptr.h>      // for ChannelSptr
 #include <grpc_cb_core/impl/completion_queue_sptr.h>  // for CompletionQueueSptr
-#include <grpc_cb_core/impl/message_sptr.h>           // for MessageSptr
 #include <grpc_cb_core/support/config.h>              // for GRPC_FINAL
 
 // for ClientAsyncWriterCloseHandlerSptr
