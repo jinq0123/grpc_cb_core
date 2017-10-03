@@ -21,14 +21,14 @@ ClientAsyncWriterHelper::ClientAsyncWriterHelper(
 
 ClientAsyncWriterHelper::~ClientAsyncWriterHelper() {}
 
-bool ClientAsyncWriterHelper::Queue(const MessageSptr& msg_sptr) {
+bool ClientAsyncWriterHelper::Queue(const std::string& msg) {
   if (aborted_)  // Maybe reader failed.
     return false;
   if (is_queue_ended_)
     return true;  // ignore
 
   // cache messages
-  msg_queue_.emplace(msg_sptr);
+  msg_queue_.push(msg);
   if (is_writing_) return true;
   return WriteNext();
 }
@@ -48,7 +48,7 @@ bool ClientAsyncWriterHelper::WriteNext() {
 
   if (aborted_) return false;  // Maybe reader failed.
   is_writing_ = true;
-  MessageSptr msg_sptr = msg_queue_.front();
+  const std::string& msg = msg_queue_.front();
   msg_queue_.pop();  // may empty now but is_writing_
 
   assert(call_sptr_);
@@ -57,7 +57,7 @@ bool ClientAsyncWriterHelper::WriteNext() {
   tag->SetOnComplete([sptr](bool success) {
       sptr->OnWritten(success);
   });
-  if (tag->Start(*msg_sptr))
+  if (tag->Start(msg))
     return true;
 
   delete tag;

@@ -23,8 +23,8 @@ ClientAsyncWriterImpl::~ClientAsyncWriterImpl() {
   impl2_sptr_->Close();  // without handler
 }
 
-bool ClientAsyncWriterImpl::Write(const MessageSptr& request_sptr) {
-  return impl2_sptr_->Write(request_sptr);
+bool ClientAsyncWriterImpl::Write(const std::string& request) {
+  return impl2_sptr_->Write(request);
 }
 
 void ClientAsyncWriterImpl::Close(const CloseHandlerSptr& handler_sptr) {

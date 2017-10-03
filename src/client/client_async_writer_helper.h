@@ -6,10 +6,10 @@
 
 #include <functional>  // for function<>
 #include <memory>  // for enable_shared_from_this<>
+#include <queue>
+#include <string>
 
 #include <grpc_cb_core/impl/call_sptr.h>         // for CallSptr
-#include <grpc_cb_core/impl/message_queue.h>     // DEL for MessageQueue
-#include <grpc_cb_core/impl/message_sptr.h>      // for MessageSptr
 #include <grpc_cb_core/status.h>                 // for Status
 #include <grpc_cb_core/support/config.h>         // for GRPC_FINAL
 
@@ -31,7 +31,7 @@ class ClientAsyncWriterHelper GRPC_FINAL
   ~ClientAsyncWriterHelper();
 
  public:
-  bool Queue(const MessageSptr& msg_sptr);
+  bool Queue(const std::string& msg);
 
   // Set the end of messages. Differ with the close.
   // Do not queue further. May trigger on_end().
@@ -52,7 +52,7 @@ class ClientAsyncWriterHelper GRPC_FINAL
   const OnEnd on_end_;  // callback on the end
   Status status_;
 
-  MessageQueue msg_queue_;  // Cache messages to write.
+  std::queue<std::string> msg_queue_;  // Cache messages to write.
 
   // Grpc only allows to write one by one.
   // When the last msg is writing, the queue is empty, so we need it.

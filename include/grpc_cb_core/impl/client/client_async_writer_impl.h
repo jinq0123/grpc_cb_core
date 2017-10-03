@@ -26,7 +26,7 @@ class ClientAsyncWriterImpl GRPC_FINAL {
                         const CompletionQueueSptr& cq_sptr, int64_t timeout_ms);
   ~ClientAsyncWriterImpl();
 
-  bool Write(const MessageSptr& request_sptr);
+  bool Write(const std::string& request);
 
   using CloseHandlerSptr = ClientAsyncWriterCloseHandlerSptr;
   void Close(const CloseHandlerSptr& handler_sptr);

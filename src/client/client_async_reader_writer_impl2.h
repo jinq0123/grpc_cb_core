@@ -39,7 +39,7 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
   ~ClientAsyncReaderWriterImpl2();
 
  public:
-  bool Write(const MessageSptr& msg_sptr);
+  bool Write(const std::string& msg);
   // CloseWriting() is optional. Auto closed on dtr().
   void CloseWriting();
 

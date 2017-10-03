@@ -24,8 +24,8 @@ ClientAsyncReaderWriterImpl::~ClientAsyncReaderWriterImpl() {
   impl2_sptr_->CloseWriting();  // impl2_sptr_ will live on.
 }
 
-bool ClientAsyncReaderWriterImpl::Write(const MessageSptr& msg_sptr) {
-  return impl2_sptr_->Write(msg_sptr);
+bool ClientAsyncReaderWriterImpl::Write(const std::string& msg) {
+  return impl2_sptr_->Write(msg);
 }
 
 void ClientAsyncReaderWriterImpl::CloseWriting() {

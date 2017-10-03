@@ -48,7 +48,7 @@ ClientAsyncReaderWriterImpl2::~ClientAsyncReaderWriterImpl2() {
   SendCloseIfNot();
 }
 
-bool ClientAsyncReaderWriterImpl2::Write(const MessageSptr& msg_sptr) {
+bool ClientAsyncReaderWriterImpl2::Write(const std::string& msg) {
   Guard g(mtx_);
 
   if (!status_.ok()) {
@@ -57,7 +57,7 @@ bool ClientAsyncReaderWriterImpl2::Write(const MessageSptr& msg_sptr) {
   }
 
   if (writer_sptr_)
-    return writer_sptr_->Queue(msg_sptr);
+    return writer_sptr_->Queue(msg);
   if (writing_started_)  // but writer_sptr_ is reset
     return false;
 
@@ -67,7 +67,7 @@ bool ClientAsyncReaderWriterImpl2::Write(const MessageSptr& msg_sptr) {
   auto sptr = shared_from_this();  // can not in ctr().
   writer_sptr_.reset(new ClientAsyncWriterHelper(call_sptr_,
       [sptr]() { sptr->OnEndOfWriting(); }));
-  return writer_sptr_->Queue(msg_sptr);
+  return writer_sptr_->Queue(msg);
 }
 
 void ClientAsyncReaderWriterImpl2::CloseWriting() {

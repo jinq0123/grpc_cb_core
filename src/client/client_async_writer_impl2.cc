@@ -32,12 +32,12 @@ ClientAsyncWriterImpl2::~ClientAsyncWriterImpl2() {
   // Have done CallCloseHandler().
 }
 
-bool ClientAsyncWriterImpl2::Write(const MessageSptr& request_sptr) {
+bool ClientAsyncWriterImpl2::Write(const std::string& request) {
   Guard g(mtx_);
   if (!status_.ok())
     return false;
   if (writer_sptr_)
-    return writer_sptr_->Queue(request_sptr);
+    return writer_sptr_->Queue(request);
 
   if (writing_started_)
     return false;  // Writer ended
@@ -47,7 +47,7 @@ bool ClientAsyncWriterImpl2::Write(const MessageSptr& request_sptr) {
   auto sptr = shared_from_this();
   writer_sptr_.reset(new ClientAsyncWriterHelper(call_sptr_,
       [sptr]() { sptr->OnEndOfWriting(); }));
-  return writer_sptr_->Queue(request_sptr);
+  return writer_sptr_->Queue(request);
 }
 
 void ClientAsyncWriterImpl2::Close(const CloseHandlerSptr& handler_sptr) {

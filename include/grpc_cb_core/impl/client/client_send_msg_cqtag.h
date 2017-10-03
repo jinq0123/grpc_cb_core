@@ -20,14 +20,13 @@ class ClientSendMsgCqTag GRPC_FINAL : public GeneralCallCqTag {
       : GeneralCallCqTag(call_sptr) {}
 
  public:
-  inline bool Start(const ::google::protobuf::Message& message) GRPC_MUST_USE_RESULT;
+  inline bool Start(const std::string& message) GRPC_MUST_USE_RESULT;
 
  private:
   CodSendMsg cod_send_msg_;
 };  // class ClientSendMsgCqTag
 
-bool ClientSendMsgCqTag::Start(
-    const ::google::protobuf::Message& message) {
+bool ClientSendMsgCqTag::Start(const std::string& message) {
   CallOperations ops;
   ops.SendMsg(message, cod_send_msg_);  // XXX check result
   return GetCallSptr()->StartBatch(ops, this);
