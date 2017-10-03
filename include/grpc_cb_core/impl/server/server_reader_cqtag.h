@@ -6,6 +6,7 @@
 
 #include <functional>
 #include <memory>  // for shared_ptr<>
+#include <string>
 
 #include <grpc/support/port_platform.h>    // for GRPC_MUST_USE_RESULT
 
@@ -18,7 +19,6 @@
 
 namespace grpc_cb_core {
 
-// XXX template <class MsgType>
 class ServerReaderCqTag GRPC_FINAL : public CallCqTag {
  public:
   using Reader = ServerReader;
@@ -35,23 +35,20 @@ class ServerReaderCqTag GRPC_FINAL : public CallCqTag {
   ReaderSptr reader_sptr_;
 };  // class ServerReaderCqTag
 
-template <class MsgType>
-ServerReaderCqTag<MsgType>::ServerReaderCqTag(
+ServerReaderCqTag::ServerReaderCqTag(
     const CallSptr& call_sptr, const ReaderSptr& reader_sptr)
     : CallCqTag(call_sptr), reader_sptr_(reader_sptr) {
   assert(call_sptr);
   assert(reader_sptr);
 }
 
-template <class MsgType>
-bool ServerReaderCqTag<MsgType>::Start() {
+bool ServerReaderCqTag::Start() {
   CallOperations ops;
   ops.RecvMsg(cod_recv_msg_);
   return GetCallSptr()->StartBatch(ops, this);
 }
 
-template <class MsgType>
-void ServerReaderCqTag<MsgType>::DoComplete(bool success) {
+void ServerReaderCqTag::DoComplete(bool success) {
   if (!success) {
     reader_sptr_->OnError(Status::InternalError("ServerReaderCqTag failed."));
     return;
@@ -61,16 +58,15 @@ void ServerReaderCqTag<MsgType>::DoComplete(bool success) {
     return;
   }
 
-  MsgType msg;
-  const CallSptr& call_sptr = GetCallSptr();
-  Status status = cod_recv_msg_.GetResultMsg(
-      msg, call_sptr->GetMaxMsgSize());  // XXX
+  std::string msg;
+  Status status = cod_recv_msg_.GetResultMsg(msg);
   if (!status.ok()) {
     reader_sptr_->OnError(status);
     return;
   }
   reader_sptr_->OnMsg(msg);
 
+  const CallSptr& call_sptr = GetCallSptr();
   auto* tag = new ServerReaderCqTag(call_sptr, reader_sptr_);
   if (tag->Start()) return;
   delete tag;
