@@ -49,8 +49,6 @@ class CallOperations GRPC_FINAL {
       SendInitMd(cod_send_init_md.GetMdVec());
   }
   inline void SendInitMd(MetadataVector& init_metadata);
-  inline Status SendMsg(const ::google::protobuf::Message& message,
-                        CodSendMsg& cod_send_msg) GRPC_MUST_USE_RESULT;
   inline void SendMsg(const std::string& message, CodSendMsg& cod_send_msg);
 
   // Receive initial metadata.
@@ -97,16 +95,6 @@ void CallOperations::SendMsg(const std::string& message,
                              CodSendMsg& cod_send_msg) {
   cod_send_msg.CopyMsgStr(message);
   SendMsg(cod_send_msg);
-}
-
-// Todo: Set write options.
-Status CallOperations::SendMsg(
-    const ::google::protobuf::Message& message,
-    CodSendMsg& cod_send_msg) {
-  Status status = cod_send_msg.SerializeMsg(message);
-  if (!status.ok()) return status;
-  SendMsg(cod_send_msg);
-  return Status::OK;
 }
 
 // Todo: Set write options.
