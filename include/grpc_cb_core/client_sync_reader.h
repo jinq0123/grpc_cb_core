@@ -6,6 +6,7 @@
 
 #include <cassert>  // for assert()
 #include <cstdint>  // for int64_t
+#include <string>
 
 #include <grpc_cb_core/channel.h>                         // for MakeSharedCall()
 #include <grpc_cb_core/impl/client/client_sync_reader_data.h>  // for ClientSyncReaderDataSptr
@@ -16,20 +17,18 @@
 namespace grpc_cb_core {
 
 // Copyable. Client sync reader.
-template <class Response>  // XXX
 class ClientSyncReader GRPC_FINAL {
  public:
-  // Todo: Also need to template request?
   inline ClientSyncReader(const ChannelSptr& channel, const std::string& method,
                           const std::string& request, int64_t timeout_ms);
 
  public:
   // Return false if error or end of stream.
-  inline bool ReadOne(Response* response) const {
+  inline bool ReadOne(std::string* response) const {
     assert(response);
     Data& d = *data_sptr_;
     return ClientSyncReaderHelper::SyncReadOne(d.call_sptr, d.cq4p_sptr,
-                                                   *response, d.status);
+                                               *response, d.status);
   }
 
   inline Status RecvStatus() const {
@@ -40,16 +39,15 @@ class ClientSyncReader GRPC_FINAL {
 
  private:
   // Wrap all data in shared struct pointer to make copy quick.
-  using Data = ClientSyncReaderData<Response>;
-  using DataSptr = ClientSyncReaderDataSptr<Response>;
+  using Data = ClientSyncReaderData;
+  using DataSptr = ClientSyncReaderDataSptr;
   DataSptr data_sptr_;
 };  // class ClientSyncReader<>
 
-template <class Response>
-ClientSyncReader<Response>::ClientSyncReader(
+ClientSyncReader::ClientSyncReader(
     const ChannelSptr& channel, const std::string& method,
     const std::string& request, int64_t timeout_ms)
-    : data_sptr_(new ClientSyncReaderData<Response>) {
+    : data_sptr_(new Data) {
   assert(channel);
   CQueueForPluckSptr cq4p_sptr(new CQueueForPluck);
   CallSptr call_sptr = channel->MakeSharedCall(method, *cq4p_sptr, timeout_ms);
