@@ -13,7 +13,6 @@
 namespace grpc_cb_core {
 
 // Copyable.
-template <class Request, class Response>
 class ClientSyncReaderWriter GRPC_FINAL {
  public:
   ClientSyncReaderWriter(const ChannelSptr& channel, const std::string& method, int64_t timeout_ms)
@@ -22,7 +21,7 @@ class ClientSyncReaderWriter GRPC_FINAL {
   }
 
  public:
-  bool Write(const Request& request) const {
+  bool Write(const std::string& request) const {
     return impl_sptr_->Write(request);
   }
 
@@ -32,7 +31,7 @@ class ClientSyncReaderWriter GRPC_FINAL {
     impl_sptr_->CloseWriting();
   }
 
-  bool ReadOne(Response* response) const {
+  bool ReadOne(std::string* response) const {
     return impl_sptr_->ReadOne(response);
   }
 
@@ -41,7 +40,7 @@ class ClientSyncReaderWriter GRPC_FINAL {
   }
 
  private:
-  using Impl = ClientSyncReaderWriterImpl<Request, Response>;
+  using Impl = ClientSyncReaderWriterImpl;
   const std::shared_ptr<Impl> impl_sptr_;
 };  // class ClientSyncReaderWriter<>
 
