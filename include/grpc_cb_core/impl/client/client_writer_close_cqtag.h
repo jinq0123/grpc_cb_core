@@ -4,6 +4,7 @@
 #ifndef GRPC_CB_CORE_CLIENT_CLIENT_WRITER_CLOSE_CQTAG_H
 #define GRPC_CB_CORE_CLIENT_CLIENT_WRITER_CLOSE_CQTAG_H
 
+#include <string>
 #include <grpc/support/port_platform.h>    // for GRPC_MUST_USE_RESULT
 
 #include <grpc_cb_core/impl/call.h>                // for StartBatch()
@@ -26,7 +27,9 @@ class ClientWriterCloseCqTag GRPC_FINAL : public GeneralCallCqTag {
   inline Status GetStatus() const {
     return cod_client_recv_status_.GetStatus();
   }
-  inline Status GetResponse(::google::protobuf::Message& response) GRPC_MUST_USE_RESULT;
+  inline Status GetResponse(std::string& response) GRPC_MUST_USE_RESULT {
+    return cod_recv_msg_.GetResultMsg(response);  // XXX no use?, GetCallSptr()->GetMaxMsgSize());
+  }
 
  private:
   CodRecvInitMd cod_recv_init_md_;
@@ -41,12 +44,6 @@ bool ClientWriterCloseCqTag::Start() {
   ops.RecvMsg(cod_recv_msg_);
   ops.ClientRecvStatus(cod_client_recv_status_);
   return GetCallSptr()->StartBatch(ops, this);
-}
-
-Status ClientWriterCloseCqTag::GetResponse(
-    ::google::protobuf::Message& response) {
-  // XXX DEL return cod_recv_msg_.GetResultMsg(response, GetCallSptr()->GetMaxMsgSize());
-    return Status::UNIMPLEMENTED;
 }
 
 }  // namespace grpc_cb_core
