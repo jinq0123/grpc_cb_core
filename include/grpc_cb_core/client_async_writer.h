@@ -19,9 +19,6 @@ namespace grpc_cb_core {
 class Status;
 
 // Copyable. Thread-safe.
-// Use template class instead of template member function
-//    to ensure client input the correct request type.
-template <class Request, class Response>
 class ClientAsyncWriter GRPC_FINAL {
  public:
   inline ClientAsyncWriter(const ChannelSptr& channel,
@@ -38,12 +35,11 @@ class ClientAsyncWriter GRPC_FINAL {
   // Todo: Get queue size()
   // Todo: SyncGetInitMd();
 
-  bool Write(const Request& request) const {
-    auto sptr = std::make_shared<Request>(request);
-    return impl_sptr_->Write(sptr);
+  bool Write(const std::string& request) const {
+    return impl_sptr_->Write(request);
   }
 
-  using ClosedCallback = std::function<void (const Status&, const Response&)>;
+  using ClosedCallback = std::function<void (const Status&, const std::string&)>;
   void Close(const ClosedCallback& on_closed = ClosedCallback()) {
     auto handler = std::make_shared<CloseHandler>(on_closed);
     impl_sptr_->Close(handler);
@@ -57,13 +53,13 @@ class ClientAsyncWriter GRPC_FINAL {
    public:
     explicit CloseHandler(const ClosedCallback& on_closed = ClosedCallback())
         : on_closed_(on_closed){};
-    Message& GetMsg() GRPC_OVERRIDE { return msg_; }
+    std::string& GetMsg() GRPC_OVERRIDE { return msg_; }
     void OnClose(const Status& status) GRPC_OVERRIDE {
       if (on_closed_) on_closed_(status, msg_);
     }
 
    private:
-    Response msg_;
+    std::string msg_;
     ClosedCallback on_closed_;
   };
 

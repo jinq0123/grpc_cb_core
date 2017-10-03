@@ -15,7 +15,7 @@
 namespace grpc_cb_core {
 
 // Copyable. Thread-safe.
-template <class Request, class Response>
+template <class Request, class Response>  // XXX
 class ClientAsyncReaderWriter GRPC_FINAL {
  public:
   // Todo: Move on_status to Set()
@@ -50,7 +50,7 @@ class ClientAsyncReaderWriter GRPC_FINAL {
       void HandleMsg() GRPC_OVERRIDE { if (on_read_) on_read_(msg_); }
      private:
       OnRead on_read_;
-      Response msg_;
+      string msg_;
     };
 
     auto handler_sptr = std::make_shared<ReadHandler>(on_read);

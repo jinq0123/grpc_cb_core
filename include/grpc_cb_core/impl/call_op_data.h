@@ -22,7 +22,7 @@ namespace grpc_cb_core {
 /*
 CallOperations object has 7 operations, and need 6 Cod:
   SendInitMd(MetadataVector&)
-  SendMsg(const Message&, CodSendMsg&)
+  SendMsg(const string& msg, CodSendMsg&)
   RecvInitMd(CodRecvInitMd&)
   RecvMsg(CodRecvMsg&)
   ClientSendClose() (do not need Cod)

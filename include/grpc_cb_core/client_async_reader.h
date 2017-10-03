@@ -37,7 +37,7 @@ class ClientAsyncReader GRPC_FINAL {
       void HandleMsg() GRPC_OVERRIDE { if (on_msg_) on_msg_(msg_); }
      private:
       OnMsg on_msg_;
-      Response msg_;
+      Response msg_;  // XXX
     };
 
     auto handler_sptr = std::make_shared<ReadHandler>(on_msg);
