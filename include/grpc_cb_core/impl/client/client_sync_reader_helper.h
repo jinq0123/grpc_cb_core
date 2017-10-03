@@ -5,6 +5,7 @@
 #define GRPC_CB_CORE_IMPL_CLIENT_CLIENT_SYNC_READER_HELPER_H
 
 #include <cassert>     // for assert()
+#include <string>
 
 #include <grpc_cb_core/impl/call_sptr.h>                              // for CallSptr
 #include <grpc_cb_core/impl/client/client_reader_read_cqtag.h>  // for ClientReaderReadCqTag
@@ -19,7 +20,7 @@ namespace ClientSyncReaderHelper {
 inline bool SyncReadOne(
     const CallSptr& call_sptr,
     const CQueueForPluckSptr& cq4p_sptr,
-    ::google::protobuf::Message& response,
+    std::string& response,
     Status& status);
 
 inline Status SyncRecvStatus(
@@ -31,7 +32,7 @@ inline Status SyncRecvStatus(
 inline bool SyncReadOne(
     const CallSptr& call_sptr,
     const CQueueForPluckSptr& cq4p_sptr,
-    ::google::protobuf::Message& response,
+    std::string& response,
     Status& status) {
   if (!status.ok()) return false;
 
@@ -45,7 +46,7 @@ inline bool SyncReadOne(
   cq4p_sptr->Pluck(&tag);
   if (!tag.HasGotMsg())
       return false;  // Need to set EndOfStream?
-  status = tag.GetResultMsg(response);  // XXX
+  status = tag.GetResultMsg(response);
   return status.ok();
 }
 
