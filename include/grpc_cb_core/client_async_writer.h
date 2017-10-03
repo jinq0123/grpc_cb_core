@@ -41,27 +41,11 @@ class ClientAsyncWriter GRPC_FINAL {
 
   using ClosedCallback = std::function<void (const Status&, const std::string&)>;
   void Close(const ClosedCallback& on_closed = ClosedCallback()) {
-    auto handler = std::make_shared<CloseHandler>(on_closed);
+    auto handler = std::make_shared<ClientAsyncWriterCloseHandler>(on_closed);
     impl_sptr_->Close(handler);
   }  // Close()
 
   // Todo: Use a default CloseHandler if no Close()?
-
- private:
-  // Use CloseHandler to make impl non-template.
-  class CloseHandler GRPC_FINAL : public ClientAsyncWriterCloseHandler {
-   public:
-    explicit CloseHandler(const ClosedCallback& on_closed = ClosedCallback())
-        : on_closed_(on_closed){};
-    std::string& GetMsg() GRPC_OVERRIDE { return msg_; }
-    void OnClose(const Status& status) GRPC_OVERRIDE {
-      if (on_closed_) on_closed_(status, msg_);
-    }
-
-   private:
-    std::string msg_;
-    ClosedCallback on_closed_;
-  };
 
  private:
   // Use non_template class as the implement.
