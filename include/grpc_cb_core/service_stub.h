@@ -33,8 +33,8 @@ class GRPC_CB_CORE_API ServiceStub {
 
  public:
   Channel& GetChannel() const {
-      assert(channel_sptr_);
-      return *channel_sptr_;
+    assert(channel_sptr_);
+    return *channel_sptr_;
   }
   // Non-null channel sptr.
   ChannelSptr GetChannelSptr() const { return channel_sptr_; }
@@ -59,7 +59,7 @@ class GRPC_CB_CORE_API ServiceStub {
   // ServiceStub can set timeout for all methods calls.
   int64_t GetCallTimeoutMs() const { return call_timeout_ms_; }
   void SetCallTimeoutMs(int64_t timeout_ms) {
-      call_timeout_ms_ = timeout_ms;
+    call_timeout_ms_ = timeout_ms;
   }
 
  public:
@@ -73,7 +73,7 @@ class GRPC_CB_CORE_API ServiceStub {
 
  public:
   Status SyncRequest(const string& method, const string& request,
-                         string& response);
+                     string& response);
 
   using OnResponse = std::function<void (const string&)>;
   void AsyncRequest(const string& method, const string& request,
