@@ -6,31 +6,30 @@
 
 #include <cassert>  // for assert()
 #include <cstdint>  // for int64_t
+#include <string>
 
 #include <grpc_cb_core/channel.h>                           // for MakeSharedCall()
 #include <grpc_cb_core/impl/call_sptr.h>                    // for CallSptr
 #include <grpc_cb_core/impl/client/client_send_init_md_cqtag.h>  // for ClientSendInitMdCqTag
 #include <grpc_cb_core/impl/client/client_sync_writer_helper.h>  // for ClientSyncWriterHelper
 #include <grpc_cb_core/impl/client/client_writer_close_cqtag.h>  // for ClientWriterCloseCqTag
+#include <grpc_cb_core/impl/cqueue_for_pluck_sptr.h>  // for CQueueForPluckSptr
 #include <grpc_cb_core/status.h>                                 // for Status
 
 namespace grpc_cb_core {
 
 // Copyable.
-// Use template class instead of template member function
-//    to ensure client input the correct request type.
-// Todo: Use non_template class as the implement.
-template <class Request>
 class ClientSyncWriter GRPC_FINAL {
  public:
-  inline ClientSyncWriter(const ChannelSptr& channel, const std::string& method,
+  inline ClientSyncWriter(const ChannelSptr& channel,
+                          const std::string& method,
                           int64_t timeout_ms);
 
   // Todo: SyncGetInitMd();
-  bool Write(const Request& request) const {
+  bool Write(const std::string& request) const {
     Data& d = *data_sptr_;
     return ClientSyncWriterHelper::SyncWrite(d.call_sptr, d.cq4p_sptr,
-                                                 request, d.status);
+                                             request, d.status);
   }
 
   Status Close(std::string* response) const;
@@ -47,10 +46,9 @@ class ClientSyncWriter GRPC_FINAL {
   DataSptr data_sptr_;  // Easy to copy.
 };  // class ClientSyncWriter<>
 
-template <class Request>
-ClientSyncWriter<Request>::ClientSyncWriter(const ChannelSptr& channel,
-                                            const std::string& method,
-                                            int64_t timeout_ms)
+ClientSyncWriter::ClientSyncWriter(const ChannelSptr& channel,
+                                   const std::string& method,
+                                   int64_t timeout_ms)
     // Todo: same as ClientReader?
     : data_sptr_(new Data) {
   assert(channel);
@@ -67,8 +65,7 @@ ClientSyncWriter<Request>::ClientSyncWriter(const ChannelSptr& channel,
   data_sptr_->status.SetInternalError("Failed to start client sync writer.");
 }
 
-template <class Request>
-Status ClientSyncWriter<Request>::Close(std::string* response) const {
+Status ClientSyncWriter::Close(std::string* response) const {
   assert(response);
   assert(data_sptr_);
   Data& data = *data_sptr_;
@@ -95,5 +92,4 @@ Status ClientSyncWriter<Request>::Close(std::string* response) const {
 }  // Close()
 
 }  // namespace grpc_cb_core
-
 #endif  // GRPC_CB_CORE_CLIENT_SYNC_WRITER_H
