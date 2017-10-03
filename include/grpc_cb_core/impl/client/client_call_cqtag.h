@@ -11,7 +11,6 @@
 #include <grpc_cb_core/impl/call_op_data.h>     // for CodSendInitMd
 #include <grpc_cb_core/impl/call_operations.h>  // for CallOperations
 #include <grpc_cb_core/impl/metadata_vector.h>  // for MetadataVector
-#include <grpc_cb_core/support/protobuf_fwd.h>  // for Message
 
 namespace grpc_cb_core {
 
@@ -25,7 +24,6 @@ class ClientCallCqTag : public CallCqTag {
   virtual ~ClientCallCqTag() {}
 
  public:
-  inline bool Start(const ::google::protobuf::Message& request) GRPC_MUST_USE_RESULT;
   inline bool Start(const std::string& request) GRPC_MUST_USE_RESULT;
 
  public:
@@ -42,10 +40,9 @@ class ClientCallCqTag : public CallCqTag {
   CodClientRecvStatus cod_client_recv_status_;
 };  // class ClientCallCqTag
 
-bool ClientCallCqTag::Start(const ::google::protobuf::Message& request) {
+bool ClientCallCqTag::Start(const std::string& request) {
   CallOperations ops;
-  Status status = ops.SendMsg(request, cod_send_msg_);
-  if (!status.ok()) return false;
+  ops.SendMsg(request, cod_send_msg_);
   return StartOps(ops);
 }
 
@@ -57,12 +54,6 @@ bool ClientCallCqTag::StartOps(CallOperations& ops) {
   ops.ClientSendClose();
   ops.ClientRecvStatus(cod_client_recv_status_);
   return GetCallSptr()->StartBatch(ops, this);
-}
-
-bool ClientCallCqTag::Start(const std::string& request) {
-  CallOperations ops;
-  ops.SendMsg(request, cod_send_msg_);
-  return StartOps(ops);
 }
 
 }  // namespace grpc_cb_core
