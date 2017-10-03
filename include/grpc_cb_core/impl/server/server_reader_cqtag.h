@@ -64,7 +64,7 @@ void ServerReaderCqTag<MsgType>::DoComplete(bool success) {
   MsgType msg;
   const CallSptr& call_sptr = GetCallSptr();
   Status status = cod_recv_msg_.GetResultMsg(
-      msg, call_sptr->GetMaxMsgSize());
+      msg, call_sptr->GetMaxMsgSize());  // XXX
   if (!status.ok()) {
     reader_sptr_->OnError(status);
     return;

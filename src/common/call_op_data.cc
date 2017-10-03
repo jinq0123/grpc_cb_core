@@ -24,9 +24,11 @@ void CodSendMsg::CopyMsgStr(const std::string& sMsg)
     grpc_slice_unref(slice);
 }
 
-Status CodRecvMsg::GetResultString(std::string& result) const {
+Status CodRecvMsg::GetResultMsg(std::string& result) const {
   assert(recv_buf_);
-  return ByteBufferToString(*recv_buf_, result);
+  if (ByteBufferToString(*recv_buf_, result))
+    return Status::OK;
+  return Status::InternalError("Failed to read recv byte buffer.");
 }
 
 }  // namespace grpc_cb_core

@@ -26,10 +26,9 @@ class ClientReaderReadCqTag GRPC_FINAL : public GeneralCallCqTag {
 
   // To detect end of stream.
   inline bool HasGotMsg() const { return cod_recv_msg_.HasGotMsg(); }
-  inline Status GetResultMsg(::google::protobuf::Message& message)
-      GRPC_MUST_USE_RESULT {
-    return cod_recv_msg_.GetResultMsg(
-        message, GetCallSptr()->GetMaxMsgSize());
+  inline Status GetResultMsg(std::string& message) GRPC_MUST_USE_RESULT {
+    return cod_recv_msg_.GetResultMsg(message);
+    // XXX no use? GetCallSptr()->GetMaxMsgSize());
   }
 
  private:

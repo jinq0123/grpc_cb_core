@@ -45,7 +45,7 @@ inline bool SyncReadOne(
   cq4p_sptr->Pluck(&tag);
   if (!tag.HasGotMsg())
       return false;  // Need to set EndOfStream?
-  status = tag.GetResultMsg(response);
+  status = tag.GetResultMsg(response);  // XXX
   return status.ok();
 }
 

@@ -64,7 +64,7 @@ void ServerReaderWriterCqTag<Request>::DoComplete(bool success) {
 
   Request request;
   Status status = cod_recv_msg_.GetResultMsg(
-      request, call_sptr->GetMaxMsgSize());
+      request, call_sptr->GetMaxMsgSize());  // XXX
   if (!status.ok()) {
       reader_sptr_->OnError(status);  // writer.AsyncClose(status);
       return;

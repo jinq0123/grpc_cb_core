@@ -29,12 +29,6 @@ class ClientCallCqTag : public CallCqTag {
   inline bool Start(const std::string& request) GRPC_MUST_USE_RESULT;
 
  public:
-  Status GetResponse(::google::protobuf::Message& message) {
-    // Todo: Get trailing metadata.
-    if (!cod_client_recv_status_.IsStatusOk())
-      return cod_client_recv_status_.GetStatus();
-    return cod_recv_msg_.GetResultMsg(message, GetCallSptr()->GetMaxMsgSize());
-  }
   Status GetResponse(std::string& response) const;
 
  private:

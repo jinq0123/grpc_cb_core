@@ -45,7 +45,8 @@ bool ClientWriterCloseCqTag::Start() {
 
 Status ClientWriterCloseCqTag::GetResponse(
     ::google::protobuf::Message& response) {
-  return cod_recv_msg_.GetResultMsg(response, GetCallSptr()->GetMaxMsgSize());
+  // XXX DEL return cod_recv_msg_.GetResultMsg(response, GetCallSptr()->GetMaxMsgSize());
+    return Status::UNIMPLEMENTED;
 }
 
 }  // namespace grpc_cb_core

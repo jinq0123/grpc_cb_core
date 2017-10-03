@@ -105,10 +105,7 @@ class CodRecvMsg GRPC_FINAL : noncopyable {
 
   // To detect end of stream.
   bool HasGotMsg() const { return nullptr != recv_buf_; }
-  Status GetResultMsg(::google::protobuf::Message& message, int max_msg_size) {
-    return Status();  // XXX Proto::Deserialize(recv_buf_, &message, max_msg_size);
-  }
-  Status GetResultString(std::string& result) const;
+  Status GetResultMsg(std::string& result) const;
 
  private:
   grpc_byte_buffer* recv_buf_ = nullptr;  // owned
