@@ -4,7 +4,7 @@
 #ifndef GRPC_CB_CORE_IMPL_CLIENT_STUB_HELPER_H
 #define GRPC_CB_CORE_IMPL_CLIENT_STUB_HELPER_H
 
-#include <google/protobuf/message.h>  // for Message
+// DEL #include <google/protobuf/message.h>  // for Message
 
 #include <grpc_cb_core/service_stub.h>  // for ServiceStub
 #include <grpc_cb_core/status.h>  // for Status

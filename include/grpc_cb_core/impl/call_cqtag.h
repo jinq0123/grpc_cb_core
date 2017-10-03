@@ -4,6 +4,8 @@
 #ifndef GRPC_CB_CORE_IMPL_CALL_CQTAG_H
 #define GRPC_CB_CORE_IMPL_CALL_CQTAG_H
 
+#include <cassert>
+
 #include <grpc_cb_core/impl/call_sptr.h>             // for CallSptr
 #include <grpc_cb_core/impl/completion_queue_tag.h>  // for CompletionQueueTag
 

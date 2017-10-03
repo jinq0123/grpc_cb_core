@@ -7,11 +7,11 @@
 #include <limits>  // for numeric_limits<>
 #include <memory>  // for enable_shared_from_this<>
 #include <mutex>
+#include <queue>
+#include <string>
 
 #include <grpc_cb_core/impl/call_sptr.h>              // for CallSptr
-#include <grpc_cb_core/impl/message_queue.h>          // for MessageQueue
 #include <grpc_cb_core/support/config.h>              // for GRPC_FINAL
-#include <grpc_cb_core/support/protobuf_fwd.h>        // for Message
 
 namespace grpc_cb_core {
 
@@ -25,10 +25,11 @@ class ServerWriterImpl GRPC_FINAL
   ~ServerWriterImpl();  // blocking
 
  public:
+  using string = std::string;
   // Write() will block if the high queue size reached.
-  bool Write(const ::google::protobuf::Message& response);
-  bool SyncWrite(const ::google::protobuf::Message& response);
-  bool AsyncWrite(const ::google::protobuf::Message& response);
+  bool Write(const string& response);
+  bool SyncWrite(const string& response);
+  bool AsyncWrite(const string& response);
 
   size_t GetQueueSize() const {
     Guard g(mtx_);
@@ -57,7 +58,7 @@ class ServerWriterImpl GRPC_FINAL
 
  private:
   void SendStatus();  // to close
-  bool SendMsg(const ::google::protobuf::Message& msg);
+  bool SendMsg(const string& msg);
 
  private:
   CallSptr call_sptr_;
@@ -66,7 +67,7 @@ class ServerWriterImpl GRPC_FINAL
   bool is_sending_ = false;  // grpc must send one by one
 
   size_t high_queue_size_ = std::numeric_limits<size_t>::max();
-  MessageQueue queue_;
+  std::queue<string> queue_;
 
   // new in SyncClose()/AsyncClose()
   std::unique_ptr<Status> close_status_uptr_;

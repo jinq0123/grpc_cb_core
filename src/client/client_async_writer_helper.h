@@ -8,7 +8,7 @@
 #include <memory>  // for enable_shared_from_this<>
 
 #include <grpc_cb_core/impl/call_sptr.h>         // for CallSptr
-#include <grpc_cb_core/impl/message_queue.h>     // for MessageQueue
+#include <grpc_cb_core/impl/message_queue.h>     // DEL for MessageQueue
 #include <grpc_cb_core/impl/message_sptr.h>      // for MessageSptr
 #include <grpc_cb_core/status.h>                 // for Status
 #include <grpc_cb_core/support/config.h>         // for GRPC_FINAL

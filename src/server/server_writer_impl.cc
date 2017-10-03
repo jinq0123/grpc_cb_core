@@ -5,10 +5,6 @@
 
 #include <thread>  // for yield()
 
-#include <google/protobuf/message.h>
-
-#include <grpc_cb_core/impl/message_sptr.h>  // for MessageSptr
-
 #include "server_writer_send_status_cqtag.h"  // for ServerWriterSendStatusCqTag
 #include "server_writer_write_cqtag.h"        // for ServerWriterWriteCqTag
 
@@ -25,8 +21,7 @@ ServerWriterImpl::~ServerWriterImpl() {
   SyncClose(Status::OK);
 }
 
-bool ServerWriterImpl::Write(
-    const ::google::protobuf::Message& response) {
+bool ServerWriterImpl::Write(const string& response) {
   bool is_high = false;
   {
     Guard g(mtx_);
@@ -40,8 +35,7 @@ bool ServerWriterImpl::Write(
     return AsyncWrite(response);
 }
 
-bool ServerWriterImpl::SyncWrite(
-    const ::google::protobuf::Message& response) {
+bool ServerWriterImpl::SyncWrite(const string& response) {
   if (!AsyncWrite(response))  // Will trigger sending.
     return false;
 
@@ -52,17 +46,14 @@ bool ServerWriterImpl::SyncWrite(
   return closed_;
 }
 
-bool ServerWriterImpl::AsyncWrite(
-    const ::google::protobuf::Message& response) {
+bool ServerWriterImpl::AsyncWrite(const string& response) {
   Guard g(mtx_);
 
   if (closed_ || close_status_uptr_)
     return false;
 
   if (is_sending_) {
-    MessageSptr p(response.New());
-    p->CopyFrom(response);
-    queue_.push(p);
+    queue_.push(response);
     return true;
   }
 
@@ -95,10 +86,8 @@ void ServerWriterImpl::TryToWriteNext() {
 
   is_sending_ = false;  // Prev msg sending completed.
   if (!queue_.empty()) {
-    MessageSptr msg = queue_.front();
-    queue_.pop();
-    assert(msg);
-    SendMsg(*msg);
+    const string& msg = queue_.front();
+    SendMsg(msg);
     return;
   }
 
@@ -126,7 +115,7 @@ void ServerWriterImpl::SendStatus() {
   delete tag;
 }
 
-bool ServerWriterImpl::SendMsg(const ::google::protobuf::Message& msg) {
+bool ServerWriterImpl::SendMsg(const string& msg) {
   assert(!closed_);
   assert(!is_sending_);
   is_sending_ = true;
@@ -146,7 +135,7 @@ bool ServerWriterImpl::SendMsg(const ::google::protobuf::Message& msg) {
 
   delete tag;
   closed_ = true;  // error
-  queue_ = MessageQueue();  // reset to break SyncWrite().
+  queue_.swap(std::queue<string>());  // reset to break SyncWrite().
   // Todo: do sth. on error?
   return false;
 }
