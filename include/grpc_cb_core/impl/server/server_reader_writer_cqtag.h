@@ -20,7 +20,7 @@ namespace grpc_cb_core {
 template <class Request>
 class ServerReaderWriterCqTag GRPC_FINAL : public CallCqTag {
  public:
-  using Reader = ServerReader<Request>;
+  using Reader = ServerReader;
   using ReaderSptr = std::shared_ptr<Reader>;
   inline ServerReaderWriterCqTag(const CallSptr& call_sptr,
       const ReaderSptr& reader_sptr);

@@ -18,10 +18,10 @@
 
 namespace grpc_cb_core {
 
-template <class MsgType>
+// XXX template <class MsgType>
 class ServerReaderCqTag GRPC_FINAL : public CallCqTag {
  public:
-  using Reader = ServerReader<MsgType>;
+  using Reader = ServerReader;
   using ReaderSptr = std::shared_ptr<Reader>;
   inline explicit ServerReaderCqTag(const CallSptr& call_sptr,
                                     const ReaderSptr& reader_sptr);

@@ -6,7 +6,7 @@
 
 #include <memory>  // for unique_ptr<>
 
-#include <grpc_cb_core/server_reader.h>  // for ServerReader<>
+#include <grpc_cb_core/server_reader.h>  // for ServerReader
 #include <grpc_cb_core/server_replier.h>  // for ReplyError()
 #include <grpc_cb_core/support/config.h>  // for GRPC_OVERRIDE
 
@@ -17,7 +17,7 @@ class Status;
 // ServerReader for client only streaming.
 // Thread-safe.
 template <class Request, class Response>
-class ServerReaderForClientOnlyStreaming : public ServerReader<Request> {
+class ServerReaderForClientOnlyStreaming : public ServerReader {
  public:
   // Default constructable.
   ServerReaderForClientOnlyStreaming() {}

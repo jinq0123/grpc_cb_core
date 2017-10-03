@@ -6,7 +6,7 @@
 
 #include <memory>  // for unique_ptr<>
 
-#include <grpc_cb_core/server_reader.h>  // for ServerReader<>
+#include <grpc_cb_core/server_reader.h>  // for ServerReader
 #include <grpc_cb_core/support/config.h>  // for GRPC_OVERRIDE
 #include <grpc_cb_core/server_writer.h>  // for ServerWriter<>
 
@@ -17,7 +17,7 @@ class Status;
 // ServerReader for bidirectional streaming.
 // Thread-safe.
 template <class Request, class Response>
-class ServerReaderForBidiStreaming : public ServerReader<Request> {
+class ServerReaderForBidiStreaming : public ServerReader {
  public:
   // Default constructable.
   ServerReaderForBidiStreaming() {}

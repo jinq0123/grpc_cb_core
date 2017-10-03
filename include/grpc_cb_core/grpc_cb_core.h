@@ -15,7 +15,7 @@
 #include <grpc_cb_core/completion_queue_for_next.h>  // for CompletionQueueForNext
 #include <grpc_cb_core/completion_queue_for_next_sptr.h>  // for CompletionQueueForNextSptr
 #include <grpc_cb_core/server.h>           // for Server
-#include <grpc_cb_core/server_reader.h>    // for ServerReader<>
+#include <grpc_cb_core/server_reader.h>    // for ServerReader
 #include <grpc_cb_core/server_reader_for_bidi_streaming.h>
 #include <grpc_cb_core/server_reader_for_client_only_streaming.h>
 #include <grpc_cb_core/server_replier.h>   // for ServerReplier<>
