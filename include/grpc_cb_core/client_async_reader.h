@@ -29,17 +29,7 @@ class ClientAsyncReader GRPC_FINAL {
   using OnMsg = std::function<void(const std::string&)>;
   void ReadEach(const OnMsg& on_msg,
       const StatusCallback& on_status = StatusCallback()) const {
-    class ReadHandler : public ClientAsyncReadHandler {
-     public:
-      explicit ReadHandler(const OnMsg& on_msg) : on_msg_(on_msg) {}
-      std::string& GetMsg() GRPC_OVERRIDE { return msg_; }
-      void HandleMsg() GRPC_OVERRIDE { if (on_msg_) on_msg_(msg_); }
-     private:
-      OnMsg on_msg_;
-      std::string msg_;
-    };
-
-    auto handler_sptr = std::make_shared<ReadHandler>(on_msg);
+    auto handler_sptr = std::make_shared<ClientAsyncReadHandler>(on_msg);
     impl_sptr_->SetReadHandler(handler_sptr);
     impl_sptr_->SetOnStatus(on_status);
     impl_sptr_->Start();
