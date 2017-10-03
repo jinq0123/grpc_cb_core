@@ -9,7 +9,7 @@
 namespace grpc_cb_core {
 
 bool ServerWriterWriteCqTag::Start(
-    const ::google::protobuf::Message& message, bool send_init_md) {
+    const std::string& message, bool send_init_md) {
   CallOperations ops;
   if (send_init_md) {
     // Todo: set init_md

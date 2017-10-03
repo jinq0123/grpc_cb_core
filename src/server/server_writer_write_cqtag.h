@@ -19,8 +19,8 @@ class ServerWriterWriteCqTag GRPC_FINAL : public GeneralCallCqTag {
     assert(call_sptr);
   }
 
-  bool Start(const ::google::protobuf::Message& message,
-    bool send_init_md) GRPC_MUST_USE_RESULT;
+  bool Start(const std::string& message, bool send_init_md)
+      GRPC_MUST_USE_RESULT;
 
  private:
   CodSendInitMd cod_send_init_md_;
