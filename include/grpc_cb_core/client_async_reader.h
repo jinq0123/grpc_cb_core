@@ -17,7 +17,6 @@
 namespace grpc_cb_core {
 
 // Copyable. Thread-safe.
-template <class Response>
 class ClientAsyncReader GRPC_FINAL {
  public:
   ClientAsyncReader(const ChannelSptr& channel, const std::string& method,
@@ -27,17 +26,17 @@ class ClientAsyncReader GRPC_FINAL {
                                              timeout_ms)) {}
 
  public:
-  using OnMsg = std::function<void(const Response&)>;  // XXX
+  using OnMsg = std::function<void(const std::string&)>;
   void ReadEach(const OnMsg& on_msg,
       const StatusCallback& on_status = StatusCallback()) const {
     class ReadHandler : public ClientAsyncReadHandler {
      public:
       explicit ReadHandler(const OnMsg& on_msg) : on_msg_(on_msg) {}
-      Message& GetMsg() GRPC_OVERRIDE { return msg_; }
+      std::string& GetMsg() GRPC_OVERRIDE { return msg_; }
       void HandleMsg() GRPC_OVERRIDE { if (on_msg_) on_msg_(msg_); }
      private:
       OnMsg on_msg_;
-      Response msg_;  // XXX
+      std::string msg_;
     };
 
     auto handler_sptr = std::make_shared<ReadHandler>(on_msg);

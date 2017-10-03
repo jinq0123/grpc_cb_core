@@ -6,6 +6,7 @@
 
 #include <cassert>
 #include <cstdint>  // for int64_t
+#include <string>
 
 #include <grpc_cb_core/impl/client/client_async_read_handler.h>  // for ClientAsyncReadHandler
 #include <grpc_cb_core/impl/client/client_async_reader_writer_impl.h>  // for ClientAsyncReaderWriterImpl<>
@@ -15,7 +16,6 @@
 namespace grpc_cb_core {
 
 // Copyable. Thread-safe.
-template <class Request, class Response>  // XXX
 class ClientAsyncReaderWriter GRPC_FINAL {
  public:
   // Todo: Move on_status to Set()
@@ -29,9 +29,8 @@ class ClientAsyncReaderWriter GRPC_FINAL {
   }
 
  public:
-  bool Write(const Request& request) const {
-    auto msg_sptr = std::make_shared<Request>(request);
-    return impl_sptr_->Write(msg_sptr);
+  bool Write(const std::string& request) const {
+    return impl_sptr_->Write(request);
   }
 
   // Optional. Writing is auto closed in dtr().
@@ -40,17 +39,17 @@ class ClientAsyncReaderWriter GRPC_FINAL {
     impl_sptr_->CloseWriting();
   }
 
-  using OnRead = std::function<void(const Response&)>;
+  using OnRead = std::function<void(const std::string&)>;
   void ReadEach(const OnRead& on_read) {
 
     class ReadHandler : public ClientAsyncReadHandler {
      public:
       explicit ReadHandler(const OnRead& on_read) : on_read_(on_read) {}
-      Message& GetMsg() GRPC_OVERRIDE { return msg_; }
+      std::string& GetMsg() GRPC_OVERRIDE { return msg_; }
       void HandleMsg() GRPC_OVERRIDE { if (on_read_) on_read_(msg_); }
      private:
       OnRead on_read_;
-      string msg_;
+      std::string msg_;
     };
 
     auto handler_sptr = std::make_shared<ReadHandler>(on_read);
