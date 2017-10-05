@@ -7,14 +7,14 @@
 #include <cstdint>  // for int64_t
 #include <string>
 
-#include <grpc_cb_core/client/channel.h>                         // for MakeSharedCall()
-#include <grpc_cb_core/client/impl/client_sync_reader_data.h>  // for ClientSyncReaderDataSptr
+#include <grpc_cb_core/client/channel.h>  // for MakeSharedCall()
 #include <grpc_cb_core/client/impl/client_recv_init_md_cqtag.h>  // for ClientRecvInitMdCqTag
-#include <grpc_cb_core/client/impl/client_send_close_cqtag.h>    // for ClientSendCloseCqTag
+#include <grpc_cb_core/client/impl/client_send_close_cqtag.h>  // for ClientSendCloseCqTag
+#include <grpc_cb_core/client/impl/client_sync_reader_data.h>  // for ClientSyncReaderDataSptr
 #include <grpc_cb_core/client/impl/client_sync_reader_helper.h>  // for ClientSyncReaderHelper
 #include <grpc_cb_core/client/impl/client_sync_writer_helper.h>  // for ClientSyncWriterHelper
 #include <grpc_cb_core/common/impl/cqueue_for_pluck.h>  // for CQueueForPluck
-#include <grpc_cb_core/common/status.h>          // for Status
+#include <grpc_cb_core/common/status.h>                 // for Status
 
 namespace grpc_cb_core {
 

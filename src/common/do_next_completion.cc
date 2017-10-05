@@ -5,8 +5,8 @@
 
 #include <grpc/impl/codegen/grpc_types.h>  // for grpc_event
 
-#include <grpc_cb_core/common/impl/cqueue_for_next.h>      // for CQueueForNext
 #include <grpc_cb_core/common/impl/completion_queue_tag.h>  // for CompletionQueueTag
+#include <grpc_cb_core/common/impl/cqueue_for_next.h>       // for CQueueForNext
 
 namespace grpc_cb_core {
 

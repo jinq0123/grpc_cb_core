@@ -8,7 +8,7 @@
 
 #include <grpc_cb_core/common/impl/call_op_data.h>        // for CodSendMsg
 #include <grpc_cb_core/common/impl/general_call_cqtag.h>  // for GeneralCallCqTag
-#include <grpc_cb_core/common/support/config.h>    // for GRPC_FINAL
+#include <grpc_cb_core/common/support/config.h>           // for GRPC_FINAL
 
 namespace grpc_cb_core {
 

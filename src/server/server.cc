@@ -8,8 +8,8 @@
 #include <grpc/grpc.h>
 #include <grpc/grpc_security.h>  // for grpc_server_add_secure_http2_port()
 
-#include <grpc_cb_core/common/run.h>  // for Run()
 #include <grpc_cb_core/common/impl/cqueue_for_next.h>  // for CQueueForNext
+#include <grpc_cb_core/common/run.h>                   // for Run()
 #include <grpc_cb_core/server/security/server_credentials.h>  // for InsecureServerCredentials
 #include <grpc_cb_core/server/service.h>
 

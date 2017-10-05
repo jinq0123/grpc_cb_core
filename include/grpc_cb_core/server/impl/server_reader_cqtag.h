@@ -14,8 +14,8 @@
 #include <grpc_cb_core/common/impl/call_cqtag.h>       // for CallCqTag
 #include <grpc_cb_core/common/impl/call_op_data.h>     // for CodSendInitMd
 #include <grpc_cb_core/common/impl/call_operations.h>  // for CallOperations
-#include <grpc_cb_core/server_reader.h>         // for ServerReader
-#include <grpc_cb_core/common/support/config.h>  // for GRPC_FINAL
+#include <grpc_cb_core/common/support/config.h>        // for GRPC_FINAL
+#include <grpc_cb_core/server_reader.h>                // for ServerReader
 
 namespace grpc_cb_core {
 

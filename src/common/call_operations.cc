@@ -5,5 +5,4 @@
 
 namespace grpc_cb_core {
 
-
 }  // namespace grpc_cb_core

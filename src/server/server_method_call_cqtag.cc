@@ -3,9 +3,9 @@
 
 #include "server_method_call_cqtag.h"
 
-#include <grpc_cb_core/server/service.h>  // for Service
-#include <grpc_cb_core/common/impl/call.h>  // for Call
+#include <grpc_cb_core/common/impl/call.h>             // for Call
 #include <grpc_cb_core/common/impl/cqueue_for_next.h>  // for c_cq()
+#include <grpc_cb_core/server/service.h>               // for Service
 
 namespace grpc_cb_core {
 

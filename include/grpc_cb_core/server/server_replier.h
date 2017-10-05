@@ -7,7 +7,7 @@
 #include <memory>
 #include <string>
 
-#include <grpc_cb_core/common/impl/call_sptr.h>       // for CallSptr
+#include <grpc_cb_core/common/impl/call_sptr.h>            // for CallSptr
 #include <grpc_cb_core/server/impl/server_replier_impl.h>  // for ServerReplierImpl
 
 namespace grpc_cb_core {
