@@ -8,7 +8,7 @@
 #include <string>
 
 #include <grpc_cb_core/impl/call_sptr.h>                    // for CallSptr
-#include <grpc_cb_core/impl/client/client_send_msg_cqtag.h>    // for ClientSendMsgCqTag
+#include <grpc_cb_core/client/impl/client_send_msg_cqtag.h>    // for ClientSendMsgCqTag
 #include <grpc_cb_core/impl/cqueue_for_pluck.h>  // for Pluck()
 #include <grpc_cb_core/common/status.h>          // for Status
 

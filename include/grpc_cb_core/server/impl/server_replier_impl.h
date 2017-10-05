@@ -8,7 +8,7 @@
 #include <memory>
 
 #include <grpc_cb_core/impl/call_sptr.h>                   // for CallSptr
-#include <grpc_cb_core/impl/server/server_replier_cqtag.h>  // for ServerReplierCqTag
+#include <grpc_cb_core/server/impl/server_replier_cqtag.h>  // for ServerReplierCqTag
 
 namespace grpc_cb_core {
 

@@ -6,8 +6,8 @@
 #include <grpc_cb_core/common/run.h>  // for Run()
 #include <grpc_cb_core/client/channel.h>  // for GetCallTimeoutMs()
 #include <grpc_cb_core/impl/call.h>
-#include <grpc_cb_core/impl/client/client_async_call_cqtag.h>  // for ClientAsyncCallCqTag
-#include <grpc_cb_core/impl/client/client_call_cqtag.h>  // for ClientCallCqTag
+#include <grpc_cb_core/client/impl/client_async_call_cqtag.h>  // for ClientAsyncCallCqTag
+#include <grpc_cb_core/client/impl/client_call_cqtag.h>  // for ClientCallCqTag
 #include <grpc_cb_core/impl/cqueue_for_next.h>  // for CQueueForNext
 #include <grpc_cb_core/impl/cqueue_for_pluck.h>  // for CQueueForPluck
 

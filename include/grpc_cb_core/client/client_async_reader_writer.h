@@ -8,8 +8,8 @@
 #include <cstdint>  // for int64_t
 #include <string>
 
-#include <grpc_cb_core/impl/client/client_async_read_handler.h>  // for ClientAsyncReadHandler
-#include <grpc_cb_core/impl/client/client_async_reader_writer_impl.h>  // for ClientAsyncReaderWriterImpl<>
+#include <grpc_cb_core/client/impl/client_async_read_handler.h>  // for ClientAsyncReadHandler
+#include <grpc_cb_core/client/impl/client_async_reader_writer_impl.h>  // for ClientAsyncReaderWriterImpl<>
 #include <grpc_cb_core/client/status_callback.h>  // for StatusCallback
 #include <grpc_cb_core/common/support/config.h>   // for GRPC_FINAL
 

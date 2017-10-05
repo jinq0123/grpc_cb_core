@@ -1,7 +1,7 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#include <grpc_cb_core/impl/server/server_writer_impl.h>
+#include <grpc_cb_core/server/impl/server_writer_impl.h>
 
 #include <thread>  // for yield()
 

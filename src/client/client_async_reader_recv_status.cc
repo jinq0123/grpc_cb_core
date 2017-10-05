@@ -5,7 +5,7 @@
 
 #include <cassert>
 
-#include <grpc_cb_core/impl/client/client_reader_async_recv_status_cqtag.h>  // for ClientReaderAsyncRecvStatusCqTag
+#include <grpc_cb_core/client/impl/client_reader_async_recv_status_cqtag.h>  // for ClientReaderAsyncRecvStatusCqTag
 #include <grpc_cb_core/common/status.h>  // for Status
 
 namespace grpc_cb_core {

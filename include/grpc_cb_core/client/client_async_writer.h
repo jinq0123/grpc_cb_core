@@ -9,8 +9,8 @@
 #include <string>
 
 #include <grpc_cb_core/impl/channel_sptr.h>  // for ChannelSptr
-#include <grpc_cb_core/impl/client/client_async_writer_close_handler.h>  // for ClientAsyncWriterCloseHandler
-#include <grpc_cb_core/impl/client/client_async_writer_impl.h>  // for ClientAsyncWriterImpl
+#include <grpc_cb_core/client/impl/client_async_writer_close_handler.h>  // for ClientAsyncWriterCloseHandler
+#include <grpc_cb_core/client/impl/client_async_writer_impl.h>  // for ClientAsyncWriterImpl
 #include <grpc_cb_core/impl/completion_queue_sptr.h>  // for CompletionQueueSptr
 #include <grpc_cb_core/common/support/config.h>  // for GRPC_OVERRIDE
 

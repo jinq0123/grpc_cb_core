@@ -5,8 +5,8 @@
 
 #include <cassert>  // for assert()
 
-#include <grpc_cb_core/impl/client/client_async_read_handler.h>  // for HandleMsg()
-#include <grpc_cb_core/impl/client/client_reader_read_cqtag.h>  // for ClientReaderReadCqTag
+#include <grpc_cb_core/client/impl/client_async_read_handler.h>  // for HandleMsg()
+#include <grpc_cb_core/client/impl/client_reader_read_cqtag.h>  // for ClientReaderReadCqTag
 
 namespace grpc_cb_core {
 
