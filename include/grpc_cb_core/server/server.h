@@ -9,9 +9,9 @@
 
 #include <grpc/support/time.h>  // for gpr_inf_future()
 
-#include <grpc_cb_core/completion_queue_for_next_sptr.h>  // for CompletionQueueForNextSptr
+#include <grpc_cb_core/common/completion_queue_for_next_sptr.h>  // for CompletionQueueForNextSptr
 #include <grpc_cb_core/impl/grpc_library.h>  // for GrpcLibrary
-#include <grpc_cb_core/service_sptr.h>  // for ServiceSptr
+#include <grpc_cb_core/server/service_sptr.h>  // for ServiceSptr
 #include <grpc_cb_core/support/config.h>  // for GRPC_FINAL
 #include <grpc_cb_core/support/grpc_cb_core_api.h>  // for GRPC_CB_CORE_API
 #include <grpc_cb_core/support/time.h>  // for TimePoint

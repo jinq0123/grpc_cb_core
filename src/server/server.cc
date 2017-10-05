@@ -1,17 +1,17 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#include <grpc_cb_core/server.h>
+#include <grpc_cb_core/server/server.h>
 
 #include <algorithm>  // for for_each()
 
 #include <grpc/grpc.h>
 #include <grpc/grpc_security.h>  // for grpc_server_add_secure_http2_port()
 
-#include <grpc_cb_core/run.h>  // for Run()
-#include <grpc_cb_core/impl/cqueue_for_next.h>        // for CQueueForNext
-#include <grpc_cb_core/security/server_credentials.h>  // for InsecureServerCredentials
-#include <grpc_cb_core/service.h>
+#include <grpc_cb_core/common/run.h>  // for Run()
+#include <grpc_cb_core/impl/cqueue_for_next.h>  // for CQueueForNext
+#include <grpc_cb_core/server/security/server_credentials.h>  // for InsecureServerCredentials
+#include <grpc_cb_core/server/service.h>
 
 #include "server_method_call_cqtag.h"   // for ServerMethodCallCqTag
 
