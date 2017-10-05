@@ -1,11 +1,11 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#include <grpc_cb_core/run.h>
+#include <grpc_cb_core/common/run.h>
 
 #include "do_next_completion.h"  // for DoNextCompletion()
 
-#include <grpc_cb_core/completion_queue_for_next.h>  // for CompletionQueueForNext
+#include <grpc_cb_core/common/completion_queue_for_next.h>  // for CompletionQueueForNext
 
 namespace grpc_cb_core {
 

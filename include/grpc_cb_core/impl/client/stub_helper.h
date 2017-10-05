@@ -7,8 +7,8 @@
 #include <string>
 
 #include <grpc_cb_core/service_stub.h>  // for ServiceStub
-#include <grpc_cb_core/status.h>  // for Status
-#include <grpc_cb_core/status_callback.h>  // for ErrorCallback
+#include <grpc_cb_core/common/status.h>  // for Status
+#include <grpc_cb_core/client/status_callback.h>  // for ErrorCallback
 #include <grpc_cb_core/impl/client/wrap_response_callback.h>  // for WrapResponseCallback()
 
 namespace grpc_cb_core {

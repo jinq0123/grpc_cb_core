@@ -8,11 +8,11 @@
 #include <functional>  // for std::function
 #include <string>
 
-#include <grpc_cb_core/impl/channel_sptr.h>                      // for ChannelSptr
+#include <grpc_cb_core/impl/channel_sptr.h>  // for ChannelSptr
 #include <grpc_cb_core/impl/client/client_async_read_handler.h>  // for ClientAsyncReadHandler
 #include <grpc_cb_core/impl/client/client_async_reader_impl.h>  // for ClientAsyncReaderImpl
 #include <grpc_cb_core/impl/completion_queue_sptr.h>  // for CompletionQueueSptr
-#include <grpc_cb_core/status_callback.h>             // for StatusCallback
+#include <grpc_cb_core/client/status_callback.h>  // for StatusCallback
 
 namespace grpc_cb_core {
 

@@ -12,7 +12,7 @@
 #include <grpc/support/port_platform.h>    // for GRPC_MUST_USE_RESULT
 #include <grpc_cb_core/impl/call_op_data.h>     // for CodSendInitMd
 #include <grpc_cb_core/impl/metadata_vector.h>  // for MetadataVector
-#include <grpc_cb_core/status.h>                // for Status
+#include <grpc_cb_core/common/status.h>         // for Status
 #include <grpc_cb_core/support/config.h>        // for GRPC_FINAL
 #include <grpc_cb_core/support/slice.h>         // for SliceFromCopiedString()
 
