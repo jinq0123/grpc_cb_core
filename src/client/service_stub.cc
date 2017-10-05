@@ -1,10 +1,10 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#include <grpc_cb_core/service_stub.h>
+#include <grpc_cb_core/client/service_stub.h>
 
 #include <grpc_cb_core/run.h>  // for Run()
-#include <grpc_cb_core/channel.h>  // for GetCallTimeoutMs()
+#include <grpc_cb_core/client/channel.h>  // for GetCallTimeoutMs()
 #include <grpc_cb_core/impl/call.h>
 #include <grpc_cb_core/impl/client/client_async_call_cqtag.h>  // for ClientAsyncCallCqTag
 #include <grpc_cb_core/impl/client/client_call_cqtag.h>  // for ClientCallCqTag

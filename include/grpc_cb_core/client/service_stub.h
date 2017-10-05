@@ -10,7 +10,7 @@
 
 #include <grpc_cb_core/completion_queue_for_next.h>  // for CompletionQueueForNext
 #include <grpc_cb_core/completion_queue_for_next_sptr.h>  // for CompletionQueueForNextSptr
-#include <grpc_cb_core/channel.h>         // for MakeSharedCall()
+#include <grpc_cb_core/client/channel.h>         // for MakeSharedCall()
 #include <grpc_cb_core/impl/call_sptr.h>  // for CallSptr
 #include <grpc_cb_core/impl/channel_sptr.h>  // for ChannelSptr
 #include <grpc_cb_core/impl/cqueue_for_next.h>   // to convert GetCq4n() to CompletionQueue
