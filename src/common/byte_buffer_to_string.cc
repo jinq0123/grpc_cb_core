@@ -2,7 +2,7 @@
 
 #include <grpc/byte_buffer_reader.h>  // for grpc_byte_buffer_reader
 #include <grpc/byte_buffer.h>  // for grpc_byte_buffer_reader_init()
-#include <grpc_cb_core/support/slice.h>  // for StringFromCopiedSlice()
+#include <grpc_cb_core/common/support/slice.h>  // for StringFromCopiedSlice()
 
 namespace grpc_cb_core {
 

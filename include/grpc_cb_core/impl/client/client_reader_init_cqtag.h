@@ -11,7 +11,7 @@
 #include <grpc_cb_core/impl/call_cqtag.h>       // for CallCqTag
 #include <grpc_cb_core/impl/call_op_data.h>     // for CodSendInitMd
 #include <grpc_cb_core/impl/call_operations.h>  // for CallOperations
-#include <grpc_cb_core/support/config.h>        // for GRPC_FINAL
+#include <grpc_cb_core/common/support/config.h>  // for GRPC_FINAL
 
 namespace grpc_cb_core {
 

@@ -10,8 +10,8 @@
 #include <grpc/support/time.h>  // for gpr_timespec
 
 #include <grpc_cb_core/impl/cqueue_for_next_sptr.h>  // for CQueueForNextSptr
-#include <grpc_cb_core/impl/completion_queue_tag.h>   // for CompletionQueueTag
-#include <grpc_cb_core/support/config.h>              // for GRPC_FINAL
+#include <grpc_cb_core/impl/completion_queue_tag.h>  // for CompletionQueueTag
+#include <grpc_cb_core/common/support/config.h>      // for GRPC_FINAL
 
 struct grpc_call;
 

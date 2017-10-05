@@ -3,7 +3,7 @@
 #include <cassert>
 
 #include <grpc/grpc.h>
-#include <grpc_cb_core/support/time.h>
+#include <grpc_cb_core/common/support/time.h>
 
 namespace grpc_cb_core {
 

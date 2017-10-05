@@ -14,7 +14,7 @@
 #include <grpc_cb_core/impl/completion_queue_sptr.h>  // for CompletionQueueSptr
 #include <grpc_cb_core/common/status.h>               // for Status
 #include <grpc_cb_core/client/status_callback.h>      // for StatusCallback
-#include <grpc_cb_core/support/config.h>              // for GRPC_FINAL
+#include <grpc_cb_core/common/support/config.h>       // for GRPC_FINAL
 
 namespace grpc_cb_core {
 

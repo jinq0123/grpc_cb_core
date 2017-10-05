@@ -31,7 +31,7 @@
  *
  */
 
-#include <grpc_cb_core/support/string_ref.h>
+#include <grpc_cb_core/common/support/string_ref.h>
 
 #include <string.h>
 

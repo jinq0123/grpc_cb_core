@@ -9,7 +9,7 @@
 
 #include <grpc_cb_core/impl/call.h>
 #include <grpc_cb_core/impl/completion_queue.h>  // for CompletionQueue
-#include <grpc_cb_core/support/slice.h>  // for SliceFromCopiedString()
+#include <grpc_cb_core/common/support/slice.h>  // for SliceFromCopiedString()
 
 namespace grpc_cb_core {
 

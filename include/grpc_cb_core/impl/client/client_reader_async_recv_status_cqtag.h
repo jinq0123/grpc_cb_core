@@ -7,7 +7,7 @@
 #include <grpc_cb_core/impl/call_sptr.h>   // for CallSptr
 #include <grpc_cb_core/impl/client/client_reader_recv_status_cqtag.h>  // for ClientReaderRecvStatusCqTag
 #include <grpc_cb_core/client/status_callback.h>  // for StatusCallback
-#include <grpc_cb_core/support/config.h>   // for GRPC_FINAL
+#include <grpc_cb_core/common/support/config.h>   // for GRPC_FINAL
 
 namespace grpc_cb_core {
 

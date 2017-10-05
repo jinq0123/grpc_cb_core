@@ -37,7 +37,7 @@
 #include <iterator>
 #include <iosfwd>
 
-#include <grpc_cb_core/support/config.h>
+#include <grpc_cb_core/common/support/config.h>
 
 namespace grpc_cb_core {
 

@@ -3,7 +3,7 @@
 
 #include <grpc_cb_core/common/completion_queue_for_next.h>  // for CompletionQueueForNext
 #include <grpc_cb_core/common/completion_queue_for_next_sptr.h>  // for CompletionQueueForNextSptr
-#include <grpc_cb_core/support/grpc_cb_core_api.h>  // for GRPC_CB_CORE_API
+#include <grpc_cb_core/common/support/grpc_cb_core_api.h>  // for GRPC_CB_CORE_API
 
 namespace grpc_cb_core {
 

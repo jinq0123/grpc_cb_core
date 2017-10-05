@@ -11,8 +11,8 @@
 #include <grpc_cb_core/impl/call_sptr.h>  // for CallSptr
 #include <grpc_cb_core/impl/channel_sptr.h>  // for ChannelSptr
 #include <grpc_cb_core/impl/grpc_library.h>  // for GrpcLibrary
-#include <grpc_cb_core/support/config.h>  // for GRPC_OVERRIDE
-#include <grpc_cb_core/support/grpc_cb_core_api.h>  // for GRPC_CB_CORE_API
+#include <grpc_cb_core/common/support/config.h>  // for GRPC_OVERRIDE
+#include <grpc_cb_core/common/support/grpc_cb_core_api.h>  // for GRPC_CB_CORE_API
 
 struct grpc_channel;
 struct grpc_completion_queue;

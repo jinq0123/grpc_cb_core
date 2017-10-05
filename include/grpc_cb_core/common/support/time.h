@@ -35,7 +35,7 @@
 #define GRPC_CB_CORE_SUPPORT_TIME_H
 
 #include <grpc/support/time.h>
-#include <grpc_cb_core/support/config.h>
+#include <grpc_cb_core/common/support/config.h>
 
 namespace grpc_cb_core {
 

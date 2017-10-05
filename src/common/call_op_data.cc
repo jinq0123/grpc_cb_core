@@ -4,7 +4,7 @@
 #include <grpc_cb_core/impl/call_op_data.h>
 
 #include <grpc_cb_core/common/status.h>  // for Status
-#include <grpc_cb_core/support/slice.h>  // for StringFromCopiedSlice()
+#include <grpc_cb_core/common/support/slice.h>  // for StringFromCopiedSlice()
 
 #include "byte_buffer_to_string.h"  // for ByteBufferToString()
 

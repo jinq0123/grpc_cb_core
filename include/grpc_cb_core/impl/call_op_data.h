@@ -1,4 +1,3 @@
-#include "../support/noncopyable.h"
 #ifndef GRPC_CB_CORE_IMPL_CALL_OP_DATA_H
 #define GRPC_CB_CORE_IMPL_CALL_OP_DATA_H
 
@@ -10,8 +9,8 @@
 
 #include <grpc_cb_core/impl/metadata_vector.h>  // for MetadataVector
 #include <grpc_cb_core/common/status.h>         // for Status
-#include <grpc_cb_core/support/config.h>        // for GRPC_FINAL
-#include <grpc_cb_core/support/noncopyable.h>   // for noncopyable
+#include <grpc_cb_core/common/support/config.h>        // for GRPC_FINAL
+#include <grpc_cb_core/common/support/noncopyable.h>   // for noncopyable
 
 namespace grpc_cb_core {
 

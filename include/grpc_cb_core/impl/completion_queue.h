@@ -41,7 +41,7 @@
 
 #include <grpc_cb_core/impl/completion_queue_sptr.h>  // for CompletionQueueSptr
 #include <grpc_cb_core/impl/grpc_library.h>           // for GrpcLibrary
-#include <grpc_cb_core/support/config.h>  // for GRPC_OVERRIDE
+#include <grpc_cb_core/common/support/config.h>  // for GRPC_OVERRIDE
 
 struct grpc_completion_queue;
 struct grpc_event;

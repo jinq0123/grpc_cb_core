@@ -13,7 +13,7 @@
 
 #include <grpc_cb_core/impl/call_operations.h>  // for CallOperations
 #include <grpc_cb_core/impl/call_sptr.h>
-#include <grpc_cb_core/support/config.h>  // for GRPC_FINAL
+#include <grpc_cb_core/common/support/config.h>  // for GRPC_FINAL
 
 struct grpc_call;
 
