@@ -9,10 +9,10 @@
 #include <mutex>
 #include <string>
 
-#include <grpc_cb_core/impl/call_sptr.h>              // for CallSptr
+#include <grpc_cb_core/common/impl/call_sptr.h>              // for CallSptr
 #include <grpc_cb_core/client/channel_sptr.h>         // for ChannelSptr
 #include <grpc_cb_core/client/impl/client_async_writer_close_handler_sptr.h>  // for ClientAsyncWriterCloseHandlerSptr
-#include <grpc_cb_core/impl/completion_queue_sptr.h>  // for CompletionQueueSptr
+#include <grpc_cb_core/common/impl/completion_queue_sptr.h>  // for CompletionQueueSptr
 #include <grpc_cb_core/common/status.h>               // for Status
 #include <grpc_cb_core/common/support/config.h>       // for GRPC_FINAL
 

@@ -7,10 +7,10 @@
 #include <cassert>     // for assert()
 #include <string>
 
-#include <grpc_cb_core/impl/call_sptr.h>                              // for CallSptr
+#include <grpc_cb_core/common/impl/call_sptr.h>                              // for CallSptr
 #include <grpc_cb_core/client/impl/client_reader_read_cqtag.h>  // for ClientReaderReadCqTag
 #include <grpc_cb_core/client/impl/client_reader_recv_status_cqtag.h>  // for ClientReaderRecvStatusCqTag
-#include <grpc_cb_core/impl/cqueue_for_pluck.h>  // for Pluck()
+#include <grpc_cb_core/common/impl/cqueue_for_pluck.h>  // for Pluck()
 #include <grpc_cb_core/common/status.h>          // for Status
 
 namespace grpc_cb_core {

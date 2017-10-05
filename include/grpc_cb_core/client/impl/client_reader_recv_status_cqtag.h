@@ -6,11 +6,11 @@
 
 #include <grpc/support/port_platform.h>  // for GRPC_MUST_USE_RESULT
 
-#include <grpc_cb_core/impl/call.h>             // for StartBatch()
-#include <grpc_cb_core/impl/call_cqtag.h>       // for CallCqTag
-#include <grpc_cb_core/impl/call_op_data.h>     // for CodClientRecvStatus
-#include <grpc_cb_core/impl/call_operations.h>  // for CallOperations
-#include <grpc_cb_core/impl/call_sptr.h>        // for CallSptr
+#include <grpc_cb_core/common/impl/call.h>             // for StartBatch()
+#include <grpc_cb_core/common/impl/call_cqtag.h>       // for CallCqTag
+#include <grpc_cb_core/common/impl/call_op_data.h>     // for CodClientRecvStatus
+#include <grpc_cb_core/common/impl/call_operations.h>  // for CallOperations
+#include <grpc_cb_core/common/impl/call_sptr.h>        // for CallSptr
 
 namespace grpc_cb_core {
 

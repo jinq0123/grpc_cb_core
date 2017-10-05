@@ -3,7 +3,7 @@
 #ifndef GRPC_CB_CORE_IMPL_CQUEUE_FOR_NEXT_H
 #define GRPC_CB_CORE_IMPL_CQUEUE_FOR_NEXT_H
 
-#include <grpc_cb_core/impl/completion_queue.h>  // for CompletionQueue
+#include <grpc_cb_core/common/impl/completion_queue.h>  // for CompletionQueue
 
 namespace grpc_cb_core {
 

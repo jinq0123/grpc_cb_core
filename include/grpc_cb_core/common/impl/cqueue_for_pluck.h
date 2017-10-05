@@ -3,8 +3,8 @@
 #ifndef GRPC_CB_CORE_IMPL_CQUEUE_FOR_PLUCK_H
 #define GRPC_CB_CORE_IMPL_CQUEUE_FOR_PLUCK_H
 
-#include <grpc_cb_core/impl/completion_queue.h>  // for CompletionQueue
-#include <grpc_cb_core/impl/cqueue_for_pluck_sptr.h>
+#include <grpc_cb_core/common/impl/completion_queue.h>  // for CompletionQueue
+#include <grpc_cb_core/common/impl/cqueue_for_pluck_sptr.h>
 
 namespace grpc_cb_core {
 

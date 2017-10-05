@@ -4,8 +4,8 @@
 #include <memory>  // for shared_ptr<>
 #include <string>
 
-#include <grpc_cb_core/impl/call_sptr.h>              // for CallSptr
-#include <grpc_cb_core/impl/cqueue_for_pluck_sptr.h>  // for CQueueForPluckSptr
+#include <grpc_cb_core/common/impl/call_sptr.h>              // for CallSptr
+#include <grpc_cb_core/common/impl/cqueue_for_pluck_sptr.h>  // for CQueueForPluckSptr
 #include <grpc_cb_core/common/status.h>               // for Status
 #include <grpc_cb_core/client/status_callback.h>      // for StatusCallback
 

@@ -3,8 +3,8 @@
 
 #include "server_writer_write_cqtag.h"
 
-#include <grpc_cb_core/impl/call.h>                // for StartBatch()
-#include <grpc_cb_core/impl/call_operations.h>     // for CallOperations
+#include <grpc_cb_core/common/impl/call.h>                // for StartBatch()
+#include <grpc_cb_core/common/impl/call_operations.h>     // for CallOperations
 
 namespace grpc_cb_core {
 

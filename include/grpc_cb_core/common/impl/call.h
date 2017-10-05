@@ -11,8 +11,8 @@
 #include <grpc/grpc.h>
 #include <grpc/support/port_platform.h>  // for GRPC_MUST_USE_RESULT
 
-#include <grpc_cb_core/impl/call_operations.h>  // for CallOperations
-#include <grpc_cb_core/impl/call_sptr.h>
+#include <grpc_cb_core/common/impl/call_operations.h>  // for CallOperations
+#include <grpc_cb_core/common/impl/call_sptr.h>
 #include <grpc_cb_core/common/support/config.h>  // for GRPC_FINAL
 
 struct grpc_call;

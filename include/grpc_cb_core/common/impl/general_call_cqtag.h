@@ -7,7 +7,7 @@
 #include <cassert>  // for assert()
 #include <functional>  // for function<>
 
-#include <grpc_cb_core/impl/call_cqtag.h>  // for CallCqTag
+#include <grpc_cb_core/common/impl/call_cqtag.h>  // for CallCqTag
 #include <grpc_cb_core/common/support/config.h>  // for GRPC_OVERRIDE
 
 namespace grpc_cb_core {

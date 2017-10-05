@@ -6,8 +6,8 @@
 
 #include <cassert>
 
-#include <grpc_cb_core/impl/call_sptr.h>             // for CallSptr
-#include <grpc_cb_core/impl/completion_queue_tag.h>  // for CompletionQueueTag
+#include <grpc_cb_core/common/impl/call_sptr.h>             // for CallSptr
+#include <grpc_cb_core/common/impl/completion_queue_tag.h>  // for CompletionQueueTag
 
 namespace grpc_cb_core {
 
