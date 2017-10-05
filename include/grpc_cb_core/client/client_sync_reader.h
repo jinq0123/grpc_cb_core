@@ -8,7 +8,7 @@
 #include <cstdint>  // for int64_t
 #include <string>
 
-#include <grpc_cb_core/channel.h>  // for MakeSharedCall()
+#include <grpc_cb_core/client/channel.h>  // for MakeSharedCall()
 #include <grpc_cb_core/client/impl/client_sync_reader_data.h>  // for ClientSyncReaderDataSptr
 #include <grpc_cb_core/client/impl/client_reader_init_cqtag.h>  // for ClientReaderInitCqTag
 #include <grpc_cb_core/client/impl/client_sync_reader_helper.h>  // for ClientSyncReaderHelper
