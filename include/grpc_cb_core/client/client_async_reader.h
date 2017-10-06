@@ -28,10 +28,10 @@ class ClientAsyncReader GRPC_FINAL {
  public:
   using OnMsg = std::function<void(const std::string&)>;
   void ReadEach(const OnMsg& on_msg,
-      const StatusCb& on_status = StatusCb()) const {
+      const StatusCb& status_cb = StatusCb()) const {
     auto handler_sptr = std::make_shared<ClientAsyncReadHandler>(on_msg);
     impl_sptr_->SetReadHandler(handler_sptr);
-    impl_sptr_->SetOnStatus(on_status);
+    impl_sptr_->SetStatusCb(status_cb);
     impl_sptr_->Start();
   }
 

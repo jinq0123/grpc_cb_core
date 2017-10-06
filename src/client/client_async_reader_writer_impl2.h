@@ -34,7 +34,7 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
                                const std::string& method,
                                const CompletionQueueSptr& cq_sptr,
                                int64_t timeout_ms,
-                               const StatusCb& on_status);
+                               const StatusCb& status_cb);
   ~ClientAsyncReaderWriterImpl2();
 
  public:
@@ -58,7 +58,7 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
   void SetInternalError(const std::string& sError);
   bool IsReadingEnded() const;
   bool IsWritingEnded() const;
-  void CallOnStatus();
+  void CallStatusCb();
 
  private:
   // Callbacks will lock again.
@@ -70,7 +70,7 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
   Status status_;
 
   ReadHandlerSptr read_handler_sptr_;
-  StatusCb on_status_;  // XXX cb on_status
+  StatusCb status_cb_;  // XXX cb status_cb
 
   bool reading_started_ = false;  // ReadEach() to trigger reading.
   bool writing_started_ = false;  // Write() to trigger writing.

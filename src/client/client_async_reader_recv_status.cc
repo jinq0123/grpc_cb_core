@@ -11,16 +11,16 @@
 namespace grpc_cb_core {
 namespace ClientAsyncReader {
 
-void RecvStatus(const CallSptr& call_sptr, const StatusCb& on_status) {
+void RecvStatus(const CallSptr& call_sptr, const StatusCb& status_cb) {
   assert(call_sptr);
 
   auto* tag = new ClientReaderAsyncRecvStatusCqTag(call_sptr);
-  tag->SetOnStatus(on_status);
+  tag->SetStatusCb(status_cb);
   if (tag->Start()) return;
 
   delete tag;
-  if (on_status)
-    on_status(Status::InternalError("Failed to receive status."));
+  if (status_cb)
+    status_cb(Status::InternalError("Failed to receive status."));
 }
 
 }  // namespace ClientAsyncReader

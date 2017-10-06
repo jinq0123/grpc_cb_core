@@ -20,9 +20,9 @@ using Sptr = std::shared_ptr<ClientAsyncReaderWriterImpl2>;
 ClientAsyncReaderWriterImpl2::ClientAsyncReaderWriterImpl2(
     const ChannelSptr& channel, const std::string& method,
     const CompletionQueueSptr& cq_sptr, int64_t timeout_ms,
-    const StatusCb& on_status)
+    const StatusCb& status_cb)
     : call_sptr_(channel->MakeSharedCall(method, *cq_sptr, timeout_ms)),
-      on_status_(on_status) {
+      status_cb_(status_cb) {
   assert(cq_sptr);
   assert(call_sptr_);
 
@@ -90,7 +90,7 @@ void ClientAsyncReaderWriterImpl2::SendCloseIfNot() {
   ClientSendCloseCqTag* tag = new ClientSendCloseCqTag(call_sptr_);
   if (tag->Start()) return;
   delete tag;
-  SetInternalError("Failed to close writing.");  // calls on_status_
+  SetInternalError("Failed to close writing.");  // calls status_cb_
 }
 
 // Todo: same as ClientReader?
@@ -121,7 +121,7 @@ void ClientAsyncReaderWriterImpl2::OnEndOfReading() {
   if (!status_.ok()) return;
   status_ = r_status;
   if (!status_.ok() || IsWritingEnded())
-    CallOnStatus();
+    CallStatusCb();
 }
 
 void ClientAsyncReaderWriterImpl2::OnEndOfWriting() {
@@ -133,7 +133,7 @@ void ClientAsyncReaderWriterImpl2::OnEndOfWriting() {
   if (!status_.ok()) return;
   status_ = w_status;
   if (!status_.ok()) {
-    CallOnStatus();
+    CallStatusCb();
     return;
   }
 
@@ -144,7 +144,7 @@ void ClientAsyncReaderWriterImpl2::OnEndOfWriting() {
 // Set status and callback and reset helpers.
 void ClientAsyncReaderWriterImpl2::SetInternalError(const std::string& sError) {
   status_.SetInternalError(sError);
-  CallOnStatus();
+  CallStatusCb();
 
   if (reader_sptr_) {
     reader_sptr_->Abort();
@@ -164,10 +164,10 @@ bool ClientAsyncReaderWriterImpl2::IsWritingEnded() const {
   return writing_started_ && !writer_sptr_;
 }
 
-void ClientAsyncReaderWriterImpl2::CallOnStatus() {
-  if (!on_status_) return;
-  on_status_(status_);
-  on_status_ = StatusCb();
+void ClientAsyncReaderWriterImpl2::CallStatusCb() {
+  if (!status_cb_) return;
+  status_cb_(status_);
+  status_cb_ = StatusCb();
 }
 
 }  // namespace grpc_cb_core

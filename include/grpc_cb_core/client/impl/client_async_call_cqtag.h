@@ -46,7 +46,7 @@ class ClientAsyncCallCqTag GRPC_FINAL : public ClientCallCqTag {
   };
 
  private:
-  void CallErrorCb(const Status& status) const {  // XXX cb
+  void CallErrorCb(const Status& status) const {
     if (error_cb_)
       error_cb_(status);
   }

@@ -30,7 +30,7 @@ ClientAsyncReaderImpl::ClientAsyncReaderImpl(
 
   delete tag;
   status_.SetInternalError("Failed to start async client reader.");
-  CallOnStatus();
+  CallStatusCb();
 }
 
 ClientAsyncReaderImpl::~ClientAsyncReaderImpl() {}
@@ -41,13 +41,13 @@ void ClientAsyncReaderImpl::SetReadHandler(
   read_handler_sptr_ = handler;
 }
 
-void ClientAsyncReaderImpl::SetOnStatus(const StatusCb& on_status) {
+void ClientAsyncReaderImpl::SetStatusCb(const StatusCb& status_cb) {
   Guard g(mtx_);
-  if (set_on_status_once_) return;
-  set_on_status_once_ = true;
-  on_status_ = on_status;
+  if (set_status_cb_once_) return;
+  set_status_cb_once_ = true;
+  status_cb_ = status_cb;
   if (!status_.ok())
-    CallOnStatus();
+    CallStatusCb();
 }
 
 void ClientAsyncReaderImpl::Start() {
@@ -74,17 +74,17 @@ void ClientAsyncReaderImpl::OnEndOfReading() {
   if (!status_.ok()) return;
   status_ = r_status;
   if (status_.ok()) {
-    ClientAsyncReader::RecvStatus(call_sptr_, on_status_);
+    ClientAsyncReader::RecvStatus(call_sptr_, status_cb_);
     return;
   }
 
-  CallOnStatus();
+  CallStatusCb();
 }
 
-void ClientAsyncReaderImpl::CallOnStatus() {
-  if (!on_status_) return;
-  on_status_(status_);
-  on_status_ = StatusCb();
+void ClientAsyncReaderImpl::CallStatusCb() {
+  if (!status_cb_) return;
+  status_cb_(status_);
+  status_cb_ = StatusCb();
 }
 
 }  // namespace grpc_cb_core

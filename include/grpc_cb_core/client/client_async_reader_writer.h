@@ -18,12 +18,12 @@ namespace grpc_cb_core {
 // Copyable. Thread-safe.
 class ClientAsyncReaderWriter GRPC_FINAL {
  public:
-  // Todo: Move on_status to Set()
+  // Todo: Move status_cb to Set()
   ClientAsyncReaderWriter(const ChannelSptr& channel, const std::string& method,
                           const CompletionQueueSptr& cq_sptr,
                           int64_t timeout_ms,
-                          const StatusCb& on_status = StatusCb())
-      : impl_sptr_(new Impl(channel, method, cq_sptr, timeout_ms, on_status)) {
+                          const StatusCb& status_cb = StatusCb())
+      : impl_sptr_(new Impl(channel, method, cq_sptr, timeout_ms, status_cb)) {
     assert(cq_sptr);
     assert(channel);
   }

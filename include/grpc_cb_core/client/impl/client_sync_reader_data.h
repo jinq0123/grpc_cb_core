@@ -21,7 +21,7 @@ struct ClientSyncReaderData {
 
     using MsgCallback = std::function<void(const std::string&)>;
     MsgCallback on_msg;
-    StatusCb on_status;
+    StatusCb status_cb;
 };
 
 using ClientSyncReaderDataSptr = std::shared_ptr<ClientSyncReaderData>;

@@ -9,7 +9,7 @@
 
 namespace grpc_cb_core {
 namespace ClientAsyncReader {
-void RecvStatus(const CallSptr& call_sptr, const StatusCb& on_status);
+void RecvStatus(const CallSptr& call_sptr, const StatusCb& status_cb);
 }  // namespace ClientAsyncReader
 }  // namespace grpc_cb_core
 #endif  // GRPC_CB_CORE_CLIENT_CLIENT_ASYNC_READER_RECV_STATUS_H

@@ -32,7 +32,7 @@ class ClientAsyncReaderImpl GRPC_FINAL
  public:
   // ReadHandler must be set before Start().
   void SetReadHandler(const ClientAsyncReadHandlerSptr& handler);
-  void SetOnStatus(const StatusCb& on_status);
+  void SetStatusCb(const StatusCb& status_cb);
   void Start();
 
   // Todo: Stop reading any more...
@@ -41,7 +41,7 @@ class ClientAsyncReaderImpl GRPC_FINAL
   // Reader callback on end with status.
   void OnEndOfReading();
 
-  void CallOnStatus();
+  void CallStatusCb();
 
  private:
   // ReaderHelper callback will lock again.
@@ -54,8 +54,8 @@ class ClientAsyncReaderImpl GRPC_FINAL
   bool reading_started_{ false };
 
   ClientAsyncReadHandlerSptr read_handler_sptr_;
-  StatusCb on_status_;
-  bool set_on_status_once_ = false;  // set on_status_ only once
+  StatusCb status_cb_;
+  bool set_status_cb_once_ = false;  // set status_cb_ only once
 
   // ReaderHelper will be shared by CqTag.
   std::shared_ptr<ClientAsyncReaderHelper> reader_sptr_;

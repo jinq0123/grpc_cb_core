@@ -20,24 +20,24 @@ class ClientReaderAsyncRecvStatusCqTag GRPC_FINAL
     assert(call_sptr);
   }
 
-  void SetOnStatus(const StatusCb& on_status) {
-    on_status_ = on_status;
+  void SetStatusCb(const StatusCb& status_cb) {
+    status_cb_ = status_cb;
   }
 
  public:
   inline void DoComplete(bool success) GRPC_OVERRIDE;
 
  private:
-  StatusCb on_status_;
+  StatusCb status_cb_;
 };  // class ClientReaderAsyncRecvStatusCqTag
 
 void ClientReaderAsyncRecvStatusCqTag::DoComplete(bool success) {
-  if (!on_status_) return;
+  if (!status_cb_) return;
   if (success) {
-    on_status_(GetStatus());
+    status_cb_(GetStatus());
     return;
   }
-  on_status_(Status::InternalError("Failed to receive status."));
+  status_cb_(Status::InternalError("Failed to receive status."));
 }
 
 }  // namespace grpc_cb_core
