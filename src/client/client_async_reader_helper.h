@@ -23,10 +23,10 @@ class ClientReaderReadCqTag;
 class ClientAsyncReaderHelper GRPC_FINAL
     : public std::enable_shared_from_this<ClientAsyncReaderHelper> {
  public:
-  using OnEnd = std::function<void()>;
+  using EndCb = std::function<void()>;
   ClientAsyncReaderHelper(CallSptr call_sptr,
                           const ClientAsyncReadHandlerSptr& read_handler_sptr,
-                          const OnEnd& on_end);
+                          const EndCb& end_cb);
   ~ClientAsyncReaderHelper();
 
  public:
@@ -48,7 +48,7 @@ class ClientAsyncReaderHelper GRPC_FINAL
   bool started_{ false };
 
   const ClientAsyncReadHandlerSptr read_handler_sptr_;
-  const OnEnd on_end_;
+  const EndCb end_cb_;
 };  // ClientAsyncReaderHelper
 
 }  // namespace grpc_cb_core

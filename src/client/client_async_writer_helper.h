@@ -25,16 +25,16 @@ namespace grpc_cb_core {
 class ClientAsyncWriterHelper GRPC_FINAL
     : public std::enable_shared_from_this<ClientAsyncWriterHelper> {
  public:
-  using OnEnd = std::function<void()>;
+  using EndCb = std::function<void()>;  // XXX cb
   ClientAsyncWriterHelper(const CallSptr& call_sptr,
-                          const OnEnd& on_end);
+                          const EndCb& end_cb);  // XXX cb
   ~ClientAsyncWriterHelper();
 
  public:
   bool Queue(const std::string& msg);
 
   // Set the end of messages. Differ with the close.
-  // Do not queue further. May trigger on_end().
+  // Do not queue further. May trigger end_cb().
   void QueueEnd();
 
   void Abort() { aborted_ = true; }  // Abort writing. Stop sending.
@@ -49,7 +49,7 @@ class ClientAsyncWriterHelper GRPC_FINAL
  private:
   const CallSptr call_sptr_;
   bool aborted_ = false;  // to abort writer
-  const OnEnd on_end_;  // callback on the end
+  const EndCb end_cb_;  // callback on the end
   Status status_;
 
   std::queue<std::string> msg_queue_;  // Cache messages to write.

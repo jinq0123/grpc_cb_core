@@ -11,13 +11,13 @@
 namespace grpc_cb_core {
 
 ClientAsyncReaderHelper::ClientAsyncReaderHelper(CallSptr call_sptr,
-    const ClientAsyncReadHandlerSptr& read_handler_sptr, const OnEnd& on_end)
+    const ClientAsyncReadHandlerSptr& read_handler_sptr, const EndCb& end_cb)
     : call_sptr_(call_sptr),
       read_handler_sptr_(read_handler_sptr),
-      on_end_(on_end) {
+      end_cb_(end_cb) {
   assert(call_sptr);
   assert(read_handler_sptr);
-  assert(on_end);
+  assert(end_cb);
 }
 
 ClientAsyncReaderHelper::~ClientAsyncReaderHelper() {}
@@ -44,28 +44,28 @@ void ClientAsyncReaderHelper::Next() {
 
   delete tag;
   status_.SetInternalError("Failed to async read server stream.");
-  on_end_();
+  end_cb_();
 }
 
 void ClientAsyncReaderHelper::OnRead(bool success, ClientReaderReadCqTag& tag) {
   if (aborted_)  // Maybe writer failed.
     return;
   assert(status_.ok());
-  assert(on_end_);
+  assert(end_cb_);
   if (!success) {
     status_.SetInternalError("ClientReaderReadCqTag failed.");
-    on_end_();
+    end_cb_();
     return;
   }
   if (!tag.HasGotMsg()) {
     // End of read. Do not recv status in Reader. Do it after all reading and writing.
-    on_end_();
+    end_cb_();
     return;
   }
 
   status_ = tag.GetResultMsg(read_handler_sptr_->GetMsg());
   if (!status_.ok()) {
-    on_end_();
+    end_cb_();
     return;
   }
 

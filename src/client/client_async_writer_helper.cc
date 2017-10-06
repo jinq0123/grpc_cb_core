@@ -13,10 +13,10 @@ namespace grpc_cb_core {
 // Todo: thread-safe
 
 ClientAsyncWriterHelper::ClientAsyncWriterHelper(
-    const CallSptr& call_sptr, const OnEnd& on_end)
-    : call_sptr_(call_sptr), on_end_(on_end) {
+    const CallSptr& call_sptr, const EndCb& end_cb)
+    : call_sptr_(call_sptr), end_cb_(end_cb) {
   assert(call_sptr);
-  assert(on_end);
+  assert(end_cb);
 }
 
 ClientAsyncWriterHelper::~ClientAsyncWriterHelper() {}
@@ -37,9 +37,9 @@ void ClientAsyncWriterHelper::QueueEnd() {
   if (is_queue_ended_) return;
   if (aborted_) return;
   is_queue_ended_ = true;
-  if (is_writing_) return;  // call on_end() in OnWritten()
+  if (is_writing_) return;  // call end_cb() in OnWritten()
   assert(msg_queue_.empty());
-  on_end_();
+  end_cb_();
 }
 
 bool ClientAsyncWriterHelper::WriteNext() {
@@ -62,7 +62,7 @@ bool ClientAsyncWriterHelper::WriteNext() {
 
   delete tag;
   status_.SetInternalError("Failed to write client stream.");
-  on_end_();  // error end
+  end_cb_();  // error end
   return false;
 }
 
@@ -72,7 +72,7 @@ void ClientAsyncWriterHelper::OnWritten(bool success) {
   is_writing_ = false;
   if (!success) {
     status_.SetInternalError("ClientSendMsgCqTag failed in ClientAsyncWriterHelper.");
-    on_end_();  // error end
+    end_cb_();  // error end
     return;
   }
   if (!msg_queue_.empty()) {
@@ -81,7 +81,7 @@ void ClientAsyncWriterHelper::OnWritten(bool success) {
   }
 
   if (is_queue_ended_)
-    on_end_();  // normal end
+    end_cb_();  // normal end
 }
 
 }  // namespace grpc_cb_core

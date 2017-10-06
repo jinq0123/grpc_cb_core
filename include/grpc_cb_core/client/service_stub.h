@@ -39,11 +39,11 @@ class GRPC_CB_CORE_API ServiceStub {
   }
   // Non-null channel sptr.
   ChannelSptr GetChannelSptr() const { return channel_sptr_; }
-  const ErrorCb& GetErrorCallback() const {  // XXX
+  const ErrorCb& GetErrorCb() const {
     return error_cb_;
   }
   // non-thread-safe
-  void SetErrorCallback(const ErrorCb& error_cb) {  // XXX
+  void SetErrorCb(const ErrorCb& error_cb) {
     error_cb_ = error_cb;
   }
 
