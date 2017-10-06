@@ -44,18 +44,18 @@ Status ServiceStub::SyncRequest(const string& method, const string& request,
 
 void ServiceStub::AsyncRequest(const string& method, const string& request,
                                const ResponseCb& response_cb,
-                               const ErrorCb& on_error) {
+                               const ErrorCb& error_cb) {
   CallSptr call_sptr(MakeSharedCall(method));
   using CqTag = ClientAsyncCallCqTag;
   CqTag* tag = new CqTag(call_sptr);
   tag->SetResponseCb(response_cb);
-  tag->SetOnError(on_error);  // XXX cb
+  tag->SetErrorCb(error_cb);  // XXX cb
   if (tag->Start(request))
     return;
 
   delete tag;
-  if (on_error)
-    on_error(Status::InternalError("Failed to async request."));
+  if (error_cb)
+    error_cb(Status::InternalError("Failed to async request."));
 }
 
 // Blocking run stub.

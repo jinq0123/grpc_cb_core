@@ -7,15 +7,14 @@
 #include <string>
 
 #include <grpc_cb_core/client/impl/client_call_cqtag.h>  // for ClientCallCqTag
-#include <grpc_cb_core/client/response_cb.h>         // for ResponseCb
-// XXX callback -> cb
-#include <grpc_cb_core/client/status_cb.h>         // for ErrorCb
+#include <grpc_cb_core/client/response_cb.h>             // for ResponseCb
+#include <grpc_cb_core/client/status_cb.h>               // for ErrorCb
 #include <grpc_cb_core/common/support/config.h>          // for GRPC_FINAL
 
 namespace grpc_cb_core {
 
 // Completion queue tag (CqTag) for client async call.
-// Derived from ClientCallCqTag, adding response_cb, on_error.
+// Derived from ClientCallCqTag, adding response_cb, error_cb.
 class ClientAsyncCallCqTag GRPC_FINAL : public ClientCallCqTag {
  public:
   explicit ClientAsyncCallCqTag(const CallSptr call_sptr)
@@ -25,9 +24,8 @@ class ClientAsyncCallCqTag GRPC_FINAL : public ClientCallCqTag {
   void SetResponseCb(const ResponseCb& response_cb) {
     response_cb_ = response_cb;
   }
-  // XXX OnError -> ErrorCb, on_error->error_cb
-  void SetOnError(const ErrorCb& on_error) {
-    on_error_ = on_error;
+  void SetErrorCb(const ErrorCb& error_cb) {
+    error_cb_ = error_cb;
   }
 
  public:
@@ -49,13 +47,13 @@ class ClientAsyncCallCqTag GRPC_FINAL : public ClientCallCqTag {
 
  private:
   void CallOnError(const Status& status) const {  // XXX cb
-    if (on_error_)
-      on_error_(status);
+    if (error_cb_)
+      error_cb_(status);
   }
 
  private:
   ResponseCb response_cb_;
-  ErrorCb on_error_;
+  ErrorCb error_cb_;
 };  // class ClientAsyncCallCqTag
 
 }  // namespace grpc_cb_core

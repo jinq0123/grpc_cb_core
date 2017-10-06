@@ -78,7 +78,7 @@ class GRPC_CB_CORE_API ServiceStub {
 
   void AsyncRequest(const string& method, const string& request,
                     const ResponseCb& response_cb,
-                    const ErrorCb& on_error = GetDefaultErrorCallback());
+                    const ErrorCb& error_cb = GetDefaultErrorCallback());
 
  public:
   void Run();
