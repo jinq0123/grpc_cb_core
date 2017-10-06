@@ -8,7 +8,7 @@
 #include <memory>  // for shared_ptr
 #include <string>
 
-#include <grpc_cb_core/client/impl/client_sync_reader_writer_impl.h>  // for ClientSyncReaderWriterImpl<>
+#include <grpc_cb_core/client/impl/client_sync_reader_writer_impl.h>  // for ClientSyncReaderWriterImpl
 
 namespace grpc_cb_core {
 
@@ -42,7 +42,7 @@ class ClientSyncReaderWriter GRPC_FINAL {
  private:
   using Impl = ClientSyncReaderWriterImpl;
   const std::shared_ptr<Impl> impl_sptr_;
-};  // class ClientSyncReaderWriter<>
+};  // class ClientSyncReaderWriter
 
 // Todo: SyncGetInitMd();
 

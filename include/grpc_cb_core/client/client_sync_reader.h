@@ -42,7 +42,7 @@ class ClientSyncReader GRPC_FINAL {
   using Data = ClientSyncReaderData;
   using DataSptr = ClientSyncReaderDataSptr;
   DataSptr data_sptr_;
-};  // class ClientSyncReader<>
+};  // class ClientSyncReader
 
 ClientSyncReader::ClientSyncReader(
     const ChannelSptr& channel, const std::string& method,

@@ -9,7 +9,7 @@
 
 #include <grpc_cb_core/server_reader.h>  // for ServerReader
 #include <grpc_cb_core/common/support/config.h>  // for GRPC_OVERRIDE
-#include <grpc_cb_core/server_writer.h>  // for ServerWriter<>
+#include <grpc_cb_core/server_writer.h>  // for ServerWriter
 
 namespace grpc_cb_core {
 

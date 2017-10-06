@@ -9,7 +9,7 @@
 #include <string>
 
 #include <grpc_cb_core/client/impl/client_async_read_handler.h>  // for ClientAsyncReadHandler
-#include <grpc_cb_core/client/impl/client_async_reader_writer_impl.h>  // for ClientAsyncReaderWriterImpl<>
+#include <grpc_cb_core/client/impl/client_async_reader_writer_impl.h>  // for ClientAsyncReaderWriterImpl
 #include <grpc_cb_core/client/msg_cb.h>  // for MsgCb
 #include <grpc_cb_core/client/status_cb.h>  // for StatusCb
 #include <grpc_cb_core/common/support/config.h>   // for GRPC_FINAL
@@ -48,7 +48,7 @@ class ClientAsyncReaderWriter GRPC_FINAL {
  private:
   using Impl = ClientAsyncReaderWriterImpl;
   const std::shared_ptr<Impl> impl_sptr_;
-};  // class ClientAsyncReaderWriter<>
+};  // class ClientAsyncReaderWriter
 
 }  // namespace grpc_cb_core
 

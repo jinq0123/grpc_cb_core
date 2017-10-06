@@ -49,7 +49,7 @@ class ClientSyncReaderWriterImpl GRPC_FINAL {
   DataSptr data_sptr_;  // Same as reader. Easy to copy.
   bool writing_closed_ = false;  // Is SyncCloseWriting() called?
   bool init_md_received_ = false;  // to receive init metadata once
-};  // class ClientSyncReaderWriterImpl<>
+};  // class ClientSyncReaderWriterImpl
 
 // Todo: SyncGetInitMd();
 

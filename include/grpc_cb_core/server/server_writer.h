@@ -52,7 +52,7 @@ class ServerWriter GRPC_FINAL {
 
  private:
   const std::shared_ptr<ServerWriterImpl> impl_sptr_;
-};  // class ServerWriter<>
+};  // class ServerWriter
 
 }  // namespace grpc_cb_core
 

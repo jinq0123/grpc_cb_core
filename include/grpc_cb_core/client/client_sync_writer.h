@@ -44,7 +44,7 @@ class ClientSyncWriter GRPC_FINAL {
   using DataSptr = std::shared_ptr<Data>;
 
   DataSptr data_sptr_;  // Easy to copy.
-};  // class ClientSyncWriter<>
+};  // class ClientSyncWriter
 
 ClientSyncWriter::ClientSyncWriter(const ChannelSptr& channel,
                                    const std::string& method,

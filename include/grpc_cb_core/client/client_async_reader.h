@@ -37,7 +37,7 @@ class ClientAsyncReader GRPC_FINAL {
 
  private:
   const std::shared_ptr<ClientAsyncReaderImpl> impl_sptr_;
-};  // class ClientAsyncReader<>
+};  // class ClientAsyncReader
 
 }  // namespace grpc_cb_core
 #endif  // GRPC_CB_CORE_CLIENT_ASYNC_READER_H
