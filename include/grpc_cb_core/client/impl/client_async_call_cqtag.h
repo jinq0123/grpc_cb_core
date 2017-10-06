@@ -31,7 +31,7 @@ class ClientAsyncCallCqTag GRPC_FINAL : public ClientCallCqTag {
  public:
   void DoComplete(bool success) GRPC_OVERRIDE {
     if (!success) {
-      CallOnError(Status::InternalError("ClientAsyncCallCqTag failed."));
+      CallErrorCb(Status::InternalError("ClientAsyncCallCqTag failed."));
       return;
     }
 
@@ -42,11 +42,11 @@ class ClientAsyncCallCqTag GRPC_FINAL : public ClientCallCqTag {
         response_cb_(resp);
       return;
     }
-    CallOnError(status);
+    CallErrorCb(status);
   };
 
  private:
-  void CallOnError(const Status& status) const {  // XXX cb
+  void CallErrorCb(const Status& status) const {  // XXX cb
     if (error_cb_)
       error_cb_(status);
   }
