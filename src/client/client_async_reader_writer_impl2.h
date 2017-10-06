@@ -70,7 +70,7 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
   Status status_;
 
   ReadHandlerSptr read_handler_sptr_;
-  StatusCb status_cb_;  // XXX cb status_cb
+  StatusCb status_cb_;
 
   bool reading_started_ = false;  // ReadEach() to trigger reading.
   bool writing_started_ = false;  // Write() to trigger writing.

@@ -49,7 +49,7 @@ void ServiceStub::AsyncRequest(const string& method, const string& request,
   using CqTag = ClientAsyncCallCqTag;
   CqTag* tag = new CqTag(call_sptr);
   tag->SetResponseCb(response_cb);
-  tag->SetErrorCb(error_cb);  // XXX cb
+  tag->SetErrorCb(error_cb);
   if (tag->Start(request))
     return;
 

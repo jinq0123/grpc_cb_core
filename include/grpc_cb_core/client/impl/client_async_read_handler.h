@@ -14,13 +14,13 @@ namespace grpc_cb_core {
 // Handler to async read.
 class ClientAsyncReadHandler GRPC_FINAL {
  public:
-  explicit ClientAsyncReadHandler(const MsgCb& msg_cb) : on_msg_(msg_cb) {}
+  explicit ClientAsyncReadHandler(const MsgCb& msg_cb) : msg_cb_(msg_cb) {}
 
   std::string& GetMsg() { return msg_; }
-  void HandleMsg() { if (on_msg_) on_msg_(msg_); }
+  void HandleMsg() { if (msg_cb_) msg_cb_(msg_); }
 
  private:
-  MsgCb on_msg_;
+  MsgCb msg_cb_;
   std::string msg_;
 };  // class ClientAsyncReadHandler
 

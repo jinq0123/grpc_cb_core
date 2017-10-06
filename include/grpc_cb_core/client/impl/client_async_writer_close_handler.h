@@ -16,6 +16,7 @@ class Status;
 // Handler for client async writer.
 class ClientAsyncWriterCloseHandler GRPC_FINAL {
  public:
+     // XXX cb
   using ClosedCallback = std::function<void (const Status&, const std::string&)>;
   explicit ClientAsyncWriterCloseHandler(
       const ClosedCallback& on_closed = ClosedCallback())
