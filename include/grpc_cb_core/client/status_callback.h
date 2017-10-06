@@ -7,9 +7,10 @@
 #include <functional>  // for std::function()
 
 namespace grpc_cb_core {
-class Status;
-using StatusCallback = std::function<void (const Status& status)>;
-using ErrorCallback = StatusCallback;
-}  // namespace grpc_cb_core
 
+class Status;
+using StatusCb = std::function<void (const Status& status)>;
+using ErrorCb = StatusCb;
+
+}  // namespace grpc_cb_core
 #endif  // GRPC_CB_CORE_STATUS_CALLBACK_H

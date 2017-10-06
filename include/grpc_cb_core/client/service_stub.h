@@ -11,7 +11,7 @@
 #include <grpc_cb_core/client/channel.h>          // for MakeSharedCall()
 #include <grpc_cb_core/client/channel_sptr.h>     // for ChannelSptr
 #include <grpc_cb_core/client/response_cb.h>      // for ResponseCb
-#include <grpc_cb_core/client/status_callback.h>  // for ErrorCallback
+#include <grpc_cb_core/client/status_callback.h>  // for ErrorCb
 #include <grpc_cb_core/common/completion_queue_for_next.h>  // for CompletionQueueForNext
 #include <grpc_cb_core/common/completion_queue_for_next_sptr.h>  // for CompletionQueueForNextSptr
 #include <grpc_cb_core/common/impl/call_sptr.h>  // for CallSptr
@@ -39,11 +39,11 @@ class GRPC_CB_CORE_API ServiceStub {
   }
   // Non-null channel sptr.
   ChannelSptr GetChannelSptr() const { return channel_sptr_; }
-  const ErrorCallback& GetErrorCallback() const {
+  const ErrorCb& GetErrorCallback() const {
     return error_callback_;
   }
   // non-thread-safe
-  void SetErrorCallback(const ErrorCallback& cb) {
+  void SetErrorCallback(const ErrorCb& cb) {
     error_callback_ = cb;
   }
 
@@ -64,11 +64,11 @@ class GRPC_CB_CORE_API ServiceStub {
   }
 
  public:
-  static ErrorCallback& GetDefaultErrorCallback() {
+  static ErrorCb& GetDefaultErrorCallback() {
     return default_error_callback_;
   }
   // non-thread-safe
-  static void SetDefaultErrorCallback(const ErrorCallback cb) {
+  static void SetDefaultErrorCallback(const ErrorCb cb) {
     default_error_callback_ = cb;
   }
 
@@ -78,7 +78,7 @@ class GRPC_CB_CORE_API ServiceStub {
 
   void AsyncRequest(const string& method, const string& request,
                     const ResponseCb& response_cb,
-                    const ErrorCallback& on_error = GetDefaultErrorCallback());
+                    const ErrorCb& on_error = GetDefaultErrorCallback());
 
  public:
   void Run();
@@ -98,11 +98,11 @@ class GRPC_CB_CORE_API ServiceStub {
   const ChannelSptr channel_sptr_;
   CompletionQueueForNextSptr cq4n_sptr_;
 
-  ErrorCallback error_callback_;
+  ErrorCb error_callback_;
   std::atomic_int64_t call_timeout_ms_;
 
  private:
-  static ErrorCallback default_error_callback_;
+  static ErrorCb default_error_callback_;
 };  // class ServiceStub
 
 }  // namespace grpc_cb_core

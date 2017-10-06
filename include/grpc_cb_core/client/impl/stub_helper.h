@@ -8,7 +8,7 @@
 
 #include <grpc_cb_core/service_stub.h>  // for ServiceStub
 #include <grpc_cb_core/common/status.h>  // for Status
-#include <grpc_cb_core/client/status_callback.h>  // for ErrorCallback
+#include <grpc_cb_core/client/status_callback.h>  // for ErrorCb
 #include <grpc_cb_core/client/impl/wrap_response_callback.h>  // for WrapResponseCallback()
 
 namespace grpc_cb_core {
@@ -27,7 +27,7 @@ public:
     inline void AsyncRequest(const string& method,
         const string& request,
         const std::function<void (const string&)>& cb,
-        const ErrorCallback& ecb);
+        const ErrorCb& ecb);
 
 private:
     ServiceStub& stub_;
@@ -45,7 +45,7 @@ Status StubHelper::SyncRequest(const string& method,
 void StubHelper::AsyncRequest(const string& method,
     const string& request,
     const std::function<void (const string&)>& cb,
-    const ErrorCallback& ecb) {
+    const ErrorCb& ecb) {
   stub_.AsyncRequest(method, request, cb, ecb);
 }
 

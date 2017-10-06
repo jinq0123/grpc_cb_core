@@ -11,7 +11,7 @@
 #include <grpc_cb_core/client/channel_sptr.h>  // for ChannelSptr
 #include <grpc_cb_core/client/impl/client_async_read_handler.h>  // for ClientAsyncReadHandler
 #include <grpc_cb_core/client/impl/client_async_reader_impl.h>  // for ClientAsyncReaderImpl
-#include <grpc_cb_core/client/status_callback.h>  // for StatusCallback
+#include <grpc_cb_core/client/status_callback.h>  // for StatusCb
 #include <grpc_cb_core/common/impl/completion_queue_sptr.h>  // for CompletionQueueSptr
 
 namespace grpc_cb_core {
@@ -28,7 +28,7 @@ class ClientAsyncReader GRPC_FINAL {
  public:
   using OnMsg = std::function<void(const std::string&)>;
   void ReadEach(const OnMsg& on_msg,
-      const StatusCallback& on_status = StatusCallback()) const {
+      const StatusCb& on_status = StatusCb()) const {
     auto handler_sptr = std::make_shared<ClientAsyncReadHandler>(on_msg);
     impl_sptr_->SetReadHandler(handler_sptr);
     impl_sptr_->SetOnStatus(on_status);

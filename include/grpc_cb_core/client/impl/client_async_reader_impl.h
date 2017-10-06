@@ -10,7 +10,7 @@
 
 #include <grpc_cb_core/client/channel_sptr.h>  // for ChannelSptr
 #include <grpc_cb_core/client/impl/client_async_read_handler_sptr.h>  // for ClientAsyncReadHandlerSptr
-#include <grpc_cb_core/client/status_callback.h>  // for StatusCallback
+#include <grpc_cb_core/client/status_callback.h>  // for StatusCb
 #include <grpc_cb_core/common/impl/call_sptr.h>   // for CallSptr
 #include <grpc_cb_core/common/impl/completion_queue_sptr.h>  // for CompletionQueueSptr
 #include <grpc_cb_core/common/status.h>                      // for Status
@@ -32,7 +32,7 @@ class ClientAsyncReaderImpl GRPC_FINAL
  public:
   // ReadHandler must be set before Start().
   void SetReadHandler(const ClientAsyncReadHandlerSptr& handler);
-  void SetOnStatus(const StatusCallback& on_status);
+  void SetOnStatus(const StatusCb& on_status);
   void Start();
 
   // Todo: Stop reading any more...
@@ -54,7 +54,7 @@ class ClientAsyncReaderImpl GRPC_FINAL
   bool reading_started_{ false };
 
   ClientAsyncReadHandlerSptr read_handler_sptr_;
-  StatusCallback on_status_;
+  StatusCb on_status_;
   bool set_on_status_once_ = false;  // set on_status_ only once
 
   // ReaderHelper will be shared by CqTag.

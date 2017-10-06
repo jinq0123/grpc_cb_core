@@ -9,7 +9,7 @@
 #include <grpc_cb_core/client/impl/client_call_cqtag.h>  // for ClientCallCqTag
 #include <grpc_cb_core/client/response_cb.h>         // for ResponseCb
 // XXX callback -> cb
-#include <grpc_cb_core/client/status_callback.h>         // for ErrorCallback
+#include <grpc_cb_core/client/status_callback.h>         // for ErrorCb
 #include <grpc_cb_core/common/support/config.h>          // for GRPC_FINAL
 
 namespace grpc_cb_core {
@@ -26,7 +26,7 @@ class ClientAsyncCallCqTag GRPC_FINAL : public ClientCallCqTag {
     response_cb_ = response_cb;
   }
   // XXX OnError -> ErrorCb, on_error->error_cb
-  void SetOnError(const ErrorCallback& on_error) {
+  void SetOnError(const ErrorCb& on_error) {
     on_error_ = on_error;
   }
 
@@ -55,7 +55,7 @@ class ClientAsyncCallCqTag GRPC_FINAL : public ClientCallCqTag {
 
  private:
   ResponseCb response_cb_;
-  ErrorCallback on_error_;
+  ErrorCb on_error_;
 };  // class ClientAsyncCallCqTag
 
 }  // namespace grpc_cb_core

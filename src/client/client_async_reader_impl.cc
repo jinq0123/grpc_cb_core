@@ -41,7 +41,7 @@ void ClientAsyncReaderImpl::SetReadHandler(
   read_handler_sptr_ = handler;
 }
 
-void ClientAsyncReaderImpl::SetOnStatus(const StatusCallback& on_status) {
+void ClientAsyncReaderImpl::SetOnStatus(const StatusCb& on_status) {
   Guard g(mtx_);
   if (set_on_status_once_) return;
   set_on_status_once_ = true;
@@ -84,7 +84,7 @@ void ClientAsyncReaderImpl::OnEndOfReading() {
 void ClientAsyncReaderImpl::CallOnStatus() {
   if (!on_status_) return;
   on_status_(status_);
-  on_status_ = StatusCallback();
+  on_status_ = StatusCb();
 }
 
 }  // namespace grpc_cb_core

@@ -10,7 +10,7 @@
 
 #include <grpc_cb_core/client/impl/client_async_read_handler.h>  // for ClientAsyncReadHandler
 #include <grpc_cb_core/client/impl/client_async_reader_writer_impl.h>  // for ClientAsyncReaderWriterImpl<>
-#include <grpc_cb_core/client/status_callback.h>  // for StatusCallback
+#include <grpc_cb_core/client/status_callback.h>  // for StatusCb
 #include <grpc_cb_core/common/support/config.h>   // for GRPC_FINAL
 
 namespace grpc_cb_core {
@@ -22,7 +22,7 @@ class ClientAsyncReaderWriter GRPC_FINAL {
   ClientAsyncReaderWriter(const ChannelSptr& channel, const std::string& method,
                           const CompletionQueueSptr& cq_sptr,
                           int64_t timeout_ms,
-                          const StatusCallback& on_status = StatusCallback())
+                          const StatusCb& on_status = StatusCb())
       : impl_sptr_(new Impl(channel, method, cq_sptr, timeout_ms, on_status)) {
     assert(cq_sptr);
     assert(channel);

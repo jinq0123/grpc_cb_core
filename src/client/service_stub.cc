@@ -13,7 +13,7 @@
 
 namespace grpc_cb_core {
 
-ErrorCallback ServiceStub::default_error_callback_;  // Default empty.
+ErrorCb ServiceStub::default_error_callback_;  // Default empty.
 
 ServiceStub::ServiceStub(const ChannelSptr& channel_sptr,
     const CompletionQueueForNextSptr& cq4n_sptr/* = nullptr */)
@@ -44,7 +44,7 @@ Status ServiceStub::SyncRequest(const string& method, const string& request,
 
 void ServiceStub::AsyncRequest(const string& method, const string& request,
                                const ResponseCb& response_cb,
-                               const ErrorCallback& on_error) {
+                               const ErrorCb& on_error) {
   CallSptr call_sptr(MakeSharedCall(method));
   using CqTag = ClientAsyncCallCqTag;
   CqTag* tag = new CqTag(call_sptr);

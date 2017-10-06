@@ -5,7 +5,7 @@
 #define GRPC_CB_CORE_CLIENT_READER_ASYNC_RECV_STATUS_CQTAG_H
 
 #include <grpc_cb_core/client/impl/client_reader_recv_status_cqtag.h>  // for ClientReaderRecvStatusCqTag
-#include <grpc_cb_core/client/status_callback.h>  // for StatusCallback
+#include <grpc_cb_core/client/status_callback.h>  // for StatusCb
 #include <grpc_cb_core/common/impl/call_sptr.h>   // for CallSptr
 #include <grpc_cb_core/common/support/config.h>   // for GRPC_FINAL
 
@@ -20,7 +20,7 @@ class ClientReaderAsyncRecvStatusCqTag GRPC_FINAL
     assert(call_sptr);
   }
 
-  void SetOnStatus(const StatusCallback& on_status) {
+  void SetOnStatus(const StatusCb& on_status) {
     on_status_ = on_status;
   }
 
@@ -28,7 +28,7 @@ class ClientReaderAsyncRecvStatusCqTag GRPC_FINAL
   inline void DoComplete(bool success) GRPC_OVERRIDE;
 
  private:
-  StatusCallback on_status_;
+  StatusCb on_status_;
 };  // class ClientReaderAsyncRecvStatusCqTag
 
 void ClientReaderAsyncRecvStatusCqTag::DoComplete(bool success) {

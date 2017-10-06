@@ -11,7 +11,7 @@
 
 #include <grpc_cb_core/client/channel_sptr.h>  // for ChannelSptr
 #include <grpc_cb_core/client/impl/client_async_read_handler_sptr.h>  // for ClientAsyncReadHandlerSptr
-#include <grpc_cb_core/client/status_callback.h>  // for StatusCallback
+#include <grpc_cb_core/client/status_callback.h>  // for StatusCb
 #include <grpc_cb_core/common/impl/call_sptr.h>   // for CallSptr
 #include <grpc_cb_core/common/impl/completion_queue_sptr.h>  // for CompletionQueueSptr
 #include <grpc_cb_core/common/status.h>                      // for Status
@@ -34,7 +34,7 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
                                const std::string& method,
                                const CompletionQueueSptr& cq_sptr,
                                int64_t timeout_ms,
-                               const StatusCallback& on_status);
+                               const StatusCb& on_status);
   ~ClientAsyncReaderWriterImpl2();
 
  public:
@@ -70,7 +70,7 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
   Status status_;
 
   ReadHandlerSptr read_handler_sptr_;
-  StatusCallback on_status_;
+  StatusCb on_status_;  // XXX cb on_status
 
   bool reading_started_ = false;  // ReadEach() to trigger reading.
   bool writing_started_ = false;  // Write() to trigger writing.

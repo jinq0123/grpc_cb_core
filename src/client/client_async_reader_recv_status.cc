@@ -11,7 +11,7 @@
 namespace grpc_cb_core {
 namespace ClientAsyncReader {
 
-void RecvStatus(const CallSptr& call_sptr, const StatusCallback& on_status) {
+void RecvStatus(const CallSptr& call_sptr, const StatusCb& on_status) {
   assert(call_sptr);
 
   auto* tag = new ClientReaderAsyncRecvStatusCqTag(call_sptr);

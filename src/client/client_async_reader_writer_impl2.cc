@@ -20,7 +20,7 @@ using Sptr = std::shared_ptr<ClientAsyncReaderWriterImpl2>;
 ClientAsyncReaderWriterImpl2::ClientAsyncReaderWriterImpl2(
     const ChannelSptr& channel, const std::string& method,
     const CompletionQueueSptr& cq_sptr, int64_t timeout_ms,
-    const StatusCallback& on_status)
+    const StatusCb& on_status)
     : call_sptr_(channel->MakeSharedCall(method, *cq_sptr, timeout_ms)),
       on_status_(on_status) {
   assert(cq_sptr);
@@ -167,7 +167,7 @@ bool ClientAsyncReaderWriterImpl2::IsWritingEnded() const {
 void ClientAsyncReaderWriterImpl2::CallOnStatus() {
   if (!on_status_) return;
   on_status_(status_);
-  on_status_ = StatusCallback();
+  on_status_ = StatusCb();
 }
 
 }  // namespace grpc_cb_core
