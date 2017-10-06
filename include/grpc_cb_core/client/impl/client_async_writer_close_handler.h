@@ -8,6 +8,7 @@
 #include <string>
 
 #include <grpc_cb_core/common/support/config.h>  // for GRPC_FINAL
+#include <grpc_cb_core/client/close_cb.h>  // for CloseCb
 
 namespace grpc_cb_core {
 
@@ -16,20 +17,18 @@ class Status;
 // Handler for client async writer.
 class ClientAsyncWriterCloseHandler GRPC_FINAL {
  public:
-     // XXX cb
-  using ClosedCallback = std::function<void (const Status&, const std::string&)>;
   explicit ClientAsyncWriterCloseHandler(
-      const ClosedCallback& on_closed = ClosedCallback())
-      : on_closed_(on_closed) {};
+      const CloseCb& close_cb = CloseCb())
+      : close_cb_(close_cb) {};
 
   std::string& GetMsg() { return msg_; }
   void OnClose(const Status& status) {
-    if (on_closed_) on_closed_(status, msg_);
+    if (close_cb_) close_cb_(status, msg_);
   }
 
  private:
   std::string msg_;
-  ClosedCallback on_closed_;
+  CloseCb close_cb_;
 };  // class ClientAsyncWriterCloseHandler
 
 }  // namespace grpc_cb_core

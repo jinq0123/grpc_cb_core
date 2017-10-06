@@ -9,6 +9,7 @@
 #include <string>
 
 #include <grpc_cb_core/client/channel_sptr.h>  // for ChannelSptr
+#include <grpc_cb_core/client/close_cb.h>  // for CloseCb
 #include <grpc_cb_core/client/impl/client_async_writer_close_handler.h>  // for ClientAsyncWriterCloseHandler
 #include <grpc_cb_core/client/impl/client_async_writer_impl.h>  // for ClientAsyncWriterImpl
 #include <grpc_cb_core/common/impl/completion_queue_sptr.h>  // for CompletionQueueSptr
@@ -39,9 +40,8 @@ class ClientAsyncWriter GRPC_FINAL {
     return impl_sptr_->Write(request);
   }
 
-  using ClosedCallback = std::function<void (const Status&, const std::string&)>;
-  void Close(const ClosedCallback& on_closed = ClosedCallback()) {
-    auto handler = std::make_shared<ClientAsyncWriterCloseHandler>(on_closed);
+  void Close(const CloseCb& close_cb = CloseCb()) {
+    auto handler = std::make_shared<ClientAsyncWriterCloseHandler>(close_cb);
     impl_sptr_->Close(handler);
   }  // Close()
 
