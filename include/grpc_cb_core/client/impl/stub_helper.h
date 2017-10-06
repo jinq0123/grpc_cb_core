@@ -9,7 +9,6 @@
 #include <grpc_cb_core/service_stub.h>  // for ServiceStub
 #include <grpc_cb_core/common/status.h>  // for Status
 #include <grpc_cb_core/client/status_cb.h>  // for ErrorCb
-#include <grpc_cb_core/client/impl/wrap_response_callback.h>  // for WrapResponseCallback()
 
 namespace grpc_cb_core {
 

@@ -39,12 +39,12 @@ class GRPC_CB_CORE_API ServiceStub {
   }
   // Non-null channel sptr.
   ChannelSptr GetChannelSptr() const { return channel_sptr_; }
-  const ErrorCb& GetErrorCallback() const {
-    return error_callback_;
+  const ErrorCb& GetErrorCallback() const {  // XXX
+    return error_cb_;
   }
   // non-thread-safe
-  void SetErrorCallback(const ErrorCb& cb) {
-    error_callback_ = cb;
+  void SetErrorCallback(const ErrorCb& error_cb) {  // XXX
+    error_cb_ = error_cb;
   }
 
   CompletionQueueForNextSptr GetCompletionQueue() const {
@@ -64,12 +64,12 @@ class GRPC_CB_CORE_API ServiceStub {
   }
 
  public:
-  static ErrorCb& GetDefaultErrorCallback() {
-    return default_error_callback_;
+  static ErrorCb& GetDefaultErrorCb() {
+    return default_error_cb_;
   }
   // non-thread-safe
-  static void SetDefaultErrorCallback(const ErrorCb cb) {
-    default_error_callback_ = cb;
+  static void SetDefaultErrorCb(const ErrorCb& error_cb) {
+    default_error_cb_ = error_cb;
   }
 
  public:
@@ -78,7 +78,7 @@ class GRPC_CB_CORE_API ServiceStub {
 
   void AsyncRequest(const string& method, const string& request,
                     const ResponseCb& response_cb,
-                    const ErrorCb& error_cb = GetDefaultErrorCallback());
+                    const ErrorCb& error_cb = GetDefaultErrorCb());
 
  public:
   void Run();
@@ -98,11 +98,11 @@ class GRPC_CB_CORE_API ServiceStub {
   const ChannelSptr channel_sptr_;
   CompletionQueueForNextSptr cq4n_sptr_;
 
-  ErrorCb error_callback_;
+  ErrorCb error_cb_;  // callback on error
   std::atomic_int64_t call_timeout_ms_;
 
  private:
-  static ErrorCb default_error_callback_;
+  static ErrorCb default_error_cb_;
 };  // class ServiceStub
 
 }  // namespace grpc_cb_core
