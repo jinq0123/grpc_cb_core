@@ -12,7 +12,7 @@
 
 namespace grpc_cb_core {
 
-// Call completion queue tag with OnComplete callback.
+// Call completion queue tag with callback on completion.
 class GeneralCallCqTag : public CallCqTag {
  public:
   explicit GeneralCallCqTag(const CallSptr& call_sptr) : CallCqTag(call_sptr) {
@@ -20,18 +20,19 @@ class GeneralCallCqTag : public CallCqTag {
   }
 
  public:
-  using OnComplete = std::function<void (bool success)>;
-  void SetOnComplete(const OnComplete& on_complete) {
-    on_complete_ = on_complete;
+  // Callback on completion
+  using CompleteCb = std::function<void (bool success)>;
+  void SetCompleteCb(const CompleteCb& complete_cb) {
+    complete_cb_ = complete_cb;
   }
 
   void DoComplete(bool success) GRPC_OVERRIDE {
-    if (on_complete_)
-      on_complete_(success);
+    if (complete_cb_)
+      complete_cb_(success);
   }
 
  private:
-  OnComplete on_complete_;
+  CompleteCb complete_cb_;
 };  // class GeneralCallCqTag
 
 }  // namespace grpc_cb_core

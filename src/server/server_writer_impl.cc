@@ -124,7 +124,7 @@ bool ServerWriterImpl::SendMsg(const string& msg) {
   using CqTag = ServerWriterWriteCqTag;
   CqTag* tag = new CqTag(call_sptr_);
   auto sptr = shared_from_this();
-  tag->SetOnComplete([sptr](bool success) {
+  tag->SetCompleteCb([sptr](bool success) {
     // Todo: check success
     sptr->TryToWriteNext();
   });

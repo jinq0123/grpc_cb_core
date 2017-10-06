@@ -79,7 +79,7 @@ void ClientAsyncWriterImpl2::SendCloseIfNot() {
   has_sent_close_ = true;
   auto sptr = shared_from_this();
   auto* tag = new ClientWriterCloseCqTag(call_sptr_);
-  tag->SetOnComplete([sptr, tag](bool success) {
+  tag->SetCompleteCb([sptr, tag](bool success) {
     sptr->OnClosed(success, *tag);
   });
   if (tag->Start())

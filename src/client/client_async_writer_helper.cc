@@ -54,7 +54,7 @@ bool ClientAsyncWriterHelper::WriteNext() {
   assert(call_sptr_);
   auto* tag = new ClientSendMsgCqTag(call_sptr_);
   auto sptr = shared_from_this();
-  tag->SetOnComplete([sptr](bool success) {
+  tag->SetCompleteCb([sptr](bool success) {
       sptr->OnWritten(success);
   });
   if (tag->Start(msg))

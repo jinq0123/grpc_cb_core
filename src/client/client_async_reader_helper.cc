@@ -37,7 +37,7 @@ void ClientAsyncReaderHelper::Next() {
 
   auto* tag = new ClientReaderReadCqTag(call_sptr_);
   auto sptr = shared_from_this();
-  tag->SetOnComplete([sptr, tag](bool success) {
+  tag->SetCompleteCb([sptr, tag](bool success) {
       sptr->OnRead(success, *tag);
   });
   if (tag->Start()) return;
