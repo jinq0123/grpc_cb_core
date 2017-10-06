@@ -7,7 +7,7 @@
 #include <string>
 
 #include <grpc_cb_core/client/impl/client_call_cqtag.h>  // for ClientCallCqTag
-#include <grpc_cb_core/client/response_cb.h>             // for ResponseCb
+#include <grpc_cb_core/client/msg_cb.h>                  // for ResponseCb
 #include <grpc_cb_core/client/status_cb.h>               // for ErrorCb
 #include <grpc_cb_core/common/support/config.h>          // for GRPC_FINAL
 

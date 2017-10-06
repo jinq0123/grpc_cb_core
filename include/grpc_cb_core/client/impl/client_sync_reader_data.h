@@ -19,6 +19,7 @@ struct ClientSyncReaderData {
     CallSptr call_sptr;
     Status status;
 
+    // XXX cb
     using MsgCallback = std::function<void(const std::string&)>;
     MsgCallback on_msg;
     StatusCb status_cb;
