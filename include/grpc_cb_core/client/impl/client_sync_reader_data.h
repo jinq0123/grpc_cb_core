@@ -4,6 +4,7 @@
 #include <memory>  // for shared_ptr<>
 #include <string>
 
+#include <grpc_cb_core/client/msg_cb.h>  // for MsgCb
 #include <grpc_cb_core/client/status_cb.h>  // for StatusCb
 #include <grpc_cb_core/common/impl/call_sptr.h>   // for CallSptr
 #include <grpc_cb_core/common/impl/cqueue_for_pluck_sptr.h>  // for CQueueForPluckSptr
@@ -19,9 +20,7 @@ struct ClientSyncReaderData {
     CallSptr call_sptr;
     Status status;
 
-    // XXX cb
-    using MsgCallback = std::function<void(const std::string&)>;
-    MsgCallback msg_cb;  // XXX cb
+    MsgCb msg_cb;
     StatusCb status_cb;
 };
 
