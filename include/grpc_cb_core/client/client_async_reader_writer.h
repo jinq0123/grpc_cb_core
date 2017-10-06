@@ -10,7 +10,7 @@
 
 #include <grpc_cb_core/client/impl/client_async_read_handler.h>  // for ClientAsyncReadHandler
 #include <grpc_cb_core/client/impl/client_async_reader_writer_impl.h>  // for ClientAsyncReaderWriterImpl<>
-#include <grpc_cb_core/client/status_callback.h>  // for StatusCb
+#include <grpc_cb_core/client/status_cb.h>  // for StatusCb
 #include <grpc_cb_core/common/support/config.h>   // for GRPC_FINAL
 
 namespace grpc_cb_core {

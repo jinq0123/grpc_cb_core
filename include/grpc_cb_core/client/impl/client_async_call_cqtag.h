@@ -9,7 +9,7 @@
 #include <grpc_cb_core/client/impl/client_call_cqtag.h>  // for ClientCallCqTag
 #include <grpc_cb_core/client/response_cb.h>         // for ResponseCb
 // XXX callback -> cb
-#include <grpc_cb_core/client/status_callback.h>         // for ErrorCb
+#include <grpc_cb_core/client/status_cb.h>         // for ErrorCb
 #include <grpc_cb_core/common/support/config.h>          // for GRPC_FINAL
 
 namespace grpc_cb_core {
