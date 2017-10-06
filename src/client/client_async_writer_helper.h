@@ -25,9 +25,9 @@ namespace grpc_cb_core {
 class ClientAsyncWriterHelper GRPC_FINAL
     : public std::enable_shared_from_this<ClientAsyncWriterHelper> {
  public:
-  using EndCb = std::function<void()>;  // XXX cb
+  using EndCb = std::function<void()>;
   ClientAsyncWriterHelper(const CallSptr& call_sptr,
-                          const EndCb& end_cb);  // XXX cb
+                          const EndCb& end_cb);
   ~ClientAsyncWriterHelper();
 
  public:
