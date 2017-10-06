@@ -43,13 +43,13 @@ Status ServiceStub::SyncRequest(const string& method, const string& request,
 }
 
 void ServiceStub::AsyncRequest(const string& method, const string& request,
-                               const OnResponse& on_response,
+                               const ResponseCb& response_cb,
                                const ErrorCallback& on_error) {
   CallSptr call_sptr(MakeSharedCall(method));
   using CqTag = ClientAsyncCallCqTag;
   CqTag* tag = new CqTag(call_sptr);
-  tag->SetOnResponse(on_response);
-  tag->SetOnError(on_error);
+  tag->SetResponseCb(response_cb);
+  tag->SetOnError(on_error);  // XXX cb
   if (tag->Start(request))
     return;
 

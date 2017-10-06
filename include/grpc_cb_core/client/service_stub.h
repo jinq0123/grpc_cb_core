@@ -10,6 +10,7 @@
 
 #include <grpc_cb_core/client/channel.h>          // for MakeSharedCall()
 #include <grpc_cb_core/client/channel_sptr.h>     // for ChannelSptr
+#include <grpc_cb_core/client/response_cb.h>      // for ResponseCb
 #include <grpc_cb_core/client/status_callback.h>  // for ErrorCallback
 #include <grpc_cb_core/common/completion_queue_for_next.h>  // for CompletionQueueForNext
 #include <grpc_cb_core/common/completion_queue_for_next_sptr.h>  // for CompletionQueueForNextSptr
@@ -75,9 +76,8 @@ class GRPC_CB_CORE_API ServiceStub {
   Status SyncRequest(const string& method, const string& request,
                      string& response);
 
-  using OnResponse = std::function<void (const string&)>;
   void AsyncRequest(const string& method, const string& request,
-                    const OnResponse& on_response,
+                    const ResponseCb& response_cb,
                     const ErrorCallback& on_error = GetDefaultErrorCallback());
 
  public:
