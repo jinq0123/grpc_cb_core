@@ -7,20 +7,20 @@
 #include <functional>
 #include <string>
 #include <grpc_cb_core/common/support/config.h>  // for GRPC_FINAL
+#include <grpc_cb_core/client/msg_cb.h>  // for MsgCb
 
 namespace grpc_cb_core {
 
 // Handler to async read.
 class ClientAsyncReadHandler GRPC_FINAL {
  public:
-  using OnMsg = std::function<void(const std::string&)>;
-  explicit ClientAsyncReadHandler(const OnMsg& on_msg) : on_msg_(on_msg) {}
+  explicit ClientAsyncReadHandler(const MsgCb& msg_cb) : on_msg_(msg_cb) {}
 
   std::string& GetMsg() { return msg_; }
   void HandleMsg() { if (on_msg_) on_msg_(msg_); }
 
  private:
-  OnMsg on_msg_;
+  MsgCb on_msg_;
   std::string msg_;
 };  // class ClientAsyncReadHandler
 
