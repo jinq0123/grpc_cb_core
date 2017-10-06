@@ -28,5 +28,4 @@ See [premake/README.md](premake/README.md) to use premake5 to generate VS soluti
 1. Compression
 1. Security
 1. Metadata
-1. Support message types other than protobuffer.
 
