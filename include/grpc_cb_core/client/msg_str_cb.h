@@ -10,6 +10,7 @@
 namespace grpc_cb_core {
 
 // Message string callback function.
+// XXX MsgStrCb should return bool or Status.
 using MsgStrCb = std::function<void (const std::string& message)>;
 // Response string callback function.
 using RespStrCb = MsgStrCb;
