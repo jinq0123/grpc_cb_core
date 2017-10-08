@@ -6,6 +6,8 @@
 
 #include <functional>
 #include <string>
+
+#include <grpc_cb_core/common/status.h>  // for Status
 #include <grpc_cb_core/common/support/config.h>  // for GRPC_FINAL
 #include <grpc_cb_core/client/msg_str_cb.h>  // for MsgStrCb
 
