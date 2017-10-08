@@ -10,7 +10,7 @@
 
 #include <grpc_cb_core/client/impl/client_async_read_handler.h>  // for ClientAsyncReadHandler
 #include <grpc_cb_core/client/impl/client_async_reader_writer_impl.h>  // for ClientAsyncReaderWriterImpl
-#include <grpc_cb_core/client/msg_cb.h>  // for MsgCb
+#include <grpc_cb_core/client/msg_str_cb.h>  // for MsgStrCb
 #include <grpc_cb_core/client/status_cb.h>  // for StatusCb
 #include <grpc_cb_core/common/support/config.h>   // for GRPC_FINAL
 
@@ -40,7 +40,7 @@ class ClientAsyncReaderWriter GRPC_FINAL {
     impl_sptr_->CloseWriting();
   }
 
-  void ReadEach(const MsgCb& msg_cb) {
+  void ReadEach(const MsgStrCb& msg_cb) {
     auto handler_sptr = std::make_shared<ClientAsyncReadHandler>(msg_cb);
     impl_sptr_->ReadEach(handler_sptr);
   }

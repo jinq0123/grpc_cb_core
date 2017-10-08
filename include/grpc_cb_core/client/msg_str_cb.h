@@ -9,10 +9,10 @@
 
 namespace grpc_cb_core {
 
-// Message callback function.
-using MsgCb = std::function<void (const std::string& message)>;
-// Response callback function.
-using ResponseCb = MsgCb;
+// Message string callback function.
+using MsgStrCb = std::function<void (const std::string& message)>;
+// Response string callback function.
+using RespStrCb = MsgStrCb;
 
 }  // namespace grpc_cb_core
 #endif  // GRPC_CB_CORE_CLIENT_RESPONSE_CB_H

@@ -7,7 +7,7 @@
 #include <string>
 
 #include <grpc_cb_core/client/impl/client_call_cqtag.h>  // for ClientCallCqTag
-#include <grpc_cb_core/client/msg_cb.h>                  // for ResponseCb
+#include <grpc_cb_core/client/msg_str_cb.h>                  // for RespStrCb
 #include <grpc_cb_core/client/status_cb.h>               // for ErrorCb
 #include <grpc_cb_core/common/support/config.h>          // for GRPC_FINAL
 
@@ -21,7 +21,7 @@ class ClientAsyncCallCqTag GRPC_FINAL : public ClientCallCqTag {
      : ClientCallCqTag(call_sptr) {}
 
  public:
-  void SetResponseCb(const ResponseCb& response_cb) {
+  void SetResponseCb(const RespStrCb& response_cb) {
     response_cb_ = response_cb;
   }
   void SetErrorCb(const ErrorCb& error_cb) {
@@ -52,7 +52,7 @@ class ClientAsyncCallCqTag GRPC_FINAL : public ClientCallCqTag {
   }
 
  private:
-  ResponseCb response_cb_;
+  RespStrCb response_cb_;
   ErrorCb error_cb_;
 };  // class ClientAsyncCallCqTag
 

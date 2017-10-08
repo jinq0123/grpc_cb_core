@@ -4,7 +4,7 @@
 #include <memory>  // for shared_ptr<>
 #include <string>
 
-#include <grpc_cb_core/client/msg_cb.h>  // for MsgCb
+#include <grpc_cb_core/client/msg_str_cb.h>  // for MsgStrCb
 #include <grpc_cb_core/client/status_cb.h>  // for StatusCb
 #include <grpc_cb_core/common/impl/call_sptr.h>   // for CallSptr
 #include <grpc_cb_core/common/impl/cqueue_for_pluck_sptr.h>  // for CQueueForPluckSptr
@@ -20,7 +20,7 @@ struct ClientSyncReaderData {
     CallSptr call_sptr;
     Status status;
 
-    MsgCb msg_cb;
+    MsgStrCb msg_cb;
     StatusCb status_cb;
 };
 

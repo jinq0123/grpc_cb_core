@@ -10,7 +10,7 @@
 
 #include <grpc_cb_core/client/channel.h>          // for MakeSharedCall()
 #include <grpc_cb_core/client/channel_sptr.h>     // for ChannelSptr
-#include <grpc_cb_core/client/msg_cb.h>     // for ResponseCb
+#include <grpc_cb_core/client/msg_str_cb.h>     // for RespStrCb
 #include <grpc_cb_core/client/status_cb.h>  // for ErrorCb
 #include <grpc_cb_core/common/completion_queue_for_next.h>  // for CompletionQueueForNext
 #include <grpc_cb_core/common/completion_queue_for_next_sptr.h>  // for CompletionQueueForNextSptr
@@ -77,7 +77,7 @@ class GRPC_CB_CORE_API ServiceStub {
                      string& response);
 
   void AsyncRequest(const string& method, const string& request,
-                    const ResponseCb& response_cb,
+                    const RespStrCb& response_cb,
                     const ErrorCb& error_cb = GetDefaultErrorCb());
 
  public:
