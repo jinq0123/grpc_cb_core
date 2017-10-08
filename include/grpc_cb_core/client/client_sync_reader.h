@@ -24,17 +24,23 @@ class ClientSyncReader GRPC_FINAL {
 
  public:
   // Return false if error or end of stream.
-  inline bool ReadOne(std::string* response) const {
+  bool ReadOne(std::string* response) const {
     assert(response);
     Data& d = *data_sptr_;
     return ClientSyncReaderHelper::SyncReadOne(d.call_sptr, d.cq4p_sptr,
                                                *response, d.status);
   }
 
-  inline Status RecvStatus() const {
+  Status RecvStatus() const {
     const Data& d = *data_sptr_;
     if (!d.status.ok()) return d.status;
     return ClientSyncReaderHelper::SyncRecvStatus(d.call_sptr, d.cq4p_sptr);
+  }
+
+  // Set error status to break reading. Such as when parsing message failed.
+  void SetErrorStatus(const Status& error_status) {
+    assert(!error_status.ok());
+    data_sptr_->status = error_status;
   }
 
  private:
