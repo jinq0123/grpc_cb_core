@@ -37,12 +37,14 @@ class ClientAsyncCallCqTag GRPC_FINAL : public ClientCallCqTag {
 
     std::string resp;
     Status status = GetResponse(resp);
-    if (status.ok()) {
-      if (response_cb_)
-        response_cb_(resp);
+    if (!status.ok()) {
+      CallErrorCb(status);
       return;
     }
-    CallErrorCb(status);
+
+    if (!response_cb_) return;
+    status = response_cb_(resp);
+    if (!status.ok()) CallErrorCb(status);
   };
 
  private:

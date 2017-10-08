@@ -69,7 +69,12 @@ void ClientAsyncReaderHelper::OnRead(bool success, ClientReaderReadCqTag& tag) {
     return;
   }
 
-  read_handler_sptr_->HandleMsg();  // XXX check OK in msg parsing
+  status_ = read_handler_sptr_->HandleMsg();
+  if (!status_.ok()) {
+    end_cb_();
+    return;
+  }
+
   Next();
 }
 
