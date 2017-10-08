@@ -17,7 +17,7 @@ class ClientAsyncReadHandler GRPC_FINAL {
   explicit ClientAsyncReadHandler(const MsgStrCb& msg_cb) : msg_cb_(msg_cb) {}
 
   std::string& GetMsg() { return msg_; }
-  void HandleMsg() { if (msg_cb_) msg_cb_(msg_); }
+  void HandleMsg() { if (msg_cb_) msg_cb_(msg_); }  // XXX maybe fail in parse.
 
  private:
   MsgStrCb msg_cb_;
