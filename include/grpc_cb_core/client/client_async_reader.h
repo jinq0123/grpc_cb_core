@@ -13,7 +13,7 @@
 #include <grpc_cb_core/client/impl/client_async_reader_impl.h>  // for ClientAsyncReaderImpl
 #include <grpc_cb_core/client/msg_cb.h>  // for MsgCb
 #include <grpc_cb_core/client/status_cb.h>  // for StatusCb
-#include <grpc_cb_core/common/impl/completion_queue_sptr.h>  // for CompletionQueueSptr
+#include <grpc_cb_core/common/completion_queue_sptr.h>  // for CompletionQueueSptr
 
 namespace grpc_cb_core {
 

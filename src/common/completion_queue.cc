@@ -1,4 +1,4 @@
-#include <grpc_cb_core/common/impl/completion_queue.h>
+#include <grpc_cb_core/common/completion_queue.h>
 
 #include <cassert>
 
