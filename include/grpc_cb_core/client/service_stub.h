@@ -1,24 +1,21 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
+#ifndef GRPC_CB_CORE_CLIENT_SERVICE_STUB_H
+#define GRPC_CB_CORE_CLIENT_SERVICE_STUB_H
 
-#ifndef GRPC_CB_CORE_SERVICE_STUB_H
-#define GRPC_CB_CORE_SERVICE_STUB_H
+#include <atomic>  // for atomic_int64_t
+#include <cassert>  // for assert()
 
-#include <atomic>  // for atomic_int64
-#include <cassert>
-#include <unordered_map>
-
-#include <grpc_cb_core/client/channel.h>          // for MakeSharedCall()
 #include <grpc_cb_core/client/channel_sptr.h>     // for ChannelSptr
 #include <grpc_cb_core/client/msg_str_cb.h>     // for RespStrCb
 #include <grpc_cb_core/client/status_cb.h>  // for ErrorCb
-#include <grpc_cb_core/common/completion_queue_for_next.h>  // for CompletionQueueForNext
 #include <grpc_cb_core/common/completion_queue_for_next_sptr.h>  // for CompletionQueueForNextSptr
 #include <grpc_cb_core/common/call_sptr.h>  // for CallSptr
-#include <grpc_cb_core/common/impl/cqueue_for_next.h>  // to convert GetCq4n() to CompletionQueue
 #include <grpc_cb_core/common/support/grpc_cb_core_api.h>  // for GRPC_CB_CORE_API
 
 namespace grpc_cb_core {
+
+class CompletionQueue;
 
 // The base of generated service stubs.
 // Copyable.
@@ -86,13 +83,8 @@ class GRPC_CB_CORE_API ServiceStub {
   void Shutdown();
 
  protected:
-  CallSptr MakeSharedCall(const string& method) const {
-    assert(cq4n_sptr_);
-    return MakeSharedCall(method, *cq4n_sptr_);
-  }
-  CallSptr MakeSharedCall(const string& method, CompletionQueue& cq) const {
-    return GetChannel().MakeSharedCall(method, cq, GetCallTimeoutMs());
-  }
+  CallSptr MakeSharedCall(const string& method) const;
+  CallSptr MakeSharedCall(const string& method, CompletionQueue& cq) const;
 
  private:
   const ChannelSptr channel_sptr_;
@@ -106,5 +98,4 @@ class GRPC_CB_CORE_API ServiceStub {
 };  // class ServiceStub
 
 }  // namespace grpc_cb_core
-
-#endif  // GRPC_CB_CORE_SERVICE_STUB_H
+#endif  // GRPC_CB_CORE_CLIENT_SERVICE_STUB_H

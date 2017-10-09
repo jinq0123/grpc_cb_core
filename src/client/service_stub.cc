@@ -9,7 +9,9 @@
 #include <grpc_cb_core/common/impl/call.h>
 #include <grpc_cb_core/common/impl/cqueue_for_next.h>   // for CQueueForNext
 #include <grpc_cb_core/common/impl/cqueue_for_pluck.h>  // for CQueueForPluck
+#include <grpc_cb_core/common/impl/cqueue_for_next.h>   // to convert *cq4n_sptr_ to CompletionQueue in MakeSharedCall()
 #include <grpc_cb_core/common/run.h>                    // for Run()
+#include <grpc_cb_core/client/channel.h>          // for MakeSharedCall()
 
 namespace grpc_cb_core {
 
@@ -68,6 +70,15 @@ void ServiceStub::Run() {
 void ServiceStub::Shutdown() {
   assert(cq4n_sptr_);
   cq4n_sptr_->Shutdown();
+}
+
+CallSptr ServiceStub::MakeSharedCall(const string& method) const {
+  assert(cq4n_sptr_);
+  return MakeSharedCall(method, *cq4n_sptr_);
+}
+
+CallSptr ServiceStub::MakeSharedCall(const string& method, CompletionQueue& cq) const {
+  return GetChannel().MakeSharedCall(method, cq, GetCallTimeoutMs());
 }
 
 }  // namespace grpc_cb_core
