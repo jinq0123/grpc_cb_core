@@ -7,6 +7,7 @@
 #include <cassert>
 #include <string>
 
+#include <grpc_cb_core/common/support/config.h>           // for GRPC_FINAL
 #include <grpc_cb_core/server/impl/server_writer_impl.h>  // for ServerWriterImpl
 
 namespace grpc_cb_core {

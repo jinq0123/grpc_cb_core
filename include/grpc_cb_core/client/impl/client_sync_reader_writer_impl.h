@@ -16,6 +16,7 @@
 #include <grpc_cb_core/client/impl/client_sync_writer_helper.h>  // for ClientSyncWriterHelper
 #include <grpc_cb_core/common/impl/cqueue_for_pluck.h>  // for CQueueForPluck
 #include <grpc_cb_core/common/status.h>                 // for Status
+#include <grpc_cb_core/common/support/config.h>         // for GRPC_FINAL
 
 namespace grpc_cb_core {
 
