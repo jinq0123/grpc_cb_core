@@ -14,7 +14,7 @@ namespace grpc_cb_core {
 
 class Status;
 
-// ServerReplier is for unary rpc call and client only streaming rpc.
+// ServerReplier is for unary rpc call and client-side streaming rpc.
 // ServerWriter is for server streaming rpc.
 // ServerReader is provided by user for client streaming rpc.
 

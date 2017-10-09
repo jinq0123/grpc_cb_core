@@ -21,7 +21,7 @@ class ServerReaderForBidiStreaming : public ServerReader {
  public:
   // Default constructable.
   ServerReaderForBidiStreaming() {}
-  virtual ~ServerReaderForBidiStreaming() {}
+  virtual ~ServerReaderForBidiStreaming();
 
  public:
   // Set by generated codes.

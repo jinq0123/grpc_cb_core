@@ -8,12 +8,14 @@
 namespace grpc_cb_core {
 
 // XXX format
+    ServerReaderForBidiStreaming::~ServerReaderForBidiStreaming() {}
+
 
   void ServerReaderForBidiStreaming::SetWriter(const Writer& writer) {
     writer_uptr_.reset(new Writer(writer));
   }
 
-  ServerReaderForBidiStreaming::Writer& ServerReaderForBidiStreaming::GetWriter() {
+  ServerWriter& ServerReaderForBidiStreaming::GetWriter() {
     assert(writer_uptr_);
     return *writer_uptr_;
   }
