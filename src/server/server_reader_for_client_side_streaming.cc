@@ -3,6 +3,8 @@
 
 #include <grpc_cb_core/server/server_reader_for_client_side_streaming.h>
 
+#include <cassert>
+
 #include <grpc_cb_core/server/server_replier.h>  // for ReplyError()
 
 // XXX format

@@ -8,10 +8,10 @@
 #include <string>
 
 #include <grpc_cb_core/common/call_sptr.h>            // for CallSptr
-#include <grpc_cb_core/server/impl/server_replier_impl.h>  // for ServerReplierImpl
 
 namespace grpc_cb_core {
 
+class ServerReplierImpl;
 class Status;
 
 // ServerReplier is for unary rpc call and client-side streaming rpc.
@@ -23,20 +23,12 @@ class Status;
 // Only accept the 1st reply and ignore other replies.
 class ServerReplier {
  public:
-  explicit ServerReplier(const CallSptr& call_sptr)
-      : impl_sptr_(new ServerReplierImpl(call_sptr)) {
-    assert(call_sptr);
-  };
-  virtual ~ServerReplier() {};
+  explicit ServerReplier(const CallSptr& call_sptr);
+  virtual ~ServerReplier();
 
  public:
-  void Reply(const std::string& response) const {
-    impl_sptr_->Reply(response);
-  }
-
-  void ReplyError(const Status& status) const {
-    impl_sptr_->ReplyError(status);
-  }
+  void Reply(const std::string& response) const;
+  void ReplyError(const Status& status) const;
 
 private:
   const std::shared_ptr<ServerReplierImpl> impl_sptr_;  // copyable
