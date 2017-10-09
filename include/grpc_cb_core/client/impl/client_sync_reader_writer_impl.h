@@ -46,7 +46,7 @@ class ClientSyncReaderWriterImpl GRPC_FINAL {
   }
 
  private:
-  void RecvInitMdIfNot();
+  inline void RecvInitMdIfNot();
 
  private:
   // Wrap all data in shared struct pointer to make copy quick.
