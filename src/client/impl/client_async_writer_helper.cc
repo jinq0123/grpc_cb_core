@@ -5,7 +5,7 @@
 
 #include <cassert>     // for assert()
 
-#include <grpc_cb_core/client/impl/client_send_msg_cqtag.h>  // for ClientSendMsgCqTag
+#include "client_send_msg_cqtag.h"  // for ClientSendMsgCqTag
 #include <grpc_cb_core/common/status.h>                      // for Status::ok()
 
 namespace grpc_cb_core {

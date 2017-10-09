@@ -7,8 +7,8 @@
 #include <string>
 
 #include <grpc_cb_core/client/channel_sptr.h>  // for ChannelSptr
-#include <grpc_cb_core/client/impl/client_async_read_handler.h>  // for ClientAsyncReadHandler
-#include <grpc_cb_core/client/impl/client_async_reader_impl.h>  // for ClientAsyncReaderImpl
+#include "impl/client_async_read_handler.h"  // for ClientAsyncReadHandler
+#include "impl/client_async_reader_impl.h"  // for ClientAsyncReaderImpl
 #include <grpc_cb_core/client/msg_str_cb.h>  // for MsgStrCb
 #include <grpc_cb_core/client/status_cb.h>  // for StatusCb
 #include <grpc_cb_core/common/completion_queue_sptr.h>  // for CompletionQueueSptr

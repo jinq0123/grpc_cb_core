@@ -3,7 +3,7 @@
 
 #include <grpc_cb_core/client/client_sync_reader_writer.h>
 
-#include <grpc_cb_core/client/impl/client_sync_reader_writer_impl.h>  // for ClientSyncReaderWriterImpl
+#include "impl/client_sync_reader_writer_impl.h"  // for ClientSyncReaderWriterImpl
 
 namespace grpc_cb_core {
 

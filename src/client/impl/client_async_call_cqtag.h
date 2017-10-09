@@ -6,7 +6,7 @@
 
 #include <string>
 
-#include <grpc_cb_core/client/impl/client_call_cqtag.h>  // for ClientCallCqTag
+#include "client_call_cqtag.h"  // for ClientCallCqTag
 #include <grpc_cb_core/client/msg_str_cb.h>                  // for RespStrCb
 #include <grpc_cb_core/client/status_cb.h>               // for ErrorCb
 #include <grpc_cb_core/common/support/config.h>          // for GRPC_FINAL

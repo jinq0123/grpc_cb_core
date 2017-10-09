@@ -8,9 +8,9 @@
 #include <string>
 
 #include <grpc_cb_core/client/channel.h>  // for MakeSharedCall()
-#include <grpc_cb_core/client/impl/client_reader_init_cqtag.h>  // for ClientReaderInitCqTag
-#include <grpc_cb_core/client/impl/client_sync_reader_data.h>  // for Data
-#include <grpc_cb_core/client/impl/client_sync_reader_helper.h>  // for ClientSyncReaderHelper
+#include "impl/client_reader_init_cqtag.h"  // for ClientReaderInitCqTag
+#include "impl/client_sync_reader_data.h"  // for Data
+#include "impl/client_sync_reader_helper.h"  // for ClientSyncReaderHelper
 #include <grpc_cb_core/common/status.h>                          // for Status
 
 namespace grpc_cb_core {

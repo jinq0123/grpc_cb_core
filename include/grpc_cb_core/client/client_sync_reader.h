@@ -7,7 +7,6 @@
 #include <string>
 
 #include <grpc_cb_core/client/channel_sptr.h>  // for ChannelSptr
-#include <grpc_cb_core/client/impl/client_sync_reader_data.h>  // for ClientSyncReaderDataSptr
 #include <grpc_cb_core/common/support/config.h>                // for GRPC_FINAL
 
 namespace grpc_cb_core {
@@ -32,7 +31,7 @@ class ClientSyncReader GRPC_FINAL {
  private:
   // Wrap all data in shared struct pointer to make copy quick.
   using Data = ClientSyncReaderData;
-  using DataSptr = ClientSyncReaderDataSptr;
+  using DataSptr = std::shared_ptr<Data>;
   DataSptr data_sptr_;
 };  // class ClientSyncReader
 

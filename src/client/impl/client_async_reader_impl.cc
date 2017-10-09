@@ -1,12 +1,12 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#include <grpc_cb_core/client/impl/client_async_reader_impl.h>
+#include "client_async_reader_impl.h"
 
 #include <cassert>     // for assert()
 
 #include <grpc_cb_core/client/channel.h>  // for MakeSharedCall()
-#include <grpc_cb_core/client/impl/client_reader_init_cqtag.h>  // for ClientReaderInitCqTag
+#include "client_reader_init_cqtag.h"  // for ClientReaderInitCqTag
 
 #include "client_async_reader_helper.h"
 #include "client_async_reader_recv_status.h"

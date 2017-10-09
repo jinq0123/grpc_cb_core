@@ -4,7 +4,7 @@
 #ifndef GRPC_CB_CORE_CLIENT_READER_ASYNC_RECV_STATUS_CQTAG_H
 #define GRPC_CB_CORE_CLIENT_READER_ASYNC_RECV_STATUS_CQTAG_H
 
-#include <grpc_cb_core/client/impl/client_reader_recv_status_cqtag.h>  // for ClientReaderRecvStatusCqTag
+#include "client_reader_recv_status_cqtag.h"  // for ClientReaderRecvStatusCqTag
 #include <grpc_cb_core/client/status_cb.h>  // for StatusCb
 #include <grpc_cb_core/common/call_sptr.h>   // for CallSptr
 #include <grpc_cb_core/common/support/config.h>   // for GRPC_FINAL

@@ -6,9 +6,9 @@
 #include <cassert>  // for assert()
 
 #include <grpc_cb_core/client/channel.h>  // for MakeSharedCall()
-#include <grpc_cb_core/client/impl/client_send_init_md_cqtag.h>  // for ClientSendInitMdCqTag
-#include <grpc_cb_core/client/impl/client_sync_writer_helper.h>  // for ClientSyncWriterHelper
-#include <grpc_cb_core/client/impl/client_writer_close_cqtag.h>  // for ClientWriterCloseCqTag
+#include "impl/client_send_init_md_cqtag.h"  // for ClientSendInitMdCqTag
+#include "impl/client_sync_writer_helper.h"  // for ClientSyncWriterHelper
+#include "impl/client_writer_close_cqtag.h"  // for ClientWriterCloseCqTag
 
 namespace grpc_cb_core {
 

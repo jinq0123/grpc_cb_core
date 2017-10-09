@@ -4,9 +4,9 @@
 #include "client_async_reader_writer_impl2.h"
 
 #include <grpc_cb_core/client/channel.h>  // for MakeSharedCall()
-#include <grpc_cb_core/client/impl/client_recv_init_md_cqtag.h>  // for ClientRecvInitMdCqTag
-#include <grpc_cb_core/client/impl/client_send_close_cqtag.h>    // for ClientSendCloseCqTag
-#include <grpc_cb_core/client/impl/client_send_init_md_cqtag.h>  // ClientSendInitMdCqTag
+#include "client_recv_init_md_cqtag.h"  // for ClientRecvInitMdCqTag
+#include "client_send_close_cqtag.h"    // for ClientSendCloseCqTag
+#include "client_send_init_md_cqtag.h"  // ClientSendInitMdCqTag
 
 #include "client_async_reader_helper.h"  // for ClientAsyncReaderHelper
 #include "client_async_writer_helper.h"  // for ClientAsyncWriterHelper
