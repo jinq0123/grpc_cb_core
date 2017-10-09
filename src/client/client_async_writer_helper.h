@@ -9,7 +9,7 @@
 #include <queue>
 #include <string>
 
-#include <grpc_cb_core/common/impl/call_sptr.h>  // for CallSptr
+#include <grpc_cb_core/common/call_sptr.h>  // for CallSptr
 #include <grpc_cb_core/common/status.h>          // for Status
 #include <grpc_cb_core/common/support/config.h>  // for GRPC_FINAL
 

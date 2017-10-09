@@ -39,6 +39,12 @@ class ClientSyncReaderWriterImpl GRPC_FINAL {
     return ClientSyncReaderHelper::SyncRecvStatus(d.call_sptr, d.cq4p_sptr);
   }
 
+  // Set error status to break reading. Such as when parsing message failed.
+  void SetErrorStatus(const Status& error_status) {
+    assert(!error_status.ok());
+    data_sptr_->status = error_status;
+  }
+
  private:
   void RecvInitMdIfNot();
 

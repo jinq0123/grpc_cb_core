@@ -9,7 +9,7 @@
 #include <string>
 
 #include <grpc_cb_core/client/channel_sptr.h>              // for ChannelSptr
-#include <grpc_cb_core/common/impl/call_sptr.h>            // for CallSptr
+#include <grpc_cb_core/common/call_sptr.h>            // for CallSptr
 #include <grpc_cb_core/common/impl/grpc_library.h>         // for GrpcLibrary
 #include <grpc_cb_core/common/support/config.h>            // for GRPC_OVERRIDE
 #include <grpc_cb_core/common/support/grpc_cb_core_api.h>  // for GRPC_CB_CORE_API

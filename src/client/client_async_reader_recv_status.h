@@ -5,7 +5,7 @@
 #define GRPC_CB_CORE_CLIENT_CLIENT_ASYNC_READER_RECV_STATUS_H
 
 #include <grpc_cb_core/client/status_cb.h>  // for StatusCb
-#include <grpc_cb_core/common/impl/call_sptr.h>   // for CallSptr
+#include <grpc_cb_core/common/call_sptr.h>   // for CallSptr
 
 namespace grpc_cb_core {
 namespace ClientAsyncReader {

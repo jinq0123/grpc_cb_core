@@ -6,7 +6,7 @@
 
 #include <string>
 
-#include <grpc_cb_core/common/impl/call_sptr.h>            // for CallSptr
+#include <grpc_cb_core/common/call_sptr.h>            // for CallSptr
 #include <grpc_cb_core/common/support/grpc_cb_core_api.h>  // for GRPC_CB_CORE_API
 
 struct grpc_byte_buffer;

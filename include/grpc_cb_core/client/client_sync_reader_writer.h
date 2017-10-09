@@ -39,6 +39,12 @@ class ClientSyncReaderWriter GRPC_FINAL {
     return impl_sptr_->RecvStatus();
   }
 
+  // Set error status to break reading. Such as when parsing message failed.
+  void SetErrorStatus(const Status& error_status) {
+    assert(!error_status.ok());
+    impl_sptr_->SetErrorStatus(error_status);
+  }
+
  private:
   using Impl = ClientSyncReaderWriterImpl;
   const std::shared_ptr<Impl> impl_sptr_;

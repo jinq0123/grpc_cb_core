@@ -14,7 +14,7 @@
 #include <grpc_cb_core/client/status_cb.h>  // for ErrorCb
 #include <grpc_cb_core/common/completion_queue_for_next.h>  // for CompletionQueueForNext
 #include <grpc_cb_core/common/completion_queue_for_next_sptr.h>  // for CompletionQueueForNextSptr
-#include <grpc_cb_core/common/impl/call_sptr.h>  // for CallSptr
+#include <grpc_cb_core/common/call_sptr.h>  // for CallSptr
 #include <grpc_cb_core/common/impl/cqueue_for_next.h>  // to convert GetCq4n() to CompletionQueue
 #include <grpc_cb_core/common/support/grpc_cb_core_api.h>  // for GRPC_CB_CORE_API
 

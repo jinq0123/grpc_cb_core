@@ -6,7 +6,7 @@
 
 #include <grpc_cb_core/client/msg_str_cb.h>  // for MsgStrCb
 #include <grpc_cb_core/client/status_cb.h>  // for StatusCb
-#include <grpc_cb_core/common/impl/call_sptr.h>   // for CallSptr
+#include <grpc_cb_core/common/call_sptr.h>   // for CallSptr
 #include <grpc_cb_core/common/impl/cqueue_for_pluck_sptr.h>  // for CQueueForPluckSptr
 #include <grpc_cb_core/common/status.h>                      // for Status
 
