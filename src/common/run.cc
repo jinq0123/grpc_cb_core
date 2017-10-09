@@ -3,7 +3,7 @@
 
 #include <grpc_cb_core/common/run.h>
 
-#include "do_next_completion.h"  // for DoNextCompletion()
+#include "impl/do_next_completion.h"  // for DoNextCompletion()
 
 #include <grpc_cb_core/common/completion_queue_for_next.h>  // for CompletionQueueForNext
 
