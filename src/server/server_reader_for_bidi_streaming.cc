@@ -3,6 +3,8 @@
 
 #include <grpc_cb_core/server/server_reader_for_bidi_streaming.h>
 
+#include <cassert>
+
 #include <grpc_cb_core/server/server_writer.h>  // for ServerWriter
 
 namespace grpc_cb_core {
