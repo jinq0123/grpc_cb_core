@@ -1,7 +1,6 @@
-#ifndef GRPC_CB_CORE_IMPL_CLINET_CLIENT_SYNC_READER_DATA_H
-#define GRPC_CB_CORE_IMPL_CLINET_CLIENT_SYNC_READER_DATA_H
+#ifndef GRPC_CB_CORE_CLINET_IMPL_CLIENT_SYNC_READER_DATA_H
+#define GRPC_CB_CORE_CLINET_IMPL_CLIENT_SYNC_READER_DATA_H
 
-#include <memory>  // for shared_ptr<>
 #include <string>
 
 #include <grpc_cb_core/client/msg_str_cb.h>  // for MsgStrCb
@@ -24,7 +23,5 @@ struct ClientSyncReaderData {
     StatusCb status_cb;
 };
 
-using ClientSyncReaderDataSptr = std::shared_ptr<ClientSyncReaderData>;
-
 }  // namespace grpc_cb_core
-#endif  // GRPC_CB_CORE_IMPL_CLINET_CLIENT_SYNC_READER_DATA_H
+#endif  // GRPC_CB_CORE_CLINET_IMPL_CLIENT_SYNC_READER_DATA_H

@@ -8,12 +8,12 @@
 #include <string>
 
 #include <grpc_cb_core/client/channel_sptr.h>                // for ChannelSptr
-#include <grpc_cb_core/common/call_sptr.h>                   // for CallSptr
-#include <grpc_cb_core/common/impl/cqueue_for_pluck_sptr.h>  // for CQueueForPluckSptr
-#include <grpc_cb_core/common/status.h>                      // for Status
 #include <grpc_cb_core/common/support/config.h>              // for GRPC_FINAL
 
 namespace grpc_cb_core {
+
+class Status;
+struct ClientSyncWriterData;
 
 // Copyable.
 class ClientSyncWriter GRPC_FINAL {
@@ -28,13 +28,8 @@ class ClientSyncWriter GRPC_FINAL {
 
  private:
   // Wrap all data in shared struct pointer to make copy quick.
-  struct Data {
-    CQueueForPluckSptr cq4p_sptr;
-    CallSptr call_sptr;
-    Status status;
-  };
+  using Data = ClientSyncWriterData;
   using DataSptr = std::shared_ptr<Data>;
-
   DataSptr data_sptr_;  // Easy to copy.
 };  // class ClientSyncWriter
 

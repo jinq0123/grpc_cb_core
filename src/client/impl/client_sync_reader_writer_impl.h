@@ -52,7 +52,7 @@ class ClientSyncReaderWriterImpl GRPC_FINAL {
  private:
   // Wrap all data in shared struct pointer to make copy quick.
   using Data = ClientSyncReaderData;
-  using DataSptr = ClientSyncReaderDataSptr;
+  using DataSptr = std::shared_ptr<Data>;
   DataSptr data_sptr_;  // Same as reader. Easy to copy.
   bool writing_closed_ = false;  // Is SyncCloseWriting() called?
   bool init_md_received_ = false;  // to receive init metadata once

@@ -9,6 +9,7 @@
 #include "impl/client_send_init_md_cqtag.h"  // for ClientSendInitMdCqTag
 #include "impl/client_sync_writer_helper.h"  // for ClientSyncWriterHelper
 #include "impl/client_writer_close_cqtag.h"  // for ClientWriterCloseCqTag
+#include "impl/client_sync_writer_data.h"  // for Data
 
 namespace grpc_cb_core {
 
