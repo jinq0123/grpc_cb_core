@@ -45,6 +45,12 @@ class ClientAsyncReaderWriter GRPC_FINAL {
     impl_sptr_->ReadEach(handler_sptr);
   }
 
+  // Set error status to break reading. Such as when parsing message failed.
+  void SetErrorStatus(const Status& error_status) {
+    assert(!error_status.ok());
+    impl_sptr_->SetErrorStatus(error_status);
+  }
+
  private:
   using Impl = ClientAsyncReaderWriterImpl;
   const std::shared_ptr<Impl> impl_sptr_;

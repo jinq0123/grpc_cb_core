@@ -15,6 +15,7 @@
 namespace grpc_cb_core {
 
 class ClientAsyncReaderWriterImpl2;
+class Status;
 
 // Thread-safe.
 // Only shared in ClientAsyncReaderWriter, because we need dtr() to close writing.
@@ -36,9 +37,13 @@ class ClientAsyncReaderWriterImpl GRPC_FINAL {
 
   void ReadEach(const ClientAsyncReadHandlerSptr& handler_sptr);
 
+  // Set error status to break reading. Such as when parsing message failed.
+  void SetErrorStatus(const Status& error_status);
+
  private:
   // Live longer than ClientAsyncReaderWriter.
   std::shared_ptr<ClientAsyncReaderWriterImpl2> impl2_sptr_;
+  // XXX Do we really need Impl and Impl2?
 };  // class ClientAsyncReaderWriterImpl
 
 // Todo: SyncGetInitMd();

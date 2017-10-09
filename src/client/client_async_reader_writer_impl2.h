@@ -4,6 +4,7 @@
 #ifndef GRPC_CB_CORE_CLIENT_CLIENT_ASYNC_READER_WRITER_IMPL2_H
 #define GRPC_CB_CORE_CLIENT_CLIENT_ASYNC_READER_WRITER_IMPL2_H
 
+#include <cassert>
 #include <cstdint>  // for int64_t
 #include <memory>  // for enable_shared_from_this<>
 #include <mutex>
@@ -46,6 +47,12 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
 
   using ReadHandlerSptr = ClientAsyncReadHandlerSptr;
   void ReadEach(const ReadHandlerSptr& handler_sptr);
+
+  // Set error status to break reading. Such as when parsing message failed.
+  void SetErrorStatus(const Status& error_status) {
+    assert(!error_status.ok());
+    status_ = error_status;
+  }
 
  private:
   // Callback of ReaderHelper.

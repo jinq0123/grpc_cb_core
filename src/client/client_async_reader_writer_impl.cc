@@ -37,4 +37,9 @@ void ClientAsyncReaderWriterImpl::ReadEach(
   impl2_sptr_->ReadEach(handler_sptr);
 }
 
+void ClientAsyncReaderWriterImpl::SetErrorStatus(const Status& error_status) {
+  assert(!error_status.ok());
+  impl2_sptr_->SetErrorStatus(error_status);
+}
+
 }  // namespace grpc_cb_core
