@@ -4,7 +4,7 @@
 #include <grpc_cb_core/server/server_replier.h>
 
 #include <grpc_cb_core/common/call_sptr.h>            // for CallSptr
-#include <grpc_cb_core/server/impl/server_replier_impl.h>  // for ServerReplierImpl
+#include "impl/server_replier_impl.h"  // for ServerReplierImpl
 
 // XXX format
 

@@ -5,7 +5,7 @@
 
 #include <cassert>
 
-#include <grpc_cb_core/server/impl/server_writer_impl.h>  // for ServerWriterImpl
+#include "impl/server_writer_impl.h"  // for ServerWriterImpl
 
 // XXX format
 
