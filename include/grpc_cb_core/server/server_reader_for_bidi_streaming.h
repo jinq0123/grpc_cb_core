@@ -7,12 +7,12 @@
 #include <memory>  // for unique_ptr<>
 #include <string>
 
-#include <grpc_cb_core/server_reader.h>  // for ServerReader
+#include <grpc_cb_core/server/server_reader.h>  // for ServerReader
 #include <grpc_cb_core/common/support/config.h>  // for GRPC_OVERRIDE
-#include <grpc_cb_core/server_writer.h>  // for ServerWriter
 
 namespace grpc_cb_core {
 
+class ServerWriter;
 class Status;
 
 // ServerReader for bidirectional streaming.
@@ -26,22 +26,14 @@ class ServerReaderForBidiStreaming : public ServerReader {
  public:
   // Set by generated codes.
   using Writer = ServerWriter;
-  void SetWriter(const Writer& writer) {
-    writer_uptr_.reset(new Writer(writer));
-  }
+  void SetWriter(const Writer& writer);
 
  public:
-  Writer& GetWriter() {
-    assert(writer_uptr_);
-    return *writer_uptr_;
-  }
+  Writer& GetWriter();
 
  public:
   void OnMsg(const std::string& msg) GRPC_OVERRIDE {}
-  void OnError(const Status& status) GRPC_OVERRIDE {
-    assert(writer_uptr_);
-    writer_uptr_->AsyncClose(status);
-  }
+  void OnError(const Status& status) GRPC_OVERRIDE;
   void OnEnd() GRPC_OVERRIDE {}
 
  private:
