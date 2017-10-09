@@ -4,17 +4,18 @@
 #ifndef GRPC_CB_CORE_CLIENT_ASYNC_READER_WRITER_H
 #define GRPC_CB_CORE_CLIENT_ASYNC_READER_WRITER_H
 
-#include <cassert>
 #include <cstdint>  // for int64_t
 #include <string>
 
-#include <grpc_cb_core/client/impl/client_async_read_handler.h>  // for ClientAsyncReadHandler
-#include <grpc_cb_core/client/impl/client_async_reader_writer_impl.h>  // for ClientAsyncReaderWriterImpl
-#include <grpc_cb_core/client/msg_str_cb.h>  // for MsgStrCb
-#include <grpc_cb_core/client/status_cb.h>  // for StatusCb
-#include <grpc_cb_core/common/support/config.h>   // for GRPC_FINAL
+#include <grpc_cb_core/client/channel_sptr.h>           // for ChannelSptr
+#include <grpc_cb_core/client/msg_str_cb.h>             // for MsgStrCb
+#include <grpc_cb_core/client/status_cb.h>              // for StatusCb
+#include <grpc_cb_core/common/completion_queue_sptr.h>  // for CompletionQueueSptr
+#include <grpc_cb_core/common/support/config.h>         // for GRPC_FINAL
 
 namespace grpc_cb_core {
+
+class ClientAsyncReaderWriterImpl;
 
 // Copyable. Thread-safe.
 class ClientAsyncReaderWriter GRPC_FINAL {
@@ -23,33 +24,19 @@ class ClientAsyncReaderWriter GRPC_FINAL {
   ClientAsyncReaderWriter(const ChannelSptr& channel, const std::string& method,
                           const CompletionQueueSptr& cq_sptr,
                           int64_t timeout_ms,
-                          const StatusCb& status_cb = StatusCb())
-      : impl_sptr_(new Impl(channel, method, cq_sptr, timeout_ms, status_cb)) {
-    assert(cq_sptr);
-    assert(channel);
-  }
+                          const StatusCb& status_cb = StatusCb());
 
  public:
-  bool Write(const std::string& request) const {
-    return impl_sptr_->Write(request);
-  }
+  bool Write(const std::string& request) const;
 
   // Optional. Writing is auto closed in dtr().
   // Redundant calls are ignored.
-  void CloseWriting() {
-    impl_sptr_->CloseWriting();
-  }
+  void CloseWriting();
 
-  void ReadEach(const MsgStrCb& msg_cb) {
-    auto handler_sptr = std::make_shared<ClientAsyncReadHandler>(msg_cb);
-    impl_sptr_->ReadEach(handler_sptr);
-  }
+  void ReadEach(const MsgStrCb& msg_cb);
 
   // Set error status to break reading. Such as when parsing message failed.
-  void SetErrorStatus(const Status& error_status) {
-    assert(!error_status.ok());
-    impl_sptr_->SetErrorStatus(error_status);
-  }
+  void SetErrorStatus(const Status& error_status);
 
  private:
   using Impl = ClientAsyncReaderWriterImpl;
