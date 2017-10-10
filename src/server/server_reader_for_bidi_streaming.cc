@@ -13,9 +13,10 @@ namespace grpc_cb_core {
 ServerReaderForBidiStreaming::~ServerReaderForBidiStreaming() {}
 
 void ServerReaderForBidiStreaming::Start(
-    const CallSptr& call_sptr, const Writer& writer) {
+    const CallSptr& call_sptr, const WriterSptr& writer_sptr) {
   assert(call_sptr);
-  writer_uptr_.reset(new Writer(writer));
+  assert(writer_sptr);
+  writer_sptr_ = writer_sptr;
 
   using RwCqTag = ServerReaderWriterCqTag;
   RwCqTag* tag = new RwCqTag(call_sptr, shared_from_this());
@@ -26,13 +27,13 @@ void ServerReaderForBidiStreaming::Start(
 }
 
 ServerWriter& ServerReaderForBidiStreaming::GetWriter() {
-  assert(writer_uptr_);
-  return *writer_uptr_;
+  assert(writer_sptr_);  // Must after Start()
+  return *writer_sptr_;
 }
 
 void ServerReaderForBidiStreaming::OnError(const Status& status) {
-  assert(writer_uptr_);
-  writer_uptr_->AsyncClose(status);
+  assert(writer_sptr_);
+  writer_sptr_->AsyncClose(status);
 }
 
 }  // namespace grpc_cb_core

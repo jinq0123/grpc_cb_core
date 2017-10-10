@@ -4,7 +4,7 @@
 #ifndef GRPC_CB_CORE_SERVER_READER_FOR_BIDI_STREAMING_H
 #define GRPC_CB_CORE_SERVER_READER_FOR_BIDI_STREAMING_H
 
-#include <memory>  // for unique_ptr<>
+#include <memory>  // for shared_ptr<>
 #include <string>
 
 #include <grpc_cb_core/common/call_sptr.h>       // for CallSptr
@@ -26,8 +26,9 @@ class ServerReaderForBidiStreaming : public ServerReader {
 
  public:
   using Writer = ServerWriter;
+  using WriterSptr = std::shared_ptr<Writer>;
   // Start server reader. Called by generated codes.
-  void Start(const CallSptr& call_sptr, const Writer& writer);
+  void Start(const CallSptr& call_sptr, const WriterSptr& writer_sptr);
 
  public:
   Writer& GetWriter();
@@ -36,7 +37,7 @@ class ServerReaderForBidiStreaming : public ServerReader {
   void OnError(const Status& status) GRPC_OVERRIDE;
 
  private:
-  std::unique_ptr<Writer> writer_uptr_;
+  WriterSptr writer_sptr_;
 };  // class ServerReaderForBidiStreaming
 
 }  // namespace grpc_cb_core

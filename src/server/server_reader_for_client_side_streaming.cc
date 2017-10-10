@@ -13,9 +13,10 @@ namespace grpc_cb_core {
 ServerReaderForClientSideStreaming::~ServerReaderForClientSideStreaming() {}
 
 void ServerReaderForClientSideStreaming::Start(
-    const CallSptr& call_sptr, const Replier& replier) {
+    const CallSptr& call_sptr, const ReplierSptr& replier_sptr) {
   assert(call_sptr);
-  replier_uptr_.reset(new Replier(replier));
+  assert(replier_sptr);
+  replier_sptr_ = replier_sptr;
 
   using CqTag = ServerReaderCqTag;
   CqTag* tag = new CqTag(call_sptr, shared_from_this());
@@ -26,18 +27,18 @@ void ServerReaderForClientSideStreaming::Start(
 }
 
 void ServerReaderForClientSideStreaming::Reply(const std::string& response) {
-  assert(replier_uptr_);
-  replier_uptr_->Reply(response);
+  assert(replier_sptr_);  // Must after Start().
+  replier_sptr_->Reply(response);
 }
 
 void ServerReaderForClientSideStreaming::ReplyError(const Status& status) {
-  assert(replier_uptr_);
-  replier_uptr_->ReplyError(status);
+  assert(replier_sptr_);  // Must after Start().
+  replier_sptr_->ReplyError(status);
 }
 
 ServerReplier& ServerReaderForClientSideStreaming::GetReplier() {
-  assert(replier_uptr_);
-  return *replier_uptr_;
+  assert(replier_sptr_);  // Must after Start().
+  return *replier_sptr_;
 }
 
 void ServerReaderForClientSideStreaming::OnError(const Status& status) {

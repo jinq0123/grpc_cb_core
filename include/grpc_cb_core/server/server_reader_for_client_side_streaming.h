@@ -3,7 +3,7 @@
 #ifndef GRPC_CB_CORE_sERVER_SERVER_READER_FOR_CLIENT_SIDE_STREAMING_H
 #define GRPC_CB_CORE_sERVER_SERVER_READER_FOR_CLIENT_SIDE_STREAMING_H
 
-#include <memory>  // for unique_ptr<>
+#include <memory>  // for shared_ptr<>
 #include <string>
 
 #include <grpc_cb_core/common/call_sptr.h>       // for CallSptr
@@ -25,8 +25,10 @@ class ServerReaderForClientSideStreaming : public ServerReader {
 
  public:
   using Replier = ServerReplier;
+  using ReplierSptr = std::shared_ptr<Replier>;
   // Start server reader. Called by generated codes.
-  void Start(const CallSptr& call_sptr, const Replier& replier);
+  // Use ReplierSptr instead of Replier to allow Replier subclass.
+  void Start(const CallSptr& call_sptr, const ReplierSptr& replier_sptr);
 
  public:
   void Reply(const std::string& response);
@@ -37,7 +39,7 @@ class ServerReaderForClientSideStreaming : public ServerReader {
   void OnError(const Status& status) GRPC_OVERRIDE;
 
  private:
-  std::unique_ptr<Replier> replier_uptr_;
+  ReplierSptr replier_sptr_;
 };  // class ServerReaderForClientSideStreaming
 
 }  // namespace grpc_cb_core
