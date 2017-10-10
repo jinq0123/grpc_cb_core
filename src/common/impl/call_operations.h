@@ -14,7 +14,7 @@
 #include "metadata_vector.h"  // for MetadataVector
 #include <grpc_cb_core/common/status.h>                // for Status
 #include <grpc_cb_core/common/support/config.h>        // for GRPC_FINAL
-#include <grpc_cb_core/common/support/slice.h>  // for SliceFromCopiedString()
+#include "slice.h"  // for SliceFromCopiedString()
 
 struct grpc_slice;
 
