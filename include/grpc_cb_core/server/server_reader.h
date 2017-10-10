@@ -5,6 +5,7 @@
 #define GRPC_CB_CORE_SERVER_READER_H
 
 #include <string>
+#include <memory>
 
 namespace grpc_cb_core {
 
@@ -12,7 +13,7 @@ class Status;
 
 // ServerReader is the interface of client streaming handler.
 // Thread-safe.
-class ServerReader {
+class ServerReader : public std::enable_shared_from_this<ServerReader> {
  public:
   ServerReader() {}
   virtual ~ServerReader() {}

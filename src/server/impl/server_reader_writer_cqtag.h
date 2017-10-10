@@ -59,7 +59,7 @@ void ServerReaderWriterCqTag::DoComplete(bool success) {
   }
 
   std::string request;
-  Status status = cod_recv_msg_.GetResultMsg(request)
+  Status status = cod_recv_msg_.GetResultMsg(request);
   if (!status.ok()) {
       reader_sptr_->OnError(status);  // writer.AsyncClose(status);
       return;

@@ -7,8 +7,9 @@
 #include <memory>  // for unique_ptr<>
 #include <string>
 
-#include <grpc_cb_core/server/server_reader.h>  // for ServerReader
+#include <grpc_cb_core/common/call_sptr.h>       // for CallSptr
 #include <grpc_cb_core/common/support/config.h>  // for GRPC_OVERRIDE
+#include <grpc_cb_core/server/server_reader.h>   // for ServerReader
 
 namespace grpc_cb_core {
 
@@ -24,9 +25,9 @@ class ServerReaderForBidiStreaming : public ServerReader {
   virtual ~ServerReaderForBidiStreaming();
 
  public:
-  // Set by generated codes.
   using Writer = ServerWriter;
-  void SetWriter(const Writer& writer);
+  // Start server reader. Called by generated codes.
+  void Start(const CallSptr& call_sptr, const Writer& writer);
 
  public:
   Writer& GetWriter();

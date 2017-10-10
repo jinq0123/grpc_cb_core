@@ -6,13 +6,23 @@
 #include <cassert>
 
 #include <grpc_cb_core/server/server_replier.h>  // for ReplyError()
+#include "impl/server_reader_cqtag.h"  // for ServerReaderCqTag
 
 namespace grpc_cb_core {
 
 ServerReaderForClientSideStreaming::~ServerReaderForClientSideStreaming() {}
 
-void ServerReaderForClientSideStreaming::SetReplier(const Replier& replier) {
+void ServerReaderForClientSideStreaming::Start(
+    const CallSptr& call_sptr, const Replier& replier) {
+  assert(call_sptr);
   replier_uptr_.reset(new Replier(replier));
+
+  using CqTag = ServerReaderCqTag;
+  CqTag* tag = new CqTag(call_sptr, shared_from_this());
+  if (tag->Start()) return;
+
+  delete tag;
+  OnError(Status::InternalError("Failed to init client-side streaming."));
 }
 
 void ServerReaderForClientSideStreaming::Reply(const std::string& response) {
