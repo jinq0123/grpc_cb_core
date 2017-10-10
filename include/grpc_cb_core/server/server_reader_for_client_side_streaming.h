@@ -25,7 +25,7 @@ class ServerReaderForClientSideStreaming : public ServerReader {
 
  public:
   using Replier = ServerReplier;
-  // Start server reader. Called by generated codes.
+  // Start server reader.
   void Start(const CallSptr& call_sptr, const Replier& replier);
 
  public:

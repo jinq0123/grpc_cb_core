@@ -26,7 +26,7 @@ class ServerReaderForBidiStreaming : public ServerReader {
 
  public:
   using Writer = ServerWriter;
-  // Start server reader. Called by generated codes.
+  // Start server reader.
   void Start(const CallSptr& call_sptr, const Writer& writer);
 
  public:
