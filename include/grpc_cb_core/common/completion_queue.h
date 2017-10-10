@@ -40,7 +40,7 @@
 #include <memory>  // for unique_ptr<>
 
 #include <grpc_cb_core/common/completion_queue_sptr.h>  // for CompletionQueueSptr
-#include <grpc_cb_core/common/impl/grpc_library.h>           // for GrpcLibrary
+#include <grpc_cb_core/common/support/grpc_library.h>           // for GrpcLibrary
 #include <grpc_cb_core/common/support/config.h>  // for GRPC_OVERRIDE
 
 struct grpc_completion_queue;
