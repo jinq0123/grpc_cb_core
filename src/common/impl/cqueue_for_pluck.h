@@ -4,7 +4,7 @@
 #define GRPC_CB_CORE_IMPL_CQUEUE_FOR_PLUCK_H
 
 #include <grpc_cb_core/common/completion_queue.h>  // for CompletionQueue
-#include <grpc_cb_core/common/impl/cqueue_for_pluck_sptr.h>
+#include "cqueue_for_pluck_sptr.h"
 
 namespace grpc_cb_core {
 

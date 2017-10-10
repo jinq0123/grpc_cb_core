@@ -9,7 +9,7 @@
 
 #include "client_send_msg_cqtag.h"  // for ClientSendMsgCqTag
 #include <grpc_cb_core/common/call_sptr.h>              // for CallSptr
-#include <grpc_cb_core/common/impl/cqueue_for_pluck.h>  // for Pluck()
+#include "common/impl/cqueue_for_pluck.h"  // for Pluck()
 #include <grpc_cb_core/common/status.h>                 // for Status
 
 namespace grpc_cb_core {

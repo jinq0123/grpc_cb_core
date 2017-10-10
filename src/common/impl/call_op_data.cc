@@ -1,7 +1,7 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#include <grpc_cb_core/common/impl/call_op_data.h>
+#include "call_op_data.h"
 
 #include <grpc_cb_core/common/status.h>  // for Status
 #include <grpc_cb_core/common/support/slice.h>  // for StringFromCopiedSlice()

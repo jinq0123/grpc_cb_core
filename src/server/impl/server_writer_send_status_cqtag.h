@@ -4,10 +4,10 @@
 #ifndef CPP_CB_SERVER_SERVER_WRITER_SEND_STATUS_CQTAT_H
 #define CPP_CB_SERVER_SERVER_WRITER_SEND_STATUS_CQTAT_H
 
-#include <grpc_cb_core/common/impl/call.h>          // for StartBatch()
-#include <grpc_cb_core/common/impl/call_cqtag.h>    // for CallCqTag
-#include <grpc_cb_core/common/impl/call_op_data.h>  // for CodServerSendStatus
-#include <grpc_cb_core/common/impl/call_operations.h>  // for CallOperations
+#include "common/impl/call.h"          // for StartBatch()
+#include "common/impl/call_cqtag.h"    // for CallCqTag
+#include "common/impl/call_op_data.h"  // for CodServerSendStatus
+#include "common/impl/call_operations.h"  // for CallOperations
 #include <grpc_cb_core/common/call_sptr.h>        // for CallSptr
 #include <grpc_cb_core/common/support/config.h>        // for GRPC_FINAL
 

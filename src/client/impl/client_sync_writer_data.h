@@ -5,7 +5,7 @@
 #include <string>
 
 #include <grpc_cb_core/common/call_sptr.h>  // for CallSptr
-#include <grpc_cb_core/common/impl/cqueue_for_pluck_sptr.h>  // for CQueueForPluckSptr
+#include "common/impl/cqueue_for_pluck_sptr.h"  // for CQueueForPluckSptr
 #include <grpc_cb_core/common/status.h>  // for Status
 
 namespace grpc_cb_core {

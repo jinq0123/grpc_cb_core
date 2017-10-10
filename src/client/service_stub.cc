@@ -6,10 +6,10 @@
 #include <grpc_cb_core/client/channel.h>  // for GetCallTimeoutMs()
 #include "impl/client_async_call_cqtag.h"  // for ClientAsyncCallCqTag
 #include "impl/client_call_cqtag.h"  // for ClientCallCqTag
-#include <grpc_cb_core/common/impl/call.h>
-#include <grpc_cb_core/common/impl/cqueue_for_next.h>   // for CQueueForNext
-#include <grpc_cb_core/common/impl/cqueue_for_pluck.h>  // for CQueueForPluck
-#include <grpc_cb_core/common/impl/cqueue_for_next.h>   // to convert *cq4n_sptr_ to CompletionQueue in MakeSharedCall()
+#include "common/impl/call.h"
+#include "common/impl/cqueue_for_next.h"   // for CQueueForNext
+#include "common/impl/cqueue_for_pluck.h"  // for CQueueForPluck
+#include "common/impl/cqueue_for_next.h"   // to convert *cq4n_sptr_ to CompletionQueue in MakeSharedCall()
 #include <grpc_cb_core/common/run.h>                    // for Run()
 #include <grpc_cb_core/client/channel.h>          // for MakeSharedCall()
 

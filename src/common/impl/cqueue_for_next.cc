@@ -1,4 +1,4 @@
-#include <grpc_cb_core/common/impl/cqueue_for_next.h>
+#include "cqueue_for_next.h"
 
 #include <grpc/grpc.h>
 #include <grpc_cb_core/common/support/time.h>

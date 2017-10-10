@@ -6,11 +6,11 @@
 
 #include <grpc/support/port_platform.h>  // for GRPC_MUST_USE_RESULT
 
-#include <grpc_cb_core/common/impl/call.h>             // for GetMaxMsgSize()
-#include <grpc_cb_core/common/impl/call_cqtag.h>       // for CallCqTag
-#include <grpc_cb_core/common/impl/call_op_data.h>     // for CodSendInitMd
-#include <grpc_cb_core/common/impl/call_operations.h>  // for CallOperations
-#include <grpc_cb_core/common/impl/metadata_vector.h>  // for MetadataVector
+#include "common/impl/call.h"             // for GetMaxMsgSize()
+#include "common/impl/call_cqtag.h"       // for CallCqTag
+#include "common/impl/call_op_data.h"     // for CodSendInitMd
+#include "common/impl/call_operations.h"  // for CallOperations
+#include "common/impl/metadata_vector.h"  // for MetadataVector
 
 namespace grpc_cb_core {
 

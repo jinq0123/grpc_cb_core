@@ -1,4 +1,4 @@
-#include <grpc_cb_core/common/impl/cqueue_for_pluck.h>
+#include "cqueue_for_pluck.h"
 
 #include <cassert>
 

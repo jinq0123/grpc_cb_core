@@ -7,7 +7,7 @@
 
 #include <grpc/grpc.h>  // for grpc_channel_create_call()
 
-#include <grpc_cb_core/common/impl/call.h>
+#include "common/impl/call.h"
 #include <grpc_cb_core/common/completion_queue.h>  // for CompletionQueue
 #include <grpc_cb_core/common/support/slice.h>  // for SliceFromCopiedString()
 
