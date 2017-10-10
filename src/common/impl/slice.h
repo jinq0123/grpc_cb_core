@@ -34,7 +34,7 @@
 #ifndef GRPC_CB_CORE_SUPPORT_SLICE_H
 #define GRPC_CB_CORE_SUPPORT_SLICE_H
 
-#include <grpc_cb_core/common/support/string_ref.h>
+#include "string_ref.h"
 
 namespace grpc_cb_core {
 
