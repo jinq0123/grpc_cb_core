@@ -1,9 +1,9 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
-#ifndef GRPC_CB_CORE_sERVER_SERVER_READER_FOR_CLIENT_SIDE_STREAMING_H
-#define GRPC_CB_CORE_sERVER_SERVER_READER_FOR_CLIENT_SIDE_STREAMING_H
+#ifndef GRPC_CB_CORE_SERVER_SERVER_READER_FOR_CLIENT_SIDE_STREAMING_H
+#define GRPC_CB_CORE_SERVER_SERVER_READER_FOR_CLIENT_SIDE_STREAMING_H
 
-#include <memory>  // for shared_ptr<>
+#include <memory>  // for unique_ptr<>
 #include <string>
 
 #include <grpc_cb_core/common/call_sptr.h>       // for CallSptr
@@ -25,10 +25,8 @@ class ServerReaderForClientSideStreaming : public ServerReader {
 
  public:
   using Replier = ServerReplier;
-  using ReplierSptr = std::shared_ptr<Replier>;
   // Start server reader. Called by generated codes.
-  // Use ReplierSptr instead of Replier to allow Replier subclass.
-  void Start(const CallSptr& call_sptr, const ReplierSptr& replier_sptr);
+  void Start(const CallSptr& call_sptr, const Replier& replier);
 
  public:
   void ReplyStr(const std::string& response);
@@ -39,8 +37,8 @@ class ServerReaderForClientSideStreaming : public ServerReader {
   void OnError(const Status& status) GRPC_OVERRIDE;
 
  private:
-  ReplierSptr replier_sptr_;
+  std::unique_ptr<Replier> replier_uptr_;
 };  // class ServerReaderForClientSideStreaming
 
 }  // namespace grpc_cb_core
-#endif  // GRPC_CB_CORE_sERVER_SERVER_READER_FOR_CLIENT_SIDE_STREAMING_H
+#endif  // GRPC_CB_CORE_SERVER_SERVER_READER_FOR_CLIENT_SIDE_STREAMING_H
