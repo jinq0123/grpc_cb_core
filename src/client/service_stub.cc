@@ -7,9 +7,9 @@
 #include "impl/client_async_call_cqtag.h"  // for ClientAsyncCallCqTag
 #include "impl/client_call_cqtag.h"  // for ClientCallCqTag
 #include "common/impl/call.h"
-#include "common/impl/cqueue_for_next.h"   // for CQueueForNext
+#include <grpc_cb_core/common/completion_queue_for_next.h>   // for CompletionQueueForNext
 #include "common/impl/cqueue_for_pluck.h"  // for CQueueForPluck
-#include "common/impl/cqueue_for_next.h"   // to convert *cq4n_sptr_ to CompletionQueue in MakeSharedCall()
+#include <grpc_cb_core/common/completion_queue_for_next.h>   // to convert *cq4n_sptr_ to CompletionQueue in MakeSharedCall()
 #include <grpc_cb_core/common/run.h>                    // for Run()
 #include <grpc_cb_core/client/channel.h>          // for MakeSharedCall()
 
@@ -27,7 +27,7 @@ ServiceStub::ServiceStub(const ChannelSptr& channel_sptr,
   assert(channel_sptr);
   // Use an internal cq if no external cq.
   if (!cq4n_sptr_)
-    cq4n_sptr_.reset(new CQueueForNext);
+    cq4n_sptr_.reset(new CompletionQueueForNext);
 }
 
 ServiceStub::~ServiceStub() {

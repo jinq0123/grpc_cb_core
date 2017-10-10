@@ -8,7 +8,7 @@
 #include <grpc/grpc.h>
 #include <grpc/grpc_security.h>  // for grpc_server_add_secure_http2_port()
 
-#include "common/impl/cqueue_for_next.h"  // for CQueueForNext
+#include <grpc_cb_core/common/completion_queue_for_next.h>  // for CommpletionQueueForNext
 #include <grpc_cb_core/common/run.h>                   // for Run()
 #include <grpc_cb_core/server/security/server_credentials.h>  // for InsecureServerCredentials
 #include <grpc_cb_core/server/service.h>
@@ -18,7 +18,7 @@
 namespace grpc_cb_core {
 
 Server::Server()
-    : cq4n_sptr_(new CQueueForNext),  // shared_ptr
+    : cq4n_sptr_(new CompletionQueueForNext),  // shared_ptr
       started_(false),
       shutdown_(false),
       c_server_uptr_(MakeUniqueGrpcServer()) {

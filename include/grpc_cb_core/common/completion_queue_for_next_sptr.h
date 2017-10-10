@@ -6,8 +6,8 @@
 
 namespace grpc_cb_core {
 
-class CQueueForNext;  // = CompletionQueueForNext
-using CompletionQueueForNextSptr = std::shared_ptr<CQueueForNext>;
+class CompletionQueueForNext;
+using CompletionQueueForNextSptr = std::shared_ptr<CompletionQueueForNext>;
 
 }  // namespace grpc_cb_core
 #endif  // GRPC_CB_CORE_COMPLETION_QUEUE_FOR_NEXT_SPTR_H

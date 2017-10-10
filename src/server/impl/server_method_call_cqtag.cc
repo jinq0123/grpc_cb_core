@@ -4,16 +4,14 @@
 #include "server_method_call_cqtag.h"
 
 #include "common/impl/call.h"             // for Call
-#include "common/impl/cqueue_for_next.h"  // for c_cq()
+#include <grpc_cb_core/common/completion_queue_for_next.h>  // for c_cq()
 #include <grpc_cb_core/server/service.h>  // for Service
 
 namespace grpc_cb_core {
 
-ServerMethodCallCqTag::ServerMethodCallCqTag(grpc_server* server,
-                                             Service* service,
-                                             size_t method_index,
-                                             void* registered_method,
-                                             const CQueueForNextSptr& cq4n_sptr)
+ServerMethodCallCqTag::ServerMethodCallCqTag(
+    grpc_server* server, Service* service, size_t method_index,
+    void* registered_method, const CompletionQueueForNextSptr& cq4n_sptr)
     : server_(server),
       service_(service),
       method_index_(method_index),
@@ -29,9 +27,8 @@ ServerMethodCallCqTag::ServerMethodCallCqTag(grpc_server* server,
 
   memset(&initial_metadata_array_, 0, sizeof(initial_metadata_array_));
   grpc_completion_queue* ccq = &cq4n_sptr->c_cq();
-  grpc_byte_buffer **optional_payload =
-      service->IsMethodClientStreaming(method_index) ?
-      nullptr : &payload_ptr_;
+  grpc_byte_buffer** optional_payload =
+      service->IsMethodClientStreaming(method_index) ? nullptr : &payload_ptr_;
   grpc_call_error ret = grpc_server_request_registered_call(
       server, registered_method, &call_ptr_, &deadline_,
       &initial_metadata_array_, optional_payload, ccq, ccq, this);

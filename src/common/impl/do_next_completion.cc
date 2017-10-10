@@ -6,13 +6,13 @@
 #include <grpc/impl/codegen/grpc_types.h>  // for grpc_event
 
 #include "completion_queue_tag.h"  // for CompletionQueueTag
-#include "cqueue_for_next.h"       // for CQueueForNext
+#include <grpc_cb_core/common/completion_queue_for_next.h>  // for CompletionQueueForNext
 
 namespace grpc_cb_core {
 
 // Blocking go next and complete.
 // Return false if shutdown.
-bool DoNextCompletion(CQueueForNext& cq4n) {
+bool DoNextCompletion(CompletionQueueForNext& cq4n) {
     grpc_event ev = cq4n.Next();
     switch (ev.type) {
       case GRPC_OP_COMPLETE: {
