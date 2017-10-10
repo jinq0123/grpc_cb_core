@@ -9,23 +9,20 @@
 
 namespace grpc_cb_core {
 
-// XXX format
-    ServerReaderForBidiStreaming::~ServerReaderForBidiStreaming() {}
+ServerReaderForBidiStreaming::~ServerReaderForBidiStreaming() {}
 
+void ServerReaderForBidiStreaming::SetWriter(const Writer& writer) {
+  writer_uptr_.reset(new Writer(writer));
+}
 
-  void ServerReaderForBidiStreaming::SetWriter(const Writer& writer) {
-    writer_uptr_.reset(new Writer(writer));
-  }
+ServerWriter& ServerReaderForBidiStreaming::GetWriter() {
+  assert(writer_uptr_);
+  return *writer_uptr_;
+}
 
-  ServerWriter& ServerReaderForBidiStreaming::GetWriter() {
-    assert(writer_uptr_);
-    return *writer_uptr_;
-  }
-
-  void ServerReaderForBidiStreaming::OnError(const Status& status) {
-    assert(writer_uptr_);
-    writer_uptr_->AsyncClose(status);
-  }
+void ServerReaderForBidiStreaming::OnError(const Status& status) {
+  assert(writer_uptr_);
+  writer_uptr_->AsyncClose(status);
+}
 
 }  // namespace grpc_cb_core
-

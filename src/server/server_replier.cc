@@ -3,25 +3,24 @@
 
 #include <grpc_cb_core/server/server_replier.h>
 
-#include <grpc_cb_core/common/call_sptr.h>            // for CallSptr
-#include "impl/server_replier_impl.h"  // for ServerReplierImpl
-
-// XXX format
+#include <grpc_cb_core/common/call_sptr.h>  // for CallSptr
+#include "impl/server_replier_impl.h"       // for ServerReplierImpl
 
 namespace grpc_cb_core {
 
-  ServerReplier::ServerReplier(const CallSptr& call_sptr)
-      : impl_sptr_(new ServerReplierImpl(call_sptr)) {
-    assert(call_sptr);
-  };
-  ServerReplier::~ServerReplier() {};
+ServerReplier::ServerReplier(const CallSptr& call_sptr)
+    : impl_sptr_(new ServerReplierImpl(call_sptr)) {
+  assert(call_sptr);
+}
 
-  void ServerReplier::Reply(const std::string& response) const {
-    impl_sptr_->Reply(response);
-  }
+ServerReplier::~ServerReplier() {}
 
-  void ServerReplier::ReplyError(const Status& status) const {
-    impl_sptr_->ReplyError(status);
-  }
+void ServerReplier::Reply(const std::string& response) const {
+  impl_sptr_->Reply(response);
+}
+
+void ServerReplier::ReplyError(const Status& status) const {
+  impl_sptr_->ReplyError(status);
+}
 
 }  // namespace grpc_cb_core

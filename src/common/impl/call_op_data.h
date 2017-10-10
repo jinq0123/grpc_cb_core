@@ -10,7 +10,7 @@
 #include "metadata_vector.h"  // for MetadataVector
 #include <grpc_cb_core/common/status.h>                // for Status
 #include <grpc_cb_core/common/support/config.h>        // for GRPC_FINAL
-#include <grpc_cb_core/common/support/noncopyable.h>   // for noncopyable
+#include "noncopyable.h"   // for noncopyable
 
 namespace grpc_cb_core {
 
