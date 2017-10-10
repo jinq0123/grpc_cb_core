@@ -19,7 +19,7 @@ class ServerReader : public std::enable_shared_from_this<ServerReader> {
   virtual ~ServerReader() {}
 
  public:
-  virtual void OnMsg(const std::string& msg) {}
+  virtual void OnMsgStr(const std::string& msg_str) {}
   virtual void OnError(const Status& status) {}
   virtual void OnEnd() {}
 };  // class ServerReader

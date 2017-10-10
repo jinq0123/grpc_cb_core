@@ -33,9 +33,7 @@ class ServerReaderForBidiStreaming : public ServerReader {
   Writer& GetWriter();
 
  public:
-  void OnMsg(const std::string& msg) GRPC_OVERRIDE {}
   void OnError(const Status& status) GRPC_OVERRIDE;
-  void OnEnd() GRPC_OVERRIDE {}
 
  private:
   std::unique_ptr<Writer> writer_uptr_;

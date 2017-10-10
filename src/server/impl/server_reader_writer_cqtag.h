@@ -64,7 +64,7 @@ void ServerReaderWriterCqTag::DoComplete(bool success) {
       reader_sptr_->OnError(status);  // writer.AsyncClose(status);
       return;
   }
-  reader_sptr_->OnMsg(request);
+  reader_sptr_->OnMsgStr(request);
 
   const CallSptr& call_sptr = GetCallSptr();
   auto* tag = new ServerReaderWriterCqTag(call_sptr, reader_sptr_);

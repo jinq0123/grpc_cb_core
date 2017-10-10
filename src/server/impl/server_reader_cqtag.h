@@ -64,7 +64,7 @@ void ServerReaderCqTag::DoComplete(bool success) {
     reader_sptr_->OnError(status);
     return;
   }
-  reader_sptr_->OnMsg(msg);
+  reader_sptr_->OnMsgStr(msg);
 
   const CallSptr& call_sptr = GetCallSptr();
   auto* tag = new ServerReaderCqTag(call_sptr, reader_sptr_);
