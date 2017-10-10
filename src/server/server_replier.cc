@@ -15,8 +15,8 @@ ServerReplier::ServerReplier(const CallSptr& call_sptr)
 
 ServerReplier::~ServerReplier() {}
 
-void ServerReplier::Reply(const std::string& response) const {
-  impl_sptr_->Reply(response);
+void ServerReplier::ReplyStr(const std::string& response) const {
+  impl_sptr_->ReplyStr(response);
 }
 
 void ServerReplier::ReplyError(const Status& status) const {

@@ -29,7 +29,7 @@ class ServerReplierImpl GRPC_FINAL {
 
  public:
   // Reply Message serialized string
-  void Reply(const std::string& response) {
+  void ReplyStr(const std::string& response) {
     if (replied_) return;
     replied_ = true;
     auto* tag = new ServerReplierCqTag(call_sptr_, send_init_md_);  // delete in Run()

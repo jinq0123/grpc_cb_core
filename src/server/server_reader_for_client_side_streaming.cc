@@ -26,9 +26,9 @@ void ServerReaderForClientSideStreaming::Start(
   OnError(Status::InternalError("Failed to init client-side streaming."));
 }
 
-void ServerReaderForClientSideStreaming::Reply(const std::string& response) {
+void ServerReaderForClientSideStreaming::ReplyStr(const std::string& response) {
   assert(replier_sptr_);  // Must after Start().
-  replier_sptr_->Reply(response);
+  replier_sptr_->ReplyStr(response);
 }
 
 void ServerReaderForClientSideStreaming::ReplyError(const Status& status) {

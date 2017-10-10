@@ -31,7 +31,7 @@ class ServerReaderForClientSideStreaming : public ServerReader {
   void Start(const CallSptr& call_sptr, const ReplierSptr& replier_sptr);
 
  public:
-  void Reply(const std::string& response);
+  void ReplyStr(const std::string& response);
   void ReplyError(const Status& status);
   Replier& GetReplier();
 

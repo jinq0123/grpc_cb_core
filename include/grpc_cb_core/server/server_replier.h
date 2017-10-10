@@ -27,7 +27,7 @@ class ServerReplier {
   virtual ~ServerReplier();
 
  public:
-  void Reply(const std::string& response) const;
+  void ReplyStr(const std::string& response) const;
   void ReplyError(const Status& status) const;
 
 private:
