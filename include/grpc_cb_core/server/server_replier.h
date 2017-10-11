@@ -7,7 +7,7 @@
 #include <memory>
 #include <string>
 
-#include <grpc_cb_core/common/call_sptr.h>            // for CallSptr
+#include <grpc_cb_core/common/call_sptr.h>  // for CallSptr
 
 namespace grpc_cb_core {
 

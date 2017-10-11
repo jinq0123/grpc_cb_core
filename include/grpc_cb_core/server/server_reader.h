@@ -5,6 +5,8 @@
 
 #include <string>
 
+#include <grpc_cb_core/common/call_sptr.h>  // for CallSptr
+
 namespace grpc_cb_core {
 
 class Status;
@@ -12,7 +14,7 @@ class Status;
 // ServerReader is the interface of client streaming handler,
 //  for both client-side streaming and bi-directional streaming.
 // Thread-safe.
-class ServerReader {
+class ServerReader : public std::enable_shared_from_this<ServerReader> {
  public:
   ServerReader() {}
   virtual ~ServerReader() {}
@@ -21,6 +23,11 @@ class ServerReader {
   virtual void OnMsgStr(const std::string& msg_str) {}
   virtual void OnError(const Status& status) {}
   virtual void OnEnd() {}
+
+ public:
+  // XXX need document...
+  void StartForBidiStreaming(const CallSptr& call_sptr);
+  void StartForClientSideStreaming(const CallSptr& call_sptr);
 };  // class ServerReader
 
 }  // namespace grpc_cb_core

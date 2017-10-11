@@ -14,6 +14,7 @@ namespace grpc_cb_core {
 class ServerWriterImpl;
 class Status;
 
+// ServerWriter for server-side streaming and bi-diretional streaming.
 // Copyable. Thread-safe.
 class ServerWriter GRPC_FINAL {
  public:
