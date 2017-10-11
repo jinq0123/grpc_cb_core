@@ -11,7 +11,8 @@ namespace grpc_cb_core {
 
 class Status;
 
-// ServerReader is the interface of client streaming handler.
+// ServerReader is the interface of client streaming handler,
+//  for both client-side streaming and bi-directional streaming.
 // Thread-safe.
 class ServerReader : public std::enable_shared_from_this<ServerReader> {
  public:
