@@ -30,8 +30,7 @@ class ServerReader : public std::enable_shared_from_this<ServerReader> {
 
  public:
   // XXX need document...
-  void StartForBidiStreaming(const CallSptr& call_sptr);
-  void StartForClientSideStreaming(const CallSptr& call_sptr);
+  void StartForClientStreaming(const CallSptr& call_sptr);
 };  // class ServerReader
 
 }  // namespace grpc_cb_core
