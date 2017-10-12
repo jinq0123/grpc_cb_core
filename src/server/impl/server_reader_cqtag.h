@@ -54,7 +54,7 @@ void ServerReaderCqTag::DoComplete(bool success) {
     return;
   }
   if (!cod_recv_msg_.HasGotMsg()) {
-    reader_sptr_->OnEnd();
+    reader_sptr_->OnEnd();  // XXX Call OnEnd() after OnError() -> EndOnError()?
     return;
   }
 
