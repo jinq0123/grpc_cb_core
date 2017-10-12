@@ -13,7 +13,7 @@ Status ServerReader::OnMsgStr(const std::string& msg_str) {
   return Status::OK;
 }
 
-void ServerReader::StartForClientStreaming(const CallSptr& call_sptr) {
+void ServerReader::Start(const CallSptr& call_sptr) {
   assert(call_sptr);
 
   using CqTag = ServerReaderCqTag;
@@ -22,6 +22,7 @@ void ServerReader::StartForClientStreaming(const CallSptr& call_sptr) {
 
   delete tag;
   OnError(Status::InternalError("Failed to init client streaming."));
+  OnEnd();
 }
 
 }  // namespace grpc_cb_core

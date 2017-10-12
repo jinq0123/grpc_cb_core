@@ -28,8 +28,13 @@ class ServerReaderCqTag GRPC_FINAL : public CallCqTag {
 
  public:
   inline bool Start() GRPC_MUST_USE_RESULT;
+
  public:
   inline void DoComplete(bool success) GRPC_OVERRIDE;
+
+ private:
+  inline void EndOnError(const Status& status);
+
  private:
   CodRecvMsg cod_recv_msg_;
   ReaderSptr reader_sptr_;
@@ -50,23 +55,23 @@ bool ServerReaderCqTag::Start() {
 
 void ServerReaderCqTag::DoComplete(bool success) {
   if (!success) {
-    reader_sptr_->OnError(Status::InternalError("ServerReaderCqTag failed."));
+    EndOnError(Status::InternalError("ServerReaderCqTag failed."));
     return;
   }
   if (!cod_recv_msg_.HasGotMsg()) {
-    reader_sptr_->OnEnd();  // XXX Call OnEnd() after OnError() -> EndOnError()?
+    reader_sptr_->OnEnd();  // Normal end.
     return;
   }
 
   std::string msg;
   Status status = cod_recv_msg_.GetResultMsg(msg);
   if (!status.ok()) {
-    reader_sptr_->OnError(status);
+    EndOnError(status);
     return;
   }
   status = reader_sptr_->OnMsgStr(msg);
   if (!status.ok()) {
-    reader_sptr_->OnError(status);
+    EndOnError(status);
     return;
   }
 
@@ -74,8 +79,14 @@ void ServerReaderCqTag::DoComplete(bool success) {
   auto* tag = new ServerReaderCqTag(call_sptr, reader_sptr_);
   if (tag->Start()) return;
   delete tag;
-  reader_sptr_->OnError(Status::InternalError(
-    "Failed to read client stream."));
+  EndOnError(Status::InternalError("Failed to read client stream."));
+}
+
+void ServerReaderCqTag::EndOnError(const Status& status)
+{
+  assert(!status.ok());
+  reader_sptr_->OnError(status);
+  reader_sptr_->OnEnd();
 }
 
 }  // namespace grpc_cb_core

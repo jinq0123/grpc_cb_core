@@ -20,17 +20,16 @@ class ServerReader : public std::enable_shared_from_this<ServerReader> {
   virtual ~ServerReader() {}
 
  public:
-  // Subclass overrides should call its parent's functions
-  //   to get the default behavior.
-
   // OnMsgStr() may return parsing error.
   virtual Status OnMsgStr(const std::string& msg_str);
   virtual void OnError(const Status& status) {}
+  // In case of end on error, OnError() is already called before OnEnd().
   virtual void OnEnd() {}
 
  public:
   // XXX need document...
-  void StartForClientStreaming(const CallSptr& call_sptr);
+  // Start the reader.
+  void Start(const CallSptr& call_sptr);
 };  // class ServerReader
 
 }  // namespace grpc_cb_core
