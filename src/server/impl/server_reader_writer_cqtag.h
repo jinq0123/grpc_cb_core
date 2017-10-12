@@ -61,10 +61,14 @@ void ServerReaderWriterCqTag::DoComplete(bool success) {
   std::string request;
   Status status = cod_recv_msg_.GetResultMsg(request);
   if (!status.ok()) {
-      reader_sptr_->OnError(status);  // writer.AsyncClose(status);
+      reader_sptr_->OnError(status);  // writer.AsyncClose(status);  XXX
       return;
   }
-  reader_sptr_->OnMsgStr(request);
+  status = reader_sptr_->OnMsgStr(request);
+  if (!status.ok()) {
+      reader_sptr_->OnError(status);  // writer.AsyncClose(status); XXX
+      return;
+  }
 
   const CallSptr& call_sptr = GetCallSptr();
   auto* tag = new ServerReaderWriterCqTag(call_sptr, reader_sptr_);

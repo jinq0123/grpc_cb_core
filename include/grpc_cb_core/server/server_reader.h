@@ -20,7 +20,11 @@ class ServerReader : public std::enable_shared_from_this<ServerReader> {
   virtual ~ServerReader() {}
 
  public:
-  virtual void OnMsgStr(const std::string& msg_str) {}  // XXX need to return Status
+  // Subclass overrides should call its parent's functions
+  //   to get the default behavior.
+
+  // OnMsgStr() may return parsing error.
+  virtual Status OnMsgStr(const std::string& msg_str);
   virtual void OnError(const Status& status) {}
   virtual void OnEnd() {}
 

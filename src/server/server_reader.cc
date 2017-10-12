@@ -10,6 +10,10 @@
 
 namespace grpc_cb_core {
 
+Status ServerReader::OnMsgStr(const std::string& msg_str) {
+  return Status::OK;
+}
+
 void ServerReader::StartForBidiStreaming(const CallSptr& call_sptr) {
   assert(call_sptr);
 
