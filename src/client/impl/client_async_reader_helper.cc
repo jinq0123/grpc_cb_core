@@ -24,6 +24,7 @@ ClientAsyncReaderHelper::~ClientAsyncReaderHelper() {}
 
 // Setup to read each.
 void ClientAsyncReaderHelper::Start() {
+  Guard g(mtx_);
   if (started_) return;
   started_ = true;
   Next();
@@ -31,6 +32,7 @@ void ClientAsyncReaderHelper::Start() {
 
 // Setup next async read.
 void ClientAsyncReaderHelper::Next() {
+  Guard g(mtx_);
   assert(started_);
   if (aborted_)  // Maybe writer failed.
     return;
@@ -48,6 +50,7 @@ void ClientAsyncReaderHelper::Next() {
 }
 
 void ClientAsyncReaderHelper::OnRead(bool success, ClientReaderReadCqTag& tag) {
+  Guard g(mtx_);
   if (aborted_)  // Maybe writer failed.
     return;
   assert(status_.ok());
