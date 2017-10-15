@@ -48,8 +48,6 @@ bool ClientAsyncWriterHelper::WriteNext() {
 
   if (aborted_) return false;  // Maybe reader failed.
   is_writing_ = true;
-  const std::string& msg = msg_queue_.front();
-  msg_queue_.pop();  // may empty now but is_writing_
 
   assert(call_sptr_);
   auto* tag = new ClientSendMsgCqTag(call_sptr_);
@@ -57,8 +55,10 @@ bool ClientAsyncWriterHelper::WriteNext() {
   tag->SetCompleteCb([sptr](bool success) {
       sptr->OnWritten(success);
   });
-  if (tag->Start(msg))
-    return true;
+
+  bool ok = tag->Start(msg_queue_.front());
+  msg_queue_.pop();  // may empty now but is_writing_
+  if (ok) return true;
 
   delete tag;
   status_.SetInternalError("Failed to write client stream.");
