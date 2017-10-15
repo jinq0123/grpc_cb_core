@@ -32,7 +32,6 @@ class ClientAsyncWriter GRPC_FINAL {
   // Todo: Use a default CloseHandler if no Close()?
 
  private:
-  // XXX Use non_template class as the implement.
   const std::shared_ptr<ClientAsyncWriterImpl> impl_sptr_;  // Easy to copy.
 };  // class ClientAsyncWriter
 
