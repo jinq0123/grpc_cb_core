@@ -76,7 +76,7 @@ void ClientAsyncReaderWriterImpl2::CloseWriting() {
 
   // End when all messages are written.
   if (writer_sptr_)
-      writer_sptr_->QueueEnd();
+      writer_sptr_->End();
 }
 
 // Called in dtr().

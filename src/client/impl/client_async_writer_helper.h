@@ -1,11 +1,11 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
-
-#ifndef GRPC_CB_CORE_CLIENT_CLIENT_ASYNC_WRITER_HELPER_H
-#define GRPC_CB_CORE_CLIENT_CLIENT_ASYNC_WRITER_HELPER_H
+#ifndef GRPC_CB_CORE_CLIENT_IMPL_CLIENT_ASYNC_WRITER_HELPER_H
+#define GRPC_CB_CORE_CLIENT_IMPL_CLIENT_ASYNC_WRITER_HELPER_H
 
 #include <functional>  // for function<>
 #include <memory>  // for enable_shared_from_this<>
+#include <mutex>  // for recursive_mutex
 #include <queue>
 #include <string>
 
@@ -16,6 +16,7 @@
 namespace grpc_cb_core {
 
 // Cache messages and write one by one.
+// Thread-safe.
 // Used by ClientAsyncWriter and ClientAsyncReaderWriter.
 // Differ from ClientAsyncReaderHelper:
 //  ReaderHelper is ended by the peer, while WriterHelper is ended by Writer.
@@ -35,7 +36,7 @@ class ClientAsyncWriterHelper GRPC_FINAL
 
   // Set the end of messages. Differ with the close.
   // Do not queue further. May trigger end_cb().
-  void QueueEnd();
+  void End();
 
   void Abort() { aborted_ = true; }  // Abort writing. Stop sending.
   const Status& GetStatus() const { return status_; }
@@ -47,6 +48,11 @@ class ClientAsyncWriterHelper GRPC_FINAL
   bool WriteNext();
 
  private:
+  // WriteNext() may lock the mutex recursively.
+  using Mutex = std::recursive_mutex;
+  mutable Mutex mtx_;
+  using Guard = std::lock_guard<Mutex>;
+
   const CallSptr call_sptr_;
   bool aborted_ = false;  // to abort writer
   const EndCb end_cb_;  // callback on the end
@@ -58,9 +64,9 @@ class ClientAsyncWriterHelper GRPC_FINAL
   // When the last msg is writing, the queue is empty, so we need it.
   bool is_writing_ = false;
 
-  // no more msg to queue after QueueEnd()
+  // no more msg to queue after End()
   bool is_queue_ended_ = false;
 };  // class ClientAsyncWriterHelper
 
 }  // namespace grpc_cb_core
-#endif  // GRPC_CB_CORE_CLIENT_CLIENT_ASYNC_WRITER_HELPER_H
+#endif  // GRPC_CB_CORE_CLIENT_IMPL_CLIENT_ASYNC_WRITER_HELPER_H

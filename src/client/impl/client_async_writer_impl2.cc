@@ -64,7 +64,7 @@ void ClientAsyncWriterImpl2::Close(const CloseHandlerSptr& handler_sptr) {
   }
 
   if (writer_sptr_)
-      writer_sptr_->QueueEnd();  // May trigger OnEndOfWriting().
+      writer_sptr_->End();  // May trigger OnEndOfWriting().
   else
       SendCloseIfNot();
 }

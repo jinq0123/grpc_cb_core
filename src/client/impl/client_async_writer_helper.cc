@@ -10,8 +10,6 @@
 
 namespace grpc_cb_core {
 
-// Todo: thread-safe
-
 ClientAsyncWriterHelper::ClientAsyncWriterHelper(
     const CallSptr& call_sptr, const EndCb& end_cb)
     : call_sptr_(call_sptr), end_cb_(end_cb) {
@@ -22,6 +20,7 @@ ClientAsyncWriterHelper::ClientAsyncWriterHelper(
 ClientAsyncWriterHelper::~ClientAsyncWriterHelper() {}
 
 bool ClientAsyncWriterHelper::Queue(const std::string& msg) {
+  Guard g(mtx_);
   if (aborted_)  // Maybe reader failed.
     return false;
   if (is_queue_ended_)
@@ -33,7 +32,8 @@ bool ClientAsyncWriterHelper::Queue(const std::string& msg) {
   return WriteNext();
 }
 
-void ClientAsyncWriterHelper::QueueEnd() {
+void ClientAsyncWriterHelper::End() {
+  Guard g(mtx_);
   if (is_queue_ended_) return;
   if (aborted_) return;
   is_queue_ended_ = true;
@@ -43,6 +43,7 @@ void ClientAsyncWriterHelper::QueueEnd() {
 }
 
 bool ClientAsyncWriterHelper::WriteNext() {
+  Guard g(mtx_);
   assert(!is_writing_);
   assert(!msg_queue_.empty());
 
@@ -67,6 +68,7 @@ bool ClientAsyncWriterHelper::WriteNext() {
 }
 
 void ClientAsyncWriterHelper::OnWritten(bool success) {
+  Guard g(mtx_);
   assert(status_.ok());
   assert(is_writing_);
   is_writing_ = false;
