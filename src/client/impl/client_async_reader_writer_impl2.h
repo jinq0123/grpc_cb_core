@@ -73,20 +73,15 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
 
   const CallSptr call_sptr_;
   Status status_;
-
   ReadHandlerSptr read_handler_sptr_;
   StatusCb status_cb_;
-
-  bool reading_started_ = false;  // ReadEach() to trigger reading.
-  bool writing_started_ = false;  // Write() to trigger writing.
-  bool reading_ended_ = false;
-  bool writing_ended_ = false;
-
   bool has_sent_close_ = false;  // Client send close once.
 
   // Helper will be shared by CqTag.
   std::shared_ptr<ClientAsyncReaderHelper> reader_sptr_;
   std::shared_ptr<ClientAsyncWriterHelper> writer_sptr_;
+  bool reading_ended_ = false;
+  bool writing_ended_ = false;
 };  // class ClientAsyncReaderWriterImpl2
 
 // Todo: SyncGetInitMd();

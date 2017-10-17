@@ -61,9 +61,6 @@ bool ClientAsyncReaderWriterImpl2::Write(const std::string& msg) {
   if (writer_sptr_)
     return writer_sptr_->Queue(msg);
 
-  // new writer only once
-  assert(!writing_started_);
-  writing_started_ = true;
   // Impl2 and WriterHelper share each other untill OnEndOfWriting().
   auto sptr = shared_from_this();  // can not in ctr().
   writer_sptr_.reset(new ClientAsyncWriterHelper(call_sptr_,
@@ -100,12 +97,9 @@ void ClientAsyncReaderWriterImpl2::SendCloseIfNot() {
 void ClientAsyncReaderWriterImpl2::ReadEach(
     const ReadHandlerSptr& handler_sptr) {
   Guard g(mtx_);
-
+  if (reader_sptr_) return;  // already started.
   read_handler_sptr_ = handler_sptr;
-  if (reading_started_) return;
-  reading_started_ = true;  // new reader_sptr_ once
 
-  assert(!reader_sptr_);
   // Impl2 and ReaderHelper will share each other until OnEndOfReading().
   auto sptr = shared_from_this();
   reader_sptr_.reset(new ClientAsyncReaderHelper(
@@ -116,7 +110,6 @@ void ClientAsyncReaderWriterImpl2::ReadEach(
 void ClientAsyncReaderWriterImpl2::OnEndOfReading() {
   Guard g(mtx_);
   assert(reader_sptr_);
-  assert(reading_started_);
   if (reading_ended_) return;
   reading_ended_ = true;
   reader_sptr_->Abort();  // Stop circular sharing.
@@ -130,7 +123,6 @@ void ClientAsyncReaderWriterImpl2::OnEndOfReading() {
 void ClientAsyncReaderWriterImpl2::OnEndOfWriting() {
   Guard g(mtx_);
   assert(writer_sptr_);
-  assert(writing_started_);
   if (writing_ended_) return;
   writing_ended_ = true;
   writer_sptr_->Abort();  // Stop circular sharing.
