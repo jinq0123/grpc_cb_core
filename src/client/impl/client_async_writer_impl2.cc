@@ -41,7 +41,7 @@ bool ClientAsyncWriterImpl2::Write(const std::string& request) {
   if (writer_sptr_)
     return writer_sptr_->Queue(request);
 
-  // Impl2 and WriterHelper shared each other untill OnEnd().
+  // Impl2 and WriterHelper shared each other untill OnEndOfWriting().
   auto sptr = shared_from_this();
   writer_sptr_.reset(new ClientAsyncWriterHelper(call_sptr_,
       [sptr]() { sptr->OnEndOfWriting(); }));
@@ -63,7 +63,7 @@ void ClientAsyncWriterImpl2::Close(const CloseHandlerSptr& handler_sptr) {
   if (writer_sptr_) {
     writer_sptr_->SetClosing();  // May trigger OnEndOfWriting().
   } else {
-    writing_ended_ = true;
+    writing_ended_ = true;  // Ended without start.
     SendCloseIfNot();
   }
 }

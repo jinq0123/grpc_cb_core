@@ -61,15 +61,15 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
   const CallSptr call_sptr_;
   Status status_;
 
-  bool writing_ended_ = false;
   bool has_sent_close_ = false;  // Client send close once.
 
   // Close handler hides the Response and on_closed callback.
   CloseHandlerSptr close_handler_sptr_;
   bool close_handler_set_ = false;  // set handler only once
 
-  // Will be shared by CqTag.
+  // shared by CqTag.
   std::shared_ptr<ClientAsyncWriterHelper> writer_sptr_;
+  bool writing_ended_ = false;
 };  // class ClientAsyncWriterImpl2
 
 }  // namespace grpc_cb_core
