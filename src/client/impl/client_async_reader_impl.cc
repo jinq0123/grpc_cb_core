@@ -56,7 +56,11 @@ void ClientAsyncReaderImpl::Start() {
   // Impl and Helper will share each other until the end of reading.
   auto sptr = shared_from_this();
   reader_sptr_.reset(new ClientAsyncReaderHelper(
-      call_sptr_, read_handler_sptr_, [sptr]() { sptr->OnEndOfReading(); }));
+      call_sptr_, read_handler_sptr_, [sptr]() {
+        auto p2 = sptr;
+        p2->OnEndOfReading();  // will clear this function
+        // sptr is invalid now
+      }));
   reader_sptr_->Start();
 }
 

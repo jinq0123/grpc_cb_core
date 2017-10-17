@@ -64,7 +64,11 @@ bool ClientAsyncReaderWriterImpl2::Write(const std::string& msg) {
   // Impl2 and WriterHelper share each other untill OnEndOfWriting().
   auto sptr = shared_from_this();  // can not in ctr().
   writer_sptr_.reset(new ClientAsyncWriterHelper(call_sptr_,
-      [sptr]() { sptr->OnEndOfWriting(); }));
+      [sptr]() {
+        auto p2 = sptr;
+        p2->OnEndOfWriting();  // will clear this function<>
+        // sptr is invalid now
+      }));
   return writer_sptr_->Queue(msg);
 }
 
@@ -103,7 +107,11 @@ void ClientAsyncReaderWriterImpl2::ReadEach(
   // Impl2 and ReaderHelper will share each other until OnEndOfReading().
   auto sptr = shared_from_this();
   reader_sptr_.reset(new ClientAsyncReaderHelper(
-      call_sptr_, read_handler_sptr_, [sptr]() { sptr->OnEndOfReading(); }));
+      call_sptr_, read_handler_sptr_, [sptr]() {
+        auto p2 = sptr;
+        p2->OnEndOfReading();  // will clear this function<>
+        // sptr is invalid now
+      }));
   reader_sptr_->Start();
 }
 

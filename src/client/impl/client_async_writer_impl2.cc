@@ -44,9 +44,13 @@ bool ClientAsyncWriterImpl2::Write(const std::string& request) {
   // Impl2 and WriterHelper shared each other untill OnEndOfWriting().
   auto sptr = shared_from_this();
   writer_sptr_.reset(new ClientAsyncWriterHelper(call_sptr_,
-      [sptr]() { sptr->OnEndOfWriting(); }));
+      [sptr]() {
+        auto p2 = sptr;
+        p2->OnEndOfWriting();  // will delete this function<>
+        // sptr is invalid now
+      }));
   return writer_sptr_->Queue(request);
-}
+}  // Write()
 
 void ClientAsyncWriterImpl2::Close(const CloseHandlerSptr& handler_sptr) {
   Guard g(mtx_);
@@ -66,7 +70,7 @@ void ClientAsyncWriterImpl2::Close(const CloseHandlerSptr& handler_sptr) {
     writing_ended_ = true;  // Ended without start.
     SendCloseIfNot();
   }
-}
+}  // Close()
 
 // Finally close...
 void ClientAsyncWriterImpl2::SendCloseIfNot() {
@@ -86,7 +90,7 @@ void ClientAsyncWriterImpl2::SendCloseIfNot() {
 
   delete tag;
   SetInternalError("Failed to close client stream.");  // Calls CallCloseHandler();
-}  // Close()
+}  // SendCloseIfNot()
 
 void ClientAsyncWriterImpl2::CallCloseHandler() {
   if (!close_handler_sptr_) return;
@@ -110,7 +114,7 @@ void ClientAsyncWriterImpl2::OnClosed(bool success, ClientWriterCloseCqTag& tag)
   }
 
   CallCloseHandler();
-}
+}  // OnClosed()
 
 void ClientAsyncWriterImpl2::OnEndOfWriting() {
   Guard g(mtx_);
@@ -125,7 +129,7 @@ void ClientAsyncWriterImpl2::OnEndOfWriting() {
     SendCloseIfNot();
   else
     CallCloseHandler();
-}
+}  // OnEndOfWriting()
 
 void ClientAsyncWriterImpl2::SetInternalError(const std::string& sError) {
   status_.SetInternalError(sError);
