@@ -68,7 +68,7 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
   CloseHandlerSptr close_handler_sptr_;
   bool close_handler_set_ = false;  // set handler only once
 
-  // Will be shared by CqTag. Reset on ended.
+  // Will be shared by CqTag.
   std::shared_ptr<ClientAsyncWriterHelper> writer_sptr_;
 };  // class ClientAsyncWriterImpl2
 

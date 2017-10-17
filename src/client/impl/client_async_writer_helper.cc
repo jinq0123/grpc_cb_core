@@ -37,7 +37,7 @@ void ClientAsyncWriterHelper::SetClosing() {
   if (is_closing_) return;
   if (aborted_) return;
   is_closing_ = true;
-  if (is_writing_) return;  // call end_cb() in OnWritten()
+  if (is_writing_) return;  // will End() in OnWritten()
   assert(msg_queue_.empty());
   End();
 }  // SetClosing()

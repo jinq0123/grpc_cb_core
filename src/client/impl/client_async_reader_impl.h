@@ -52,6 +52,7 @@ class ClientAsyncReaderImpl GRPC_FINAL
   const CallSptr call_sptr_;
   Status status_;
   bool reading_started_{ false };
+  bool reading_ended_{ false };
 
   ClientAsyncReadHandlerSptr read_handler_sptr_;
   StatusCb status_cb_;

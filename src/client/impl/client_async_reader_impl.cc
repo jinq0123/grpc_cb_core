@@ -66,13 +66,13 @@ void ClientAsyncReaderImpl::Start() {
 void ClientAsyncReaderImpl::OnEndOfReading() {
   Guard g(mtx_);
   assert(reading_started_);
-
-  if (!reader_sptr_) return;
-  Status r_status(reader_sptr_->GetStatus());  // Copy before reset()
-  reader_sptr_.reset();  // Stop circular sharing.
+  if (reading_ended_) return;
+  reading_ended_ = true;
+  reader_sptr_->Abort();  // Stop circular sharing.
 
   if (!status_.ok()) return;
-  status_ = r_status;
+  status_ = reader_sptr_->GetStatus();
+
   if (status_.ok()) {
     ClientAsyncReader::RecvStatus(call_sptr_, status_cb_);
     return;
