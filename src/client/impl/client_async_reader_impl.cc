@@ -3,13 +3,12 @@
 
 #include "client_async_reader_impl.h"
 
-#include <cassert>     // for assert()
+#include <cassert>  // for assert()
 
 #include <grpc_cb_core/client/channel.h>  // for MakeSharedCall()
-#include "client_reader_init_cqtag.h"  // for ClientReaderInitCqTag
-
 #include "client_async_reader_helper.h"
 #include "client_async_reader_recv_status.h"
+#include "client_reader_init_cqtag.h"  // for ClientReaderInitCqTag
 
 namespace grpc_cb_core {
 
@@ -23,7 +22,6 @@ ClientAsyncReaderImpl::ClientAsyncReaderImpl(
   assert(call_sptr_);
 
   // Todo: Move to Start()
-  // Todo: move ClientReaderInitCqTag to src/
   ClientReaderInitCqTag* tag = new ClientReaderInitCqTag(call_sptr_);
   if (tag->Start(request))
     return;
@@ -52,9 +50,8 @@ void ClientAsyncReaderImpl::SetStatusCb(const StatusCb& status_cb) {
 
 void ClientAsyncReaderImpl::Start() {
   Guard g(mtx_);
-  if (reading_started_) return;
-  reading_started_ = true;
-  assert(!reader_sptr_);
+  if (reader_sptr_)
+    return;  // already started
 
   // Impl and Helper will share each other until the end of reading.
   auto sptr = shared_from_this();
@@ -65,14 +62,13 @@ void ClientAsyncReaderImpl::Start() {
 
 void ClientAsyncReaderImpl::OnEndOfReading() {
   Guard g(mtx_);
-  assert(reading_started_);
+  assert(reader_sptr_);
   if (reading_ended_) return;
   reading_ended_ = true;
   reader_sptr_->Abort();  // Stop circular sharing.
 
   if (!status_.ok()) return;
   status_ = reader_sptr_->GetStatus();
-
   if (status_.ok()) {
     ClientAsyncReader::RecvStatus(call_sptr_, status_cb_);
     return;
