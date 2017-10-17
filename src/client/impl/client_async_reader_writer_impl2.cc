@@ -73,7 +73,8 @@ bool ClientAsyncReaderWriterImpl2::Write(const std::string& msg) {
 
 void ClientAsyncReaderWriterImpl2::CloseWriting() {
   Guard g(mtx_);
-  writing_started_ = true;  // Maybe without any Write(). XXX
+  // XXX writing_started_ = true;  // Maybe without any Write(). XXX
+  writing_ended_ = true;
 
   // End when all messages are written.
   if (writer_sptr_)

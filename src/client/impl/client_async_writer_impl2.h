@@ -61,7 +61,6 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
   const CallSptr call_sptr_;
   Status status_;
 
-  bool writing_started_ = false;  // new writer_sptr once
   bool writing_ended_ = false;
   bool has_sent_close_ = false;  // Client send close once.
 

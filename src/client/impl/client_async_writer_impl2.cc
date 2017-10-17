@@ -6,11 +6,11 @@
 #include <cassert>  // for assert()
 
 #include <grpc_cb_core/client/channel.h>  // for MakeSharedCall()
-#include "client_async_writer_close_handler.h"  // for OnClose()
-#include "client_send_init_md_cqtag.h"  // for ClientSendInitMdCqTag
-#include "client_writer_close_cqtag.h"  // for ClientWriterCloseCqTag
 
-#include "client_async_writer_helper.h"       // for ClientAsyncWriterHelper
+#include "client_async_writer_close_handler.h"  // for OnClose()
+#include "client_async_writer_helper.h"         // for ClientAsyncWriterHelper
+#include "client_send_init_md_cqtag.h"          // for ClientSendInitMdCqTag
+#include "client_writer_close_cqtag.h"          // for ClientWriterCloseCqTag
 
 namespace grpc_cb_core {
 
@@ -41,9 +41,6 @@ bool ClientAsyncWriterImpl2::Write(const std::string& request) {
   if (writer_sptr_)
     return writer_sptr_->Queue(request);
 
-  assert(!writing_started_);
-  writing_started_ = true;
-
   // Impl2 and WriterHelper shared each other untill OnEnd().
   auto sptr = shared_from_this();
   writer_sptr_.reset(new ClientAsyncWriterHelper(call_sptr_,
@@ -57,17 +54,18 @@ void ClientAsyncWriterImpl2::Close(const CloseHandlerSptr& handler_sptr) {
   if (close_handler_set_) return;  // already done
   close_handler_set_ = true;
   close_handler_sptr_ = handler_sptr;  // reset after CallCloseHandler()
-  writing_started_ = true;  // Maybe without any Write().
 
   if (!status_.ok()) {
     CallCloseHandler();
     return;
   }
 
-  if (writer_sptr_)
-      writer_sptr_->SetClosing();  // May trigger OnEndOfWriting().
-  else
-      SendCloseIfNot();
+  if (writer_sptr_) {
+    writer_sptr_->SetClosing();  // May trigger OnEndOfWriting().
+  } else {
+    writing_ended_ = true;
+    SendCloseIfNot();
+  }
 }
 
 // Finally close...
