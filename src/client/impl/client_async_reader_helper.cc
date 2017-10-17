@@ -45,7 +45,6 @@ const Status ClientAsyncReaderHelper::GetStatus() const {
   return status_;
 }
 
-
 // Setup next async read.
 void ClientAsyncReaderHelper::Next() {
   Guard g(mtx_);

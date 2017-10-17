@@ -36,7 +36,7 @@ class ClientAsyncWriterHelper GRPC_FINAL
 
   // Set the end of messages. Differ with the close.
   // Do not queue further. May trigger end_cb().
-  void End();
+  void SetClosing();
 
   void Abort();  // Abort writing. Stop sending.
   const Status GetStatus() const;  // return copy for thread-safety
@@ -64,8 +64,8 @@ class ClientAsyncWriterHelper GRPC_FINAL
   // When the last msg is writing, the queue is empty, so we need it.
   bool is_writing_ = false;
 
-  // no more msg to queue after End()
-  bool is_queue_ended_ = false;
+  // no more msg to queue after SetClosing()
+  bool is_closing_ = false;
 };  // class ClientAsyncWriterHelper
 
 }  // namespace grpc_cb_core

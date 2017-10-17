@@ -23,24 +23,24 @@ bool ClientAsyncWriterHelper::Queue(const std::string& msg) {
   Guard g(mtx_);
   if (aborted_)  // Maybe reader failed.
     return false;
-  if (is_queue_ended_)
-    return true;  // ignore
+  if (is_closing_)
+    return true;  // ignore msg if is closing
 
   // cache messages
   msg_queue_.push(msg);
   if (is_writing_) return true;
   return WriteNext();
-}
+}  // Queue()
 
-void ClientAsyncWriterHelper::End() {
+void ClientAsyncWriterHelper::SetClosing() {
   Guard g(mtx_);
-  if (is_queue_ended_) return;
+  if (is_closing_) return;
   if (aborted_) return;
-  is_queue_ended_ = true;
+  is_closing_ = true;
   if (is_writing_) return;  // call end_cb() in OnWritten()
   assert(msg_queue_.empty());
   end_cb_();
-}
+}  // SetClosing()
 
 // Abort writing. Stop sending.
 void ClientAsyncWriterHelper::Abort() {
@@ -78,7 +78,7 @@ bool ClientAsyncWriterHelper::WriteNext() {
   status_.SetInternalError("Failed to write client stream.");
   end_cb_();  // error end
   return false;
-}
+}  // WriteNext()
 
 void ClientAsyncWriterHelper::OnWritten(bool success) {
   Guard g(mtx_);
@@ -95,8 +95,8 @@ void ClientAsyncWriterHelper::OnWritten(bool success) {
     return;
   }
 
-  if (is_queue_ended_)
+  if (is_closing_)
     end_cb_();  // normal end
-}
+}  // OnWritten()
 
 }  // namespace grpc_cb_core
