@@ -85,7 +85,7 @@ void ClientAsyncReaderWriterImpl2::CloseWriting() {
 // Called in dtr().
 // Send close to half-close when writing are ended.
 void ClientAsyncReaderWriterImpl2::SendCloseIfNot() {
-  assert(!writer_sptr_);  // Must be ended.
+  assert(writing_ended_);  // Must be ended.
   if (!status_.ok()) return;
   if (has_sent_close_) return;
   has_sent_close_ = true;
