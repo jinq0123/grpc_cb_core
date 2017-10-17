@@ -26,7 +26,7 @@ class ClientAsyncReader GRPC_FINAL {
 
  public:
   void ReadEach(const MsgStrCb& msg_cb,
-      const StatusCb& status_cb = StatusCb()) const;
+      const StatusCb& status_cb = nullptr) const;
 
  private:
   const std::shared_ptr<ClientAsyncReaderImpl> impl_sptr_;

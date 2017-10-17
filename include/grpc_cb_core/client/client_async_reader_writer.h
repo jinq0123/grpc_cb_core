@@ -24,7 +24,7 @@ class ClientAsyncReaderWriter GRPC_FINAL {
   ClientAsyncReaderWriter(const ChannelSptr& channel, const std::string& method,
                           const CompletionQueueSptr& cq_sptr,
                           int64_t timeout_ms,
-                          const StatusCb& status_cb = StatusCb());
+                          const StatusCb& status_cb = nullptr);
 
  public:
   bool Write(const std::string& request) const;

@@ -33,7 +33,7 @@ bool ClientAsyncWriter::Write(const std::string& request) const {
   return impl_sptr_->Write(request);
 }
 
-void ClientAsyncWriter::Close(const CloseCb& close_cb/* = CloseCb()*/) {
+void ClientAsyncWriter::Close(const CloseCb& close_cb/* = nullptr*/) {
   auto handler = std::make_shared<ClientAsyncWriterCloseHandler>(close_cb);
   impl_sptr_->Close(handler);
 }  // Close()

@@ -24,7 +24,7 @@ ClientAsyncReader::ClientAsyncReader(const ChannelSptr& channel,
                                            timeout_ms)) {}
 
 void ClientAsyncReader::ReadEach(
-    const MsgStrCb& msg_cb, const StatusCb& status_cb /*= StatusCb()*/) const {
+    const MsgStrCb& msg_cb, const StatusCb& status_cb /*= nullptr*/) const {
   auto handler_sptr = std::make_shared<ClientAsyncReadHandler>(msg_cb);
   impl_sptr_->SetReadHandler(handler_sptr);
   impl_sptr_->SetStatusCb(status_cb);

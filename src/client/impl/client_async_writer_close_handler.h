@@ -18,7 +18,7 @@ class Status;
 class ClientAsyncWriterCloseHandler GRPC_FINAL {
  public:
   explicit ClientAsyncWriterCloseHandler(
-      const CloseCb& close_cb = CloseCb())
+      const CloseCb& close_cb = nullptr)
       : close_cb_(close_cb) {};
 
   std::string& GetMsg() { return msg_; }

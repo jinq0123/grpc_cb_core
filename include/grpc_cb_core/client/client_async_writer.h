@@ -27,7 +27,7 @@ class ClientAsyncWriter GRPC_FINAL {
   // Todo: SyncGetInitMd();
 
   bool Write(const std::string& request) const;
-  void Close(const CloseCb& close_cb = CloseCb());
+  void Close(const CloseCb& close_cb = nullptr);
 
   // Todo: Use a default CloseHandler if no Close()?
 

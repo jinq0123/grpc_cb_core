@@ -36,7 +36,7 @@ void ClientAsyncReaderHelper::Abort() {
   aborted_ = true;
   // to stop circular sharing
   read_handler_sptr_.reset();
-  end_cb_ = EndCb();
+  end_cb_ = nullptr;
 }  // Abort()
 
 // Return copy for thread-safety.

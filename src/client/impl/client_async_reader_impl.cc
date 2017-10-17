@@ -84,7 +84,7 @@ void ClientAsyncReaderImpl::OnEndOfReading() {
 void ClientAsyncReaderImpl::CallStatusCb() {
   if (!status_cb_) return;
   status_cb_(status_);
-  status_cb_ = StatusCb();
+  status_cb_ = nullptr;
 }
 
 }  // namespace grpc_cb_core
