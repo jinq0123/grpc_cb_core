@@ -56,6 +56,8 @@ bool ClientAsyncReaderWriterImpl2::Write(const std::string& msg) {
     return false;
   }
 
+  if (writing_ended_)
+    return false;
   if (writer_sptr_)
     return writer_sptr_->Queue(msg);
 

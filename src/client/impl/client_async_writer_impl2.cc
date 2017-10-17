@@ -36,11 +36,12 @@ bool ClientAsyncWriterImpl2::Write(const std::string& request) {
   Guard g(mtx_);
   if (!status_.ok())
     return false;
+  if (writing_ended_)
+    return false;
   if (writer_sptr_)
     return writer_sptr_->Queue(request);
 
-  if (writing_started_)
-    return false;  // Writer ended
+  assert(!writing_started_);
   writing_started_ = true;
 
   // Impl2 and WriterHelper shared each other untill OnEnd().
@@ -71,7 +72,7 @@ void ClientAsyncWriterImpl2::Close(const CloseHandlerSptr& handler_sptr) {
 
 // Finally close...
 void ClientAsyncWriterImpl2::SendCloseIfNot() {
-  assert(!writer_sptr_);  // Must be ended.
+  assert(writing_ended_);  // Must be ended.
   if (!status_.ok())
     return;
 
@@ -115,13 +116,13 @@ void ClientAsyncWriterImpl2::OnClosed(bool success, ClientWriterCloseCqTag& tag)
 
 void ClientAsyncWriterImpl2::OnEndOfWriting() {
   Guard g(mtx_);
-
-  if (!writer_sptr_) return;
-  Status w_status(writer_sptr_->GetStatus());  // copy before reset()
-  writer_sptr_.reset();  // Stop circular sharing.
+  assert(writer_sptr_);
+  if (writing_ended_) return;
+  writing_ended_ = true;
+  writer_sptr_->Abort();  // Stop circular sharing.
 
   if (!status_.ok()) return;
-  status_ = w_status;
+  status_ = writer_sptr_->GetStatus();
   if (status_.ok())
     SendCloseIfNot();
   else
@@ -131,10 +132,9 @@ void ClientAsyncWriterImpl2::OnEndOfWriting() {
 void ClientAsyncWriterImpl2::SetInternalError(const std::string& sError) {
   status_.SetInternalError(sError);
   CallCloseHandler();
-  if (writer_sptr_) {
+  writing_ended_ = true;
+  if (writer_sptr_)
     writer_sptr_->Abort();
-    writer_sptr_.reset();
-  }
 }
 
 }  // namespace grpc_cb_core

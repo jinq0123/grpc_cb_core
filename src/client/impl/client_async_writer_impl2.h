@@ -62,6 +62,7 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
   Status status_;
 
   bool writing_started_ = false;  // new writer_sptr once
+  bool writing_ended_ = false;
   bool has_sent_close_ = false;  // Client send close once.
 
   // Close handler hides the Response and on_closed callback.
