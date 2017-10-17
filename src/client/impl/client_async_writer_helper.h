@@ -55,7 +55,7 @@ class ClientAsyncWriterHelper GRPC_FINAL
 
   const CallSptr call_sptr_;
   bool aborted_ = false;  // to abort writer
-  const EndCb end_cb_;  // callback on the end
+  EndCb end_cb_;  // callback on the end
   Status status_;
 
   std::queue<std::string> msg_queue_;  // Cache messages to write.

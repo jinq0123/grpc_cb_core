@@ -52,8 +52,8 @@ class ClientAsyncReaderHelper GRPC_FINAL
   Status status_;
   bool started_{ false };
 
-  const ClientAsyncReadHandlerSptr read_handler_sptr_;
-  const EndCb end_cb_;
+  ClientAsyncReadHandlerSptr read_handler_sptr_;
+  EndCb end_cb_;
 };  // ClientAsyncReaderHelper
 
 }  // namespace grpc_cb_core

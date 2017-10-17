@@ -46,7 +46,7 @@ void ClientAsyncWriterHelper::End() {
 void ClientAsyncWriterHelper::Abort() {
   Guard g(mtx_);
   aborted_ = true;
-  // XXX reset all...
+  end_cb_ = EndCb();  // to stop circular sharing
 }
 
 // return copy for thread-safety
