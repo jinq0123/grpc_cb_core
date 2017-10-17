@@ -40,6 +40,7 @@ class ClientAsyncReaderHelper GRPC_FINAL
 
  private:
   void Next();
+  void End();  // Call end_cb and Abort()
 
  private:
   // Next() may lock the mutex recursively.

@@ -37,7 +37,7 @@ void ClientAsyncReaderHelper::Abort() {
   // to stop circular sharing
   read_handler_sptr_.reset();
   end_cb_ = EndCb();
-}
+}  // Abort()
 
 // Return copy for thread-safety.
 const Status ClientAsyncReaderHelper::GetStatus() const {
@@ -61,8 +61,8 @@ void ClientAsyncReaderHelper::Next() {
 
   delete tag;
   status_.SetInternalError("Failed to async read server stream.");
-  end_cb_();
-}
+  End();
+}  // Next()
 
 void ClientAsyncReaderHelper::OnRead(bool success, ClientReaderReadCqTag& tag) {
   Guard g(mtx_);
@@ -72,28 +72,36 @@ void ClientAsyncReaderHelper::OnRead(bool success, ClientReaderReadCqTag& tag) {
   assert(end_cb_);
   if (!success) {
     status_.SetInternalError("ClientReaderReadCqTag failed.");
-    end_cb_();
+    End();
     return;
   }
   if (!tag.HasGotMsg()) {
     // End of read. Do not recv status in Reader. Do it after all reading and writing.
-    end_cb_();
+    End();
     return;
   }
 
   status_ = tag.GetResultMsg(read_handler_sptr_->GetMsg());
   if (!status_.ok()) {
-    end_cb_();
+    End();
     return;
   }
 
   status_ = read_handler_sptr_->HandleMsg();
   if (!status_.ok()) {
-    end_cb_();
+    End();
     return;
   }
 
   Next();
+}  // OnRead()
+
+void ClientAsyncReaderHelper::End() {
+  Guard g(mtx_);
+  assert(end_cb_);
+  end_cb_();
+  Abort();
+  assert(!end_cb_);
 }
 
 }  // namespace grpc_cb_core

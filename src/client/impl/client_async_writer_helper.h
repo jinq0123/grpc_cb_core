@@ -46,6 +46,7 @@ class ClientAsyncWriterHelper GRPC_FINAL
 
  private:
   bool WriteNext();
+  void End();  // Call end_cb and Abort()
 
  private:
   // WriteNext() may lock the mutex recursively.

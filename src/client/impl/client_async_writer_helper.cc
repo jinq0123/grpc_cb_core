@@ -39,7 +39,7 @@ void ClientAsyncWriterHelper::SetClosing() {
   is_closing_ = true;
   if (is_writing_) return;  // call end_cb() in OnWritten()
   assert(msg_queue_.empty());
-  end_cb_();
+  End();
 }  // SetClosing()
 
 // Abort writing. Stop sending.
@@ -76,7 +76,7 @@ bool ClientAsyncWriterHelper::WriteNext() {
 
   delete tag;
   status_.SetInternalError("Failed to write client stream.");
-  end_cb_();  // error end
+  End();  // error end
   return false;
 }  // WriteNext()
 
@@ -87,7 +87,7 @@ void ClientAsyncWriterHelper::OnWritten(bool success) {
   is_writing_ = false;
   if (!success) {
     status_.SetInternalError("ClientSendMsgCqTag failed in ClientAsyncWriterHelper.");
-    end_cb_();  // error end
+    End();  // error end
     return;
   }
   if (!msg_queue_.empty()) {
@@ -96,7 +96,15 @@ void ClientAsyncWriterHelper::OnWritten(bool success) {
   }
 
   if (is_closing_)
-    end_cb_();  // normal end
+    End();  // normal end
 }  // OnWritten()
+
+void ClientAsyncWriterHelper::End() {
+  Guard g(mtx_);
+  assert(end_cb_);
+  end_cb_();
+  Abort();
+  assert(!end_cb_);
+}
 
 }  // namespace grpc_cb_core
