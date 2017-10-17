@@ -63,8 +63,6 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
  private:
   void SendCloseIfNot();
   void SetInternalError(const std::string& sError);
-  bool IsReadingEnded() const;
-  bool IsWritingEnded() const;
   void CallStatusCb();
 
  private:
@@ -81,6 +79,8 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
 
   bool reading_started_ = false;  // ReadEach() to trigger reading.
   bool writing_started_ = false;  // Write() to trigger writing.
+  bool reading_ended_ = false;
+  bool writing_ended_ = false;
 
   bool has_sent_close_ = false;  // Client send close once.
 
