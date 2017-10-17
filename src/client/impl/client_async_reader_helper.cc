@@ -32,7 +32,7 @@ void ClientAsyncReaderHelper::Start() {
 
 void ClientAsyncReaderHelper::Abort() {
   Guard g(mtx_);
-
+  if (aborted_) return;
   aborted_ = true;
   // to stop circular sharing
   read_handler_sptr_.reset();
@@ -100,7 +100,8 @@ void ClientAsyncReaderHelper::End() {
   Guard g(mtx_);
   assert(end_cb_);
   end_cb_();
-  Abort();
+  if (!aborted_)
+    Abort();
   assert(!end_cb_);
 }
 
