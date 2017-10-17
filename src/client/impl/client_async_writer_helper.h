@@ -38,8 +38,8 @@ class ClientAsyncWriterHelper GRPC_FINAL
   // Do not queue further. May trigger end_cb().
   void End();
 
-  void Abort() { aborted_ = true; }  // Abort writing. Stop sending.
-  const Status& GetStatus() const { return status_; }
+  void Abort();  // Abort writing. Stop sending.
+  const Status GetStatus() const;  // return copy for thread-safety
 
  public:
   void OnWritten(bool success);

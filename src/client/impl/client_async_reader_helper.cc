@@ -30,6 +30,18 @@ void ClientAsyncReaderHelper::Start() {
   Next();
 }
 
+void ClientAsyncReaderHelper::Abort() {
+  Guard g(mtx_);
+  aborted_ = true;
+}
+
+// Return copy for thread-safety.
+const Status ClientAsyncReaderHelper::GetStatus() const {
+  Guard g(mtx_);
+  return status_;
+}
+
+
 // Setup next async read.
 void ClientAsyncReaderHelper::Next() {
   Guard g(mtx_);

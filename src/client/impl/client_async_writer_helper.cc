@@ -42,6 +42,19 @@ void ClientAsyncWriterHelper::End() {
   end_cb_();
 }
 
+// Abort writing. Stop sending.
+void ClientAsyncWriterHelper::Abort() {
+  Guard g(mtx_);
+  aborted_ = true;
+  // XXX reset all...
+}
+
+// return copy for thread-safety
+const Status ClientAsyncWriterHelper::GetStatus() const {
+  Guard g(mtx_);
+  return status_;
+}
+
 bool ClientAsyncWriterHelper::WriteNext() {
   Guard g(mtx_);
   assert(!is_writing_);

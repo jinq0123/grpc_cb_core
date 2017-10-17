@@ -3,7 +3,6 @@
 #ifndef GRPC_CB_CORE_CLIENT_IMPL_CLIENT_ASYNC_READER_HELPER_H
 #define GRPC_CB_CORE_CLIENT_IMPL_CLIENT_ASYNC_READER_HELPER_H
 
-#include <atomic>  // for atomic_bool
 #include <functional>
 #include <memory>  // for enable_shared_from_this<>
 #include <mutex>  // for recursive_mutex
@@ -32,8 +31,8 @@ class ClientAsyncReaderHelper GRPC_FINAL
 
  public:
   void Start();
-  void Abort() { aborted_ = true; }
-  const Status& GetStatus() const { return status_; }
+  void Abort();
+  const Status GetStatus() const;  // return copy for thread-safety
 
  public:
   // for ClientReaderReadCqTag::OnComplete()
@@ -49,7 +48,7 @@ class ClientAsyncReaderHelper GRPC_FINAL
   using Guard = std::lock_guard<Mutex>;
 
   const CallSptr call_sptr_;
-  std::atomic_bool aborted_{ false };  // abort reader
+  bool aborted_{ false };  // abort reader
   Status status_;
   bool started_{ false };
 
