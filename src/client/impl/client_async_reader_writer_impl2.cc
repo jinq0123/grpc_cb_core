@@ -58,7 +58,7 @@ bool ClientAsyncReaderWriterImpl2::Write(const std::string& msg) {
     return false;
 
   if (writing_started_) {
-    assert(writer_sptr_);
+    assert(writer_sptr_);  // because not CloseWriting() yet
     return writer_sptr_->Queue(msg);
   }
   writing_started_ = true;
@@ -90,6 +90,7 @@ void ClientAsyncReaderWriterImpl2::CloseWriting() {
 // Called in dtr().
 // Send close to half-close when writing are ended.
 void ClientAsyncReaderWriterImpl2::SendCloseIfNot() {
+  // private function need no Guard
   assert(writing_ended_);  // Must be ended.
   if (!status_.ok()) return;
   if (has_sent_close_) return;
@@ -120,7 +121,7 @@ void ClientAsyncReaderWriterImpl2::ReadEach(const MsgStrCb& msg_cb) {
 }
 
 void ClientAsyncReaderWriterImpl2::OnEndOfReading() {
-  Guard g(mtx_);
+  Guard g(mtx_);  // Callback need Guard.
   assert(reading_started_);
   if (reading_ended_) return;
   reading_ended_ = true;
@@ -134,7 +135,7 @@ void ClientAsyncReaderWriterImpl2::OnEndOfReading() {
 }
 
 void ClientAsyncReaderWriterImpl2::OnEndOfWriting() {
-  Guard g(mtx_);
+  Guard g(mtx_);  // Callback need Guard.
   assert(writing_started_);
   assert(!writing_ended_);  // only call once
   writing_ended_ = true;
@@ -153,6 +154,7 @@ void ClientAsyncReaderWriterImpl2::OnEndOfWriting() {
 
 // Set status, call status callback and reset helpers.
 void ClientAsyncReaderWriterImpl2::SetInternalError(const std::string& sError) {
+  // private function need no Guard
   status_.SetInternalError(sError);
   CallStatusCb();
 
@@ -165,6 +167,7 @@ void ClientAsyncReaderWriterImpl2::SetInternalError(const std::string& sError) {
 }
 
 void ClientAsyncReaderWriterImpl2::CallStatusCb() {
+  // private function need no Guard
   if (!status_cb_) return;
   status_cb_(status_);
   status_cb_ = nullptr;
