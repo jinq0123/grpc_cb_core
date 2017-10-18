@@ -35,32 +35,33 @@ bool ClientAsyncWriterImpl2::Write(const std::string& request) {
   Guard g(mtx_);
   if (!status_.ok())
     return false;
-  if (writing_ended_)
+  if (writing_closing_ || writing_ended_)
     return false;
 
   if (writing_started_) {
-    auto writer_sptr = writer_wptr_.lock();
-    if (!writer_sptr) return false;
-    return writer_sptr->Queue(request);
+    assert(writer_sptr_);  // because not Close() yet
+    return writer_sptr_->Queue(request);
   }
   writing_started_ = true;
 
   // CqTag keeps WriteWorker, which keeps this, which weakly keeps WriterWorker
   auto sptr = shared_from_this();
-  auto writer_sptr = std::make_shared<ClientAsyncWriteWorker>(call_sptr_,
+  writer_sptr_.reset(new ClientAsyncWriteWorker(call_sptr_,
       [sptr]() {
         sptr->OnEndOfWriting();
-      });
-  writer_wptr_ = writer_sptr;
-  return writer_sptr->Queue(request);
+      }));
+  writer_wptr_ = writer_sptr_;
+  return writer_sptr_->Queue(request);
 }  // Write()
 
 void ClientAsyncWriterImpl2::Close(const CloseCb& close_cb/* = nullptr*/) {
   Guard g(mtx_);
+  if (writing_closing_) return;  // already done
+  writing_closing_ = true;
 
-  if (close_cb_set_) return;  // already done
-  close_cb_set_ = true;
   close_cb_ = close_cb;  // reset in CallCloseCb()
+  auto writer_sptr(writer_sptr_);
+  writer_sptr_.reset();  // always stop circular sharing
 
   if (!status_.ok()) {
     CallCloseCb();
@@ -68,9 +69,8 @@ void ClientAsyncWriterImpl2::Close(const CloseCb& close_cb/* = nullptr*/) {
   }
 
   if (writing_started_) {
-    auto writer_sptr = writer_wptr_.lock();
-    if (writer_sptr)
-      writer_sptr->SetClosing();  // May trigger OnEndOfWriting().
+    assert(writer_sptr);
+    writer_sptr->SetClosing();  // May trigger OnEndOfWriting().
   } else {
     writing_ended_ = true;  // Ended without start.
     SendCloseIfNot();
@@ -79,6 +79,7 @@ void ClientAsyncWriterImpl2::Close(const CloseCb& close_cb/* = nullptr*/) {
 
 // Finally close...
 void ClientAsyncWriterImpl2::SendCloseIfNot() {
+  // private function need no Guard.
   assert(writing_ended_);  // Must be ended.
   if (!status_.ok())
     return;
@@ -98,15 +99,15 @@ void ClientAsyncWriterImpl2::SendCloseIfNot() {
 }  // SendCloseIfNot()
 
 void ClientAsyncWriterImpl2::CallCloseCb(const std::string& sMsg/* = ""*/) {
+  // private function need no Guard.
   if (!close_cb_) return;
-  assert(close_cb_set_);
   close_cb_(status_, sMsg);
   close_cb_ = nullptr;
 }
 
 // Callback of ClientWriterCloseCqTag::OnComplete()
 void ClientAsyncWriterImpl2::OnClosed(bool success, ClientWriterCloseCqTag& tag) {
-  Guard g(mtx_);
+  Guard g(mtx_);  // Callback need Guard.
 
   if (!tag.IsStatusOk()) {
     status_ = tag.GetStatus();
@@ -121,9 +122,9 @@ void ClientAsyncWriterImpl2::OnClosed(bool success, ClientWriterCloseCqTag& tag)
 }  // OnClosed()
 
 void ClientAsyncWriterImpl2::OnEndOfWriting() {
-  Guard g(mtx_);
+  Guard g(mtx_);  // Callback need Guard.
   assert(writing_started_);
-  if (writing_ended_) return;
+  assert(!writing_ended_);  // call OnEndOfWriting() only once
   writing_ended_ = true;
 
   if (!status_.ok()) return;
@@ -137,6 +138,7 @@ void ClientAsyncWriterImpl2::OnEndOfWriting() {
 }  // OnEndOfWriting()
 
 void ClientAsyncWriterImpl2::SetInternalError(const std::string& sError) {
+  // private function need no Guard.
   status_.SetInternalError(sError);
   CallCloseCb();
   writing_ended_ = true;

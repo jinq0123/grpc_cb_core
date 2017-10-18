@@ -40,6 +40,7 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
  private:
   // for ClientWriterCloseCqTag::OnComplete()
   void OnClosed(bool success, ClientWriterCloseCqTag& tag);
+  void OnEndOfWriting();  // Callback from WriteWorker
 
   // Todo: Force to close, cancel all writing.
   // Todo: get queue size
@@ -47,7 +48,6 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
  private:
   void SendCloseIfNot();
   void CallCloseCb(const std::string& sMsg = "");
-  void OnEndOfWriting();  // Callback from WriteWorker
   void SetInternalError(const std::string& sError);
 
  private:
@@ -59,16 +59,16 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
   const CompletionQueueSptr cq_sptr_;
   const CallSptr call_sptr_;
   Status status_;
-
   bool has_sent_close_ = false;  // Client send close once.
-
   CloseCb close_cb_;
-  bool close_cb_set_ = false;  // set only once
+
+  bool writing_started_ = false;  // Set by Write()
+  bool writing_closing_ = false;  // Set by Close()
+  bool writing_ended_ = false;  // all written?
 
   // Use weak_ptr to avoid share loop.
   ClientAsyncWriteWorkerWptr writer_wptr_;
-  bool writing_started_ = false;
-  bool writing_ended_ = false;
+  ClientAsyncWriteWorkerSptr writer_sptr_;  // Keep until Close()
 };  // class ClientAsyncWriterImpl2
 
 }  // namespace grpc_cb_core
