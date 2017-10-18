@@ -30,10 +30,8 @@ class ClientAsyncReaderImpl GRPC_FINAL
   ~ClientAsyncReaderImpl();
 
  public:
-  // MsgStrCb must be set before Start().
-  void SetMsgStrCb(const MsgStrCb& msg_cb);
-  void SetStatusCb(const StatusCb& status_cb);
-  void Start();
+  void Start(const MsgStrCb& msg_cb = nullptr,
+      const StatusCb& status_cb = nullptr);
 
   // Todo: Stop reading any more...
 
@@ -51,9 +49,7 @@ class ClientAsyncReaderImpl GRPC_FINAL
 
   const CallSptr call_sptr_;
   Status status_;
-  MsgStrCb msg_cb_;
   StatusCb status_cb_;
-  bool set_status_cb_once_ = false;  // set status_cb_ only once
 
   // ReaderHelper will be shared by CqTag.
   std::shared_ptr<ClientAsyncReaderHelper> reader_sptr_;

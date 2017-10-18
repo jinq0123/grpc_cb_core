@@ -15,8 +15,6 @@ ClientAsyncReaderHelper::ClientAsyncReaderHelper(CallSptr call_sptr,
       msg_cb_(msg_cb),
       end_cb_(end_cb) {
   assert(call_sptr);
-  assert(msg_cb);  // XXX
-  assert(end_cb);
 }
 
 ClientAsyncReaderHelper::~ClientAsyncReaderHelper() {}
@@ -68,7 +66,6 @@ void ClientAsyncReaderHelper::OnRead(bool success, ClientReaderReadCqTag& tag) {
   if (aborted_)  // Maybe writer failed.
     return;
   assert(status_.ok());
-  assert(end_cb_);
   if (!success) {
     status_.SetInternalError("ClientReaderReadCqTag failed.");
     End();
@@ -87,11 +84,12 @@ void ClientAsyncReaderHelper::OnRead(bool success, ClientReaderReadCqTag& tag) {
     return;
   }
 
-  assert(msg_cb_);
-  status_ = msg_cb_(sMsg);
-  if (!status_.ok()) {
-    End();
-    return;
+  if (msg_cb_) {
+    status_ = msg_cb_(sMsg);
+    if (!status_.ok()) {
+      End();
+      return;
+    }
   }
 
   Next();
@@ -99,8 +97,8 @@ void ClientAsyncReaderHelper::OnRead(bool success, ClientReaderReadCqTag& tag) {
 
 void ClientAsyncReaderHelper::End() {
   Guard g(mtx_);
-  assert(end_cb_);
-  end_cb_();
+  if (end_cb_)
+    end_cb_();
   if (!aborted_)
     Abort();
   assert(!end_cb_);

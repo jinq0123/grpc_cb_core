@@ -24,9 +24,7 @@ ClientAsyncReader::ClientAsyncReader(const ChannelSptr& channel,
 
 void ClientAsyncReader::ReadEach(
     const MsgStrCb& msg_cb, const StatusCb& status_cb /*= nullptr*/) const {
-  impl_sptr_->SetMsgStrCb(msg_cb);
-  impl_sptr_->SetStatusCb(status_cb);
-  impl_sptr_->Start();  // XXX Start with MsgStrCb and statusCb?
+  impl_sptr_->Start(msg_cb, status_cb);
 }
 
 }  // namespace grpc_cb_core

@@ -33,28 +33,17 @@ ClientAsyncReaderImpl::ClientAsyncReaderImpl(
 
 ClientAsyncReaderImpl::~ClientAsyncReaderImpl() {}
 
-void ClientAsyncReaderImpl::SetMsgStrCb(const MsgStrCb& msg_cb) {
-  Guard g(mtx_);
-  msg_cb_ = msg_cb;
-}
-
-void ClientAsyncReaderImpl::SetStatusCb(const StatusCb& status_cb) {
-  Guard g(mtx_);
-  if (set_status_cb_once_) return;
-  set_status_cb_once_ = true;
-  status_cb_ = status_cb;
-  if (!status_.ok())
-    CallStatusCb();
-}
-
-void ClientAsyncReaderImpl::Start() {
+void ClientAsyncReaderImpl::Start(const MsgStrCb& msg_cb/* = nullptr*/,
+    const StatusCb& status_cb/* = nullptr*/) {
   Guard g(mtx_);
   if (reader_sptr_)
     return;  // already started
 
+  status_cb_ = status_cb;
+
   // Impl and Helper will share each other until the end of reading.
   auto sptr = shared_from_this();
-  reader_sptr_.reset(new ClientAsyncReaderHelper(call_sptr_, msg_cb_,
+  reader_sptr_.reset(new ClientAsyncReaderHelper(call_sptr_, msg_cb,
       [sptr]() {
         auto p2 = sptr;
         p2->OnEndOfReading();  // will clear this function
@@ -73,7 +62,8 @@ void ClientAsyncReaderImpl::OnEndOfReading() {
   if (!status_.ok()) return;
   status_ = reader_sptr_->GetStatus();
   if (status_.ok()) {
-    ClientAsyncReader::RecvStatus(call_sptr_, status_cb_);
+    ClientAsyncReader::RecvStatus(call_sptr_, status_cb_);  // run cb on recv
+    // XXX RecvStatus(call_sptr_, [sptr](Status) { sptr->OnRecvStatus(status) })
     return;
   }
 
