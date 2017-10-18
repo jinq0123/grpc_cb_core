@@ -46,10 +46,10 @@ class ClientAsyncWriteWorker GRPC_FINAL
 
  private:
   bool WriteNext();
-  void End();  // Call end_cb and Abort()
+  void CallEndCb();
 
  private:
-  // WriteNext() may lock the mutex recursively.
+  // OnWritten() may lock the mutex recursively.
   using Mutex = std::recursive_mutex;
   mutable Mutex mtx_;
   using Guard = std::lock_guard<Mutex>;

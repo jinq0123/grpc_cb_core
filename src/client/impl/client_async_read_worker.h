@@ -37,7 +37,7 @@ class ClientAsyncReadWorker GRPC_FINAL
   void OnRead(bool success, ClientReaderReadCqTag& tag);
 
  private:
-  void Next();
+  void ReadNext();
   void CallEndCb();
 
  private:

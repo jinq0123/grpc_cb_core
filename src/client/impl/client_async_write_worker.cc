@@ -14,7 +14,6 @@ ClientAsyncWriteWorker::ClientAsyncWriteWorker(
     const CallSptr& call_sptr, const EndCb& end_cb)
     : call_sptr_(call_sptr), end_cb_(end_cb) {
   assert(call_sptr);
-  assert(end_cb);
 }
 
 ClientAsyncWriteWorker::~ClientAsyncWriteWorker() {}
@@ -37,17 +36,15 @@ void ClientAsyncWriteWorker::SetClosing() {
   if (is_closing_) return;
   if (aborted_) return;
   is_closing_ = true;
-  if (is_writing_) return;  // will End() in OnWritten()
+  if (is_writing_) return;  // will CallEndCb() in OnWritten()
   assert(msg_queue_.empty());
-  End();
+  CallEndCb();
 }  // SetClosing()
 
 // Abort writing. Stop sending.
 void ClientAsyncWriteWorker::Abort() {
   Guard g(mtx_);
-  if (aborted_) return;
   aborted_ = true;
-  end_cb_ = nullptr;  // to stop circular sharing
 }
 
 // return copy for thread-safety
@@ -57,7 +54,7 @@ const Status ClientAsyncWriteWorker::GetStatus() const {
 }
 
 bool ClientAsyncWriteWorker::WriteNext() {
-  Guard g(mtx_);
+  // private function need no Guard g(mtx_);
   assert(!is_writing_);
   assert(!msg_queue_.empty());
 
@@ -77,7 +74,7 @@ bool ClientAsyncWriteWorker::WriteNext() {
 
   delete tag;
   status_.SetInternalError("Failed to write client stream.");
-  End();  // error end
+  CallEndCb();  // error end
   return false;
 }  // WriteNext()
 
@@ -88,7 +85,7 @@ void ClientAsyncWriteWorker::OnWritten(bool success) {
   is_writing_ = false;
   if (!success) {
     status_.SetInternalError("ClientSendMsgCqTag failed in ClientAsyncWriteWorker.");
-    End();  // error end
+    CallEndCb();  // error end
     return;
   }
   if (!msg_queue_.empty()) {
@@ -97,16 +94,13 @@ void ClientAsyncWriteWorker::OnWritten(bool success) {
   }
 
   if (is_closing_)
-    End();  // normal end
+    CallEndCb();  // normal end
 }  // OnWritten()
 
-void ClientAsyncWriteWorker::End() {
-  Guard g(mtx_);
-  assert(end_cb_);
-  end_cb_();
-  if (!aborted_)
-    Abort();
-  assert(!end_cb_);
+void ClientAsyncWriteWorker::CallEndCb() {
+  // private function need no Guard g(mtx_);
+  if (end_cb_);
+    end_cb_();
 }
 
 }  // namespace grpc_cb_core

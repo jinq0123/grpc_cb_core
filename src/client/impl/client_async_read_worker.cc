@@ -25,7 +25,7 @@ void ClientAsyncReadWorker::Start() {
   if (aborted_) return;
   if (started_) return;
   started_ = true;
-  Next();
+  ReadNext();
 }
 
 void ClientAsyncReadWorker::Abort() {
@@ -40,7 +40,7 @@ const Status ClientAsyncReadWorker::GetStatus() const {
 }
 
 // Setup next async read.
-void ClientAsyncReadWorker::Next() {
+void ClientAsyncReadWorker::ReadNext() {
   // private function need no Guard.
   assert(started_);
   assert(!aborted_);
@@ -55,7 +55,7 @@ void ClientAsyncReadWorker::Next() {
   delete tag;
   status_.SetInternalError("Failed to async read server stream.");
   CallEndCb();
-}  // Next()
+}  // ReadNext()
 
 void ClientAsyncReadWorker::OnRead(bool success, ClientReaderReadCqTag& tag) {
   Guard g(mtx_);
@@ -89,7 +89,7 @@ void ClientAsyncReadWorker::OnRead(bool success, ClientReaderReadCqTag& tag) {
     }
   }
 
-  Next();
+  ReadNext();
 }  // OnRead()
 
 void ClientAsyncReadWorker::CallEndCb() {
