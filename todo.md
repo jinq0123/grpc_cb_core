@@ -8,3 +8,5 @@
   
 * Move CqTag files into subdir.  
 * Rename Impl2 to Impl, Impl to WrappedImpl
+
+* Rename worker to handler

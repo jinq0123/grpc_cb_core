@@ -38,21 +38,13 @@ bool ClientAsyncWriterImpl2::Write(const std::string& request) {
   if (writing_closing_ || writing_ended_)
     return false;
 
-  if (writing_started_) {
-    assert(writer_sptr_);  // because not Close() yet
-    return writer_sptr_->Queue(request);
+  if (!writer_) {
+    // Worker keeps this but not sptr.
+    writer_.reset(new ClientAsyncWriteWorker(call_sptr_,
+        [this]() { this->OnWritten(); }));
   }
-  writing_started_ = true;
-  assert(!writer_sptr_);
 
-  // CqTag keeps WriteWorker, which keeps this, which weakly keeps WriterWorker
-  auto sptr = shared_from_this();
-  writer_sptr_.reset(new ClientAsyncWriteWorker(call_sptr_,
-      [sptr]() {
-        sptr->OnEndOfWriting();
-      }));
-  writer_wptr_ = writer_sptr_;
-  return writer_sptr_->Queue(request);
+  return writer_->Queue(request) && ResumeWriting();
 }  // Write()
 
 void ClientAsyncWriterImpl2::Close(const CloseCb& close_cb/* = nullptr*/) {
@@ -61,17 +53,17 @@ void ClientAsyncWriterImpl2::Close(const CloseCb& close_cb/* = nullptr*/) {
   writing_closing_ = true;
 
   close_cb_ = close_cb;  // reset in CallCloseCb()
-  auto writer_sptr(writer_sptr_);
-  writer_sptr_.reset();  // always stop circular sharing
+  // DEL
+  //auto writer_sptr(writer_sptr_);
+  //writer_sptr_.reset();  // always stop circular sharing
 
   if (!status_.ok()) {
     CallCloseCb();
     return;
   }
 
-  if (writing_started_) {
-    assert(writer_sptr);
-    writer_sptr->SetClosing();  // May trigger OnEndOfWriting().
+  if (writer_) {
+    writer_->SetClosing();  // May trigger OnEndOfWriting().  XXX
   } else {
     writing_ended_ = true;  // Ended without start.
     SendCloseIfNot();
@@ -124,14 +116,12 @@ void ClientAsyncWriterImpl2::OnClosed(bool success, ClientWriterCloseCqTag& tag)
 
 void ClientAsyncWriterImpl2::OnEndOfWriting() {
   Guard g(mtx_);  // Callback need Guard.
-  assert(writing_started_);
+  assert(writer_);
   assert(!writing_ended_);  // call OnEndOfWriting() only once
   writing_ended_ = true;
 
   if (!status_.ok()) return;
-  auto writer_sptr = writer_wptr_.lock();
-  assert(writer_sptr);
-  status_ = writer_sptr->GetStatus();
+  status_ = writer_->GetStatus();  // XXX
   if (status_.ok())
     SendCloseIfNot();
   else
@@ -143,9 +133,8 @@ void ClientAsyncWriterImpl2::SetInternalError(const std::string& sError) {
   status_.SetInternalError(sError);
   CallCloseCb();
   writing_ended_ = true;
-  auto writer_sptr = writer_wptr_.lock();
-  if (writer_sptr)
-    writer_sptr->Abort();
+  if (writer_)
+    writer_->Abort();  // XXX
 }
 
 }  // namespace grpc_cb_core

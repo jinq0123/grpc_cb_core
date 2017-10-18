@@ -4,7 +4,6 @@
 #define GRPC_CB_CORE_CLIENT_IMPL_CLIENT_ASYNC_WRITE_WWORKER_H
 
 #include <functional>  // for function<>
-#include <memory>  // for enable_shared_from_this<>
 #include <mutex>  // for recursive_mutex
 #include <queue>
 #include <string>
@@ -16,22 +15,19 @@
 namespace grpc_cb_core {
 
 // Cache messages and write one by one.
-// Thread-safe.
+// Thread-safe. XXX
 // Used by ClientAsyncWriter and ClientAsyncReaderWriter.
-// Is is shared by ClientAsyncWriter or ClientAsyncReaderWriter until CloseWriting(),
-//  and also by CqTag until all messages are written or error.
 //
-// Differ from ClientAsyncReadWorker:
+// Differ from ClientAsyncReadWorker: XXX
 //  ReadWorker is ended by the peer, while WriteWorker is ended by Writer.
 //  When Writer is destructed, WriteWorker must be informed that
 //    there are no more writing.
 //  WriteWorker may live longer than Writer.
-class ClientAsyncWriteWorker GRPC_FINAL
-    : public std::enable_shared_from_this<ClientAsyncWriteWorker> {
+class ClientAsyncWriteWorker GRPC_FINAL {
  public:
-  using EndCb = std::function<void()>;
+  using WriteCb = std::function<void()>;
   ClientAsyncWriteWorker(const CallSptr& call_sptr,
-                          const EndCb& end_cb);
+                          const WriteCb& write_cb);
   ~ClientAsyncWriteWorker();
 
  public:
@@ -59,7 +55,8 @@ class ClientAsyncWriteWorker GRPC_FINAL
 
   const CallSptr call_sptr_;
   bool aborted_ = false;  // to abort writer
-  EndCb end_cb_;  // callback on the end
+  const WriteCb write_cb_;
+  // XXX EndCb end_cb_;  // callback on the end
   Status status_;
 
   std::queue<std::string> msg_queue_;  // Cache messages to write.

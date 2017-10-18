@@ -11,8 +11,8 @@
 namespace grpc_cb_core {
 
 ClientAsyncWriteWorker::ClientAsyncWriteWorker(
-    const CallSptr& call_sptr, const EndCb& end_cb)
-    : call_sptr_(call_sptr), end_cb_(end_cb) {
+    const CallSptr& call_sptr, const WriteCb& write_cb)
+    : call_sptr_(call_sptr), write_cb_(write_cb) {
   assert(call_sptr);
 }
 
@@ -63,10 +63,11 @@ bool ClientAsyncWriteWorker::WriteNext() {
 
   assert(call_sptr_);
   auto* tag = new ClientSendMsgCqTag(call_sptr_);
-  auto sptr = shared_from_this();
-  tag->SetCompleteCb([sptr](bool success) {
-      sptr->OnWritten(success);
-  });
+  // DEL
+  //auto sptr = shared_from_this();
+  //tag->SetCompleteCb([sptr](bool success) {
+  //    sptr->OnWritten(success);
+  //});
 
   bool ok = tag->Start(msg_queue_.front());
   msg_queue_.pop();  // may empty now but is_writing_
@@ -99,8 +100,9 @@ void ClientAsyncWriteWorker::OnWritten(bool success) {
 
 void ClientAsyncWriteWorker::CallEndCb() {
   // private function need no Guard g(mtx_);
-  if (end_cb_)
-    end_cb_();
+    // XXX
+  //if (end_cb_)
+  //  end_cb_();
 }
 
 }  // namespace grpc_cb_core

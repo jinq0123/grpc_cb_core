@@ -15,7 +15,7 @@
 #include <grpc_cb_core/common/completion_queue_sptr.h>  // for CompletionQueueSptr
 #include <grpc_cb_core/common/status.h>                 // for Status
 #include <grpc_cb_core/common/support/config.h>         // for GRPC_FINAL
-#include "client_async_write_worker_sptr.h"  // for ClientAsyncWriteWorkerWptr
+// DEL #include "client_async_write_worker_sptr.h"  // for ClientAsyncWriteWorkerWptr
 
 namespace grpc_cb_core {
 
@@ -45,10 +45,14 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
   // Todo: Force to close, cancel all writing.
   // Todo: get queue size
 
+  void OnWritten() {}  // XXX
+
  private:
   void SendCloseIfNot();
   void CallCloseCb(const std::string& sMsg = "");
   void SetInternalError(const std::string& sError);
+
+  bool ResumeWriting() { return false; }  // XXX
 
  private:
   // The callback may lock the mutex recursively.
@@ -62,13 +66,10 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
   bool has_sent_close_ = false;  // Client send close once.
   CloseCb close_cb_;
 
-  bool writing_started_ = false;  // Set by Write()
   bool writing_closing_ = false;  // Set by Close()
   bool writing_ended_ = false;  // all written?
 
-  // Use weak_ptr to avoid share loop.
-  ClientAsyncWriteWorkerWptr writer_wptr_;
-  ClientAsyncWriteWorkerSptr writer_sptr_;  // Keep until Close()
+  std::unique_ptr<ClientAsyncWriteWorker> writer_;
 };  // class ClientAsyncWriterImpl2
 
 }  // namespace grpc_cb_core
