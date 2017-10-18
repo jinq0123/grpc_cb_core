@@ -99,7 +99,7 @@ void ClientAsyncWriteWorker::OnWritten(bool success) {
 
 void ClientAsyncWriteWorker::CallEndCb() {
   // private function need no Guard g(mtx_);
-  if (end_cb_);
+  if (end_cb_)
     end_cb_();
 }
 

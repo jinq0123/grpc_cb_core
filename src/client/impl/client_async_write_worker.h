@@ -18,6 +18,9 @@ namespace grpc_cb_core {
 // Cache messages and write one by one.
 // Thread-safe.
 // Used by ClientAsyncWriter and ClientAsyncReaderWriter.
+// Is is shared by ClientAsyncWriter or ClientAsyncReaderWriter until CloseWriting(),
+//  and also by CqTag until all messages are written or error.
+//
 // Differ from ClientAsyncReadWorker:
 //  ReadWorker is ended by the peer, while WriteWorker is ended by Writer.
 //  When Writer is destructed, WriteWorker must be informed that

@@ -18,6 +18,7 @@ class ClientReaderReadCqTag;
 
 // Thread-safe.
 // Used in ClientAsyncReader and ClientAsyncReaderWriter.
+// It is shared by CqTag until the end or error.
 class ClientAsyncReadWorker GRPC_FINAL
     : public std::enable_shared_from_this<ClientAsyncReadWorker> {
  public:
