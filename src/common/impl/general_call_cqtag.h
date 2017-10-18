@@ -5,10 +5,10 @@
 #define GRPC_CB_CORE_IMPL_GENERAL_CALL_CQTAG_H
 
 #include <cassert>  // for assert()
-#include <functional>  // for function<>
 
-#include "call_cqtag.h"  // for CallCqTag
 #include <grpc_cb_core/common/support/config.h>  // for GRPC_OVERRIDE
+#include "call_cqtag.h"                          // for CallCqTag
+#include "complete_cb.h"                         // for CompleteCb
 
 namespace grpc_cb_core {
 
@@ -20,8 +20,6 @@ class GeneralCallCqTag : public CallCqTag {
   }
 
  public:
-  // Callback on completion
-  using CompleteCb = std::function<void (bool success)>;
   void SetCompleteCb(const CompleteCb& complete_cb) {
     complete_cb_ = complete_cb;
   }

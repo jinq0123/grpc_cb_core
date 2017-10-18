@@ -45,14 +45,14 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
   // Todo: Force to close, cancel all writing.
   // Todo: get queue size
 
-  void OnWritten() {}  // XXX
+  void OnWritten(bool success) {}  // XXX
 
  private:
   void SendCloseIfNot();
   void CallCloseCb(const std::string& sMsg = "");
   void SetInternalError(const std::string& sError);
 
-  bool ResumeWriting() { return false; }  // XXX
+  bool ResumeWriting();
 
  private:
   // The callback may lock the mutex recursively.

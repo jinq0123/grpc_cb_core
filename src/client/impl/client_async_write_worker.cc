@@ -10,9 +10,8 @@
 
 namespace grpc_cb_core {
 
-ClientAsyncWriteWorker::ClientAsyncWriteWorker(
-    const CallSptr& call_sptr, const WriteCb& write_cb)
-    : call_sptr_(call_sptr), write_cb_(write_cb) {
+ClientAsyncWriteWorker::ClientAsyncWriteWorker(const CallSptr& call_sptr)
+    : call_sptr_(call_sptr) {
   assert(call_sptr);
 }
 
@@ -27,8 +26,10 @@ bool ClientAsyncWriteWorker::Queue(const std::string& msg) {
 
   // cache messages
   msg_queue_.push(msg);
-  if (is_writing_) return true;
-  return WriteNext();
+  return true;
+  // DEL
+  //if (is_writing_) return true;
+  //return WriteNext();
 }  // Queue()
 
 void ClientAsyncWriteWorker::SetClosing() {
@@ -53,8 +54,8 @@ const Status ClientAsyncWriteWorker::GetStatus() const {
   return status_;
 }
 
-bool ClientAsyncWriteWorker::WriteNext() {
-  // private function need no Guard g(mtx_);
+bool ClientAsyncWriteWorker::WriteNext(const CompleteCb& complete_cb) {
+  Guard g(mtx_);
   assert(!is_writing_);
   assert(!msg_queue_.empty());
 
@@ -63,12 +64,7 @@ bool ClientAsyncWriteWorker::WriteNext() {
 
   assert(call_sptr_);
   auto* tag = new ClientSendMsgCqTag(call_sptr_);
-  // DEL
-  //auto sptr = shared_from_this();
-  //tag->SetCompleteCb([sptr](bool success) {
-  //    sptr->OnWritten(success);
-  //});
-
+  tag->SetCompleteCb(complete_cb);
   bool ok = tag->Start(msg_queue_.front());
   msg_queue_.pop();  // may empty now but is_writing_
   if (ok) return true;
@@ -89,10 +85,11 @@ void ClientAsyncWriteWorker::OnWritten(bool success) {
     CallEndCb();  // error end
     return;
   }
-  if (!msg_queue_.empty()) {
-    WriteNext();
-    return;
-  }
+  // XXX
+  //if (!msg_queue_.empty()) {
+  //  WriteNext();
+  //  return;
+  //}
 
   if (is_closing_)
     CallEndCb();  // normal end

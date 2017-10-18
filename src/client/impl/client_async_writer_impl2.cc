@@ -39,9 +39,7 @@ bool ClientAsyncWriterImpl2::Write(const std::string& request) {
     return false;
 
   if (!writer_) {
-    // Worker keeps this but not sptr.
-    writer_.reset(new ClientAsyncWriteWorker(call_sptr_,
-        [this]() { this->OnWritten(); }));
+    writer_.reset(new ClientAsyncWriteWorker(call_sptr_));
   }
 
   return writer_->Queue(request) && ResumeWriting();
@@ -135,6 +133,18 @@ void ClientAsyncWriterImpl2::SetInternalError(const std::string& sError) {
   writing_ended_ = true;
   if (writer_)
     writer_->Abort();  // XXX
+}
+
+bool ClientAsyncWriterImpl2::ResumeWriting() {
+  assert(writer_);
+  // XXX assert(!writer_->IsQueueEmpty());
+  if (writer_->IsWriting())
+    return true;
+  auto sptr = shared_from_this();  // CqTag will keep sptr
+  CompleteCb cb = [sptr](bool success) {
+    sptr->OnWritten(success);
+  };
+  return writer_->WriteNext(cb);
 }
 
 }  // namespace grpc_cb_core

@@ -11,6 +11,7 @@
 #include <grpc_cb_core/common/call_sptr.h>  // for CallSptr
 #include <grpc_cb_core/common/status.h>          // for Status
 #include <grpc_cb_core/common/support/config.h>  // for GRPC_FINAL
+#include "common/impl/complete_cb.h"  // for CompleteCb
 
 namespace grpc_cb_core {
 
@@ -25,9 +26,7 @@ namespace grpc_cb_core {
 //  WriteWorker may live longer than Writer.
 class ClientAsyncWriteWorker GRPC_FINAL {
  public:
-  using WriteCb = std::function<void()>;
-  ClientAsyncWriteWorker(const CallSptr& call_sptr,
-                          const WriteCb& write_cb);
+  explicit ClientAsyncWriteWorker(const CallSptr& call_sptr);
   ~ClientAsyncWriteWorker();
 
  public:
@@ -40,11 +39,15 @@ class ClientAsyncWriteWorker GRPC_FINAL {
   void Abort();  // Abort writing. Stop sending.
   const Status GetStatus() const;  // return copy for thread-safety
 
+  bool IsWriting() const { return false; }  // XXX
+
  public:
   void OnWritten(bool success);
 
+ public:
+  bool WriteNext(const CompleteCb& complete_cb);
+
  private:
-  bool WriteNext();
   void CallEndCb();
 
  private:
@@ -55,7 +58,6 @@ class ClientAsyncWriteWorker GRPC_FINAL {
 
   const CallSptr call_sptr_;
   bool aborted_ = false;  // to abort writer
-  const WriteCb write_cb_;
   // XXX EndCb end_cb_;  // callback on the end
   Status status_;
 
