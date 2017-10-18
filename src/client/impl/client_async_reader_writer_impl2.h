@@ -21,7 +21,7 @@
 namespace grpc_cb_core {
 
 class ClientAsyncReadWorker;
-class ClientAsyncWriterHelper;
+class ClientAsyncWriteWorker;
 
 // Impl of impl.
 // Impl1 is to make Writer copyable.
@@ -77,7 +77,7 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
 
   // Worker will be shared by CqTag.
   std::shared_ptr<ClientAsyncReadWorker> reader_sptr_;
-  std::shared_ptr<ClientAsyncWriterHelper> writer_sptr_;
+  std::shared_ptr<ClientAsyncWriteWorker> writer_sptr_;
   bool reading_ended_ = false;
   bool writing_ended_ = false;
 };  // class ClientAsyncReaderWriterImpl2

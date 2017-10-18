@@ -10,16 +10,16 @@
 
 namespace grpc_cb_core {
 
-ClientAsyncWriterHelper::ClientAsyncWriterHelper(
+ClientAsyncWriteWorker::ClientAsyncWriteWorker(
     const CallSptr& call_sptr, const EndCb& end_cb)
     : call_sptr_(call_sptr), end_cb_(end_cb) {
   assert(call_sptr);
   assert(end_cb);
 }
 
-ClientAsyncWriterHelper::~ClientAsyncWriterHelper() {}
+ClientAsyncWriteWorker::~ClientAsyncWriteWorker() {}
 
-bool ClientAsyncWriterHelper::Queue(const std::string& msg) {
+bool ClientAsyncWriteWorker::Queue(const std::string& msg) {
   Guard g(mtx_);
   if (aborted_)  // Maybe reader failed.
     return false;
@@ -32,7 +32,7 @@ bool ClientAsyncWriterHelper::Queue(const std::string& msg) {
   return WriteNext();
 }  // Queue()
 
-void ClientAsyncWriterHelper::SetClosing() {
+void ClientAsyncWriteWorker::SetClosing() {
   Guard g(mtx_);
   if (is_closing_) return;
   if (aborted_) return;
@@ -43,7 +43,7 @@ void ClientAsyncWriterHelper::SetClosing() {
 }  // SetClosing()
 
 // Abort writing. Stop sending.
-void ClientAsyncWriterHelper::Abort() {
+void ClientAsyncWriteWorker::Abort() {
   Guard g(mtx_);
   if (aborted_) return;
   aborted_ = true;
@@ -51,12 +51,12 @@ void ClientAsyncWriterHelper::Abort() {
 }
 
 // return copy for thread-safety
-const Status ClientAsyncWriterHelper::GetStatus() const {
+const Status ClientAsyncWriteWorker::GetStatus() const {
   Guard g(mtx_);
   return status_;
 }
 
-bool ClientAsyncWriterHelper::WriteNext() {
+bool ClientAsyncWriteWorker::WriteNext() {
   Guard g(mtx_);
   assert(!is_writing_);
   assert(!msg_queue_.empty());
@@ -81,13 +81,13 @@ bool ClientAsyncWriterHelper::WriteNext() {
   return false;
 }  // WriteNext()
 
-void ClientAsyncWriterHelper::OnWritten(bool success) {
+void ClientAsyncWriteWorker::OnWritten(bool success) {
   Guard g(mtx_);
   assert(status_.ok());
   assert(is_writing_);
   is_writing_ = false;
   if (!success) {
-    status_.SetInternalError("ClientSendMsgCqTag failed in ClientAsyncWriterHelper.");
+    status_.SetInternalError("ClientSendMsgCqTag failed in ClientAsyncWriteWorker.");
     End();  // error end
     return;
   }
@@ -100,7 +100,7 @@ void ClientAsyncWriterHelper::OnWritten(bool success) {
     End();  // normal end
 }  // OnWritten()
 
-void ClientAsyncWriterHelper::End() {
+void ClientAsyncWriteWorker::End() {
   Guard g(mtx_);
   assert(end_cb_);
   end_cb_();

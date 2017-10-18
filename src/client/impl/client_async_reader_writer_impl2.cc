@@ -9,7 +9,7 @@
 #include "client_send_init_md_cqtag.h"  // ClientSendInitMdCqTag
 
 #include "client_async_read_worker.h"  // for ClientAsyncReadWorker
-#include "client_async_write_worker.h"  // for ClientAsyncWriterHelper
+#include "client_async_write_worker.h"  // for ClientAsyncWriteWorker
 
 namespace grpc_cb_core {
 
@@ -63,7 +63,7 @@ bool ClientAsyncReaderWriterImpl2::Write(const std::string& msg) {
 
   // Impl2 and WriteWorker share each other untill OnEndOfWriting().
   auto sptr = shared_from_this();  // can not in ctr().
-  writer_sptr_.reset(new ClientAsyncWriterHelper(call_sptr_,
+  writer_sptr_.reset(new ClientAsyncWriteWorker(call_sptr_,
       [sptr]() {
         auto p2 = sptr;
         p2->OnEndOfWriting();  // will clear this function<>

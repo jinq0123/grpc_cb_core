@@ -18,7 +18,7 @@
 
 namespace grpc_cb_core {
 
-class ClientAsyncWriterHelper;
+class ClientAsyncWriteWorker;
 class ClientWriterCloseCqTag;
 
 // Impl of impl.
@@ -65,7 +65,7 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
   bool close_cb_set_ = false;  // set only once
 
   // shared by CqTag.
-  std::shared_ptr<ClientAsyncWriterHelper> writer_sptr_;
+  std::shared_ptr<ClientAsyncWriteWorker> writer_sptr_;
   bool writing_ended_ = false;
 };  // class ClientAsyncWriterImpl2
 

@@ -7,7 +7,7 @@
 
 #include <grpc_cb_core/client/channel.h>  // for MakeSharedCall()
 
-#include "client_async_write_worker.h"         // for ClientAsyncWriterHelper
+#include "client_async_write_worker.h"         // for ClientAsyncWriteWorker
 #include "client_send_init_md_cqtag.h"          // for ClientSendInitMdCqTag
 #include "client_writer_close_cqtag.h"          // for ClientWriterCloseCqTag
 
@@ -42,7 +42,7 @@ bool ClientAsyncWriterImpl2::Write(const std::string& request) {
 
   // Impl2 and WriteWorker shared each other untill OnEndOfWriting().
   auto sptr = shared_from_this();
-  writer_sptr_.reset(new ClientAsyncWriterHelper(call_sptr_,
+  writer_sptr_.reset(new ClientAsyncWriteWorker(call_sptr_,
       [sptr]() {
         auto p2 = sptr;
         p2->OnEndOfWriting();  // will delete this function<>

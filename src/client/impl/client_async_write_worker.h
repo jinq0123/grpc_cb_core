@@ -1,7 +1,7 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
-#ifndef GRPC_CB_CORE_CLIENT_IMPL_CLIENT_ASYNC_WRITER_HELPER_H
-#define GRPC_CB_CORE_CLIENT_IMPL_CLIENT_ASYNC_WRITER_HELPER_H
+#ifndef GRPC_CB_CORE_CLIENT_IMPL_CLIENT_ASYNC_WRITE_WWORKER_H
+#define GRPC_CB_CORE_CLIENT_IMPL_CLIENT_ASYNC_WRITE_WWORKER_H
 
 #include <functional>  // for function<>
 #include <memory>  // for enable_shared_from_this<>
@@ -23,13 +23,13 @@ namespace grpc_cb_core {
 //  When Writer is destructed, WriteWorker must be informed that
 //    there are no more writing.
 //  WriteWorker may live longer than Writer.
-class ClientAsyncWriterHelper GRPC_FINAL
-    : public std::enable_shared_from_this<ClientAsyncWriterHelper> {
+class ClientAsyncWriteWorker GRPC_FINAL
+    : public std::enable_shared_from_this<ClientAsyncWriteWorker> {
  public:
   using EndCb = std::function<void()>;
-  ClientAsyncWriterHelper(const CallSptr& call_sptr,
+  ClientAsyncWriteWorker(const CallSptr& call_sptr,
                           const EndCb& end_cb);
-  ~ClientAsyncWriterHelper();
+  ~ClientAsyncWriteWorker();
 
  public:
   bool Queue(const std::string& msg);
@@ -67,7 +67,7 @@ class ClientAsyncWriterHelper GRPC_FINAL
 
   // no more msg to queue after SetClosing()
   bool is_closing_ = false;
-};  // class ClientAsyncWriterHelper
+};  // class ClientAsyncWriteWorker
 
 }  // namespace grpc_cb_core
-#endif  // GRPC_CB_CORE_CLIENT_IMPL_CLIENT_ASYNC_WRITER_HELPER_H
+#endif  // GRPC_CB_CORE_CLIENT_IMPL_CLIENT_ASYNC_WRITE_WWORKER_H
