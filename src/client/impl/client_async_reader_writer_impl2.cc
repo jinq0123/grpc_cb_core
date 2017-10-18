@@ -68,8 +68,7 @@ bool ClientAsyncReaderWriterImpl2::Write(const std::string& msg) {
   auto sptr = shared_from_this();  // can not in ctr().
   auto writer_sptr = std::make_shared<ClientAsyncWriteWorker>(call_sptr_,
       [sptr]() {
-        sptr->OnEndOfWriting();  // will clear this function<>  XXX
-        // sptr is invalid now  XXX
+        sptr->OnEndOfWriting();
       });
   writer_wptr_ = writer_sptr;
   return writer_sptr->Queue(msg);
@@ -108,8 +107,7 @@ void ClientAsyncReaderWriterImpl2::ReadEach(const MsgStrCb& msg_cb) {
   auto reader_sptr = std::make_shared<ClientAsyncReadWorker>(
       call_sptr_, msg_cb,
       [sptr]() {
-        sptr->OnEndOfReading();  // will clear this function<>  XXX
-        // sptr is invalid now  XXX
+        sptr->OnEndOfReading();
       });
   reader_sptr->Start();
   reader_wptr_ = reader_sptr;

@@ -50,8 +50,7 @@ bool ClientAsyncWriterImpl2::Write(const std::string& request) {
   auto sptr = shared_from_this();
   auto writer_sptr = std::make_shared<ClientAsyncWriteWorker>(call_sptr_,
       [sptr]() {
-        sptr->OnEndOfWriting();  // will delete this function<> XXX
-        // sptr is invalid now  XXX
+        sptr->OnEndOfWriting();
       });
   writer_wptr_ = writer_sptr;
   return writer_sptr->Queue(request);
