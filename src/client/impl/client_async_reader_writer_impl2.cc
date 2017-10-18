@@ -8,8 +8,8 @@
 #include "client_send_close_cqtag.h"    // for ClientSendCloseCqTag
 #include "client_send_init_md_cqtag.h"  // ClientSendInitMdCqTag
 
-#include "client_async_reader_helper.h"  // for ClientAsyncReaderHelper
-#include "client_async_writer_helper.h"  // for ClientAsyncWriterHelper
+#include "client_async_read_worker.h"  // for ClientAsyncReaderHelper
+#include "client_async_write_worker.h"  // for ClientAsyncWriterHelper
 
 namespace grpc_cb_core {
 

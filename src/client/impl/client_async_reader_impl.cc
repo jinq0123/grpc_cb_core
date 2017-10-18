@@ -6,7 +6,7 @@
 #include <cassert>  // for assert()
 
 #include <grpc_cb_core/client/channel.h>  // for MakeSharedCall()
-#include "client_async_reader_helper.h"
+#include "client_async_read_worker.h"
 #include "client_reader_async_recv_status_cqtag.h"  // for ClientReaderAsyncRecvStatusCqTag
 #include "client_reader_init_cqtag.h"               // for ClientReaderInitCqTag
 

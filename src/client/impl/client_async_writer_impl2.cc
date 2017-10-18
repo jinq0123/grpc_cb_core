@@ -7,7 +7,7 @@
 
 #include <grpc_cb_core/client/channel.h>  // for MakeSharedCall()
 
-#include "client_async_writer_helper.h"         // for ClientAsyncWriterHelper
+#include "client_async_write_worker.h"         // for ClientAsyncWriterHelper
 #include "client_send_init_md_cqtag.h"          // for ClientSendInitMdCqTag
 #include "client_writer_close_cqtag.h"          // for ClientWriterCloseCqTag
 
