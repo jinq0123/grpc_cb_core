@@ -22,6 +22,7 @@ ClientAsyncReadWorker::~ClientAsyncReadWorker() {}
 // Setup to read each.
 void ClientAsyncReadWorker::Start() {
   Guard g(mtx_);
+  if (aborted_) return;
   if (started_) return;
   started_ = true;
   Next();
@@ -29,11 +30,7 @@ void ClientAsyncReadWorker::Start() {
 
 void ClientAsyncReadWorker::Abort() {
   Guard g(mtx_);
-  if (aborted_) return;
   aborted_ = true;
-  // to stop circular sharing
-  msg_cb_ = nullptr;
-  end_cb_ = nullptr;
 }  // Abort()
 
 // Return copy for thread-safety.
@@ -44,10 +41,9 @@ const Status ClientAsyncReadWorker::GetStatus() const {
 
 // Setup next async read.
 void ClientAsyncReadWorker::Next() {
-  Guard g(mtx_);
+  // private function need no Guard.
   assert(started_);
-  if (aborted_)  // Maybe writer failed.
-    return;
+  assert(!aborted_);
 
   auto* tag = new ClientReaderReadCqTag(call_sptr_);
   auto sptr = shared_from_this();
@@ -58,7 +54,7 @@ void ClientAsyncReadWorker::Next() {
 
   delete tag;
   status_.SetInternalError("Failed to async read server stream.");
-  End();
+  CallEndCb();
 }  // Next()
 
 void ClientAsyncReadWorker::OnRead(bool success, ClientReaderReadCqTag& tag) {
@@ -68,26 +64,27 @@ void ClientAsyncReadWorker::OnRead(bool success, ClientReaderReadCqTag& tag) {
   assert(status_.ok());
   if (!success) {
     status_.SetInternalError("ClientReaderReadCqTag failed.");
-    End();
+    CallEndCb();
     return;
   }
   if (!tag.HasGotMsg()) {
-    // End of read. Do not recv status in Reader. Do it after all reading and writing.
-    End();
+    // CallEndCb of read.
+    // Receiving status will be after all reading and writing.
+    CallEndCb();
     return;
   }
 
   std::string sMsg;
   status_ = tag.GetResultMsg(sMsg);
   if (!status_.ok()) {
-    End();
+    CallEndCb();
     return;
   }
 
   if (msg_cb_) {
     status_ = msg_cb_(sMsg);
     if (!status_.ok()) {
-      End();
+      CallEndCb();
       return;
     }
   }
@@ -95,13 +92,10 @@ void ClientAsyncReadWorker::OnRead(bool success, ClientReaderReadCqTag& tag) {
   Next();
 }  // OnRead()
 
-void ClientAsyncReadWorker::End() {
-  Guard g(mtx_);
+void ClientAsyncReadWorker::CallEndCb() {
+  // private function need no Guard.
   if (end_cb_)
     end_cb_();
-  if (!aborted_)
-    Abort();
-  assert(!end_cb_);
 }
 
 }  // namespace grpc_cb_core

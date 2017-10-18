@@ -38,10 +38,10 @@ class ClientAsyncReadWorker GRPC_FINAL
 
  private:
   void Next();
-  void End();  // Call end_cb and Abort()
+  void CallEndCb();
 
  private:
-  // Next() may lock the mutex recursively.
+  // OnRead() may call other member functions.
   using Mutex = std::recursive_mutex;
   mutable Mutex mtx_;
   using Guard = std::lock_guard<Mutex>;
