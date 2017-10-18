@@ -7,8 +7,8 @@
 
 #include <grpc_cb_core/client/channel.h>  // for MakeSharedCall()
 #include "client_async_reader_helper.h"
-#include "client_async_reader_recv_status.h"
-#include "client_reader_init_cqtag.h"  // for ClientReaderInitCqTag
+#include "client_reader_async_recv_status_cqtag.h"  // for ClientReaderAsyncRecvStatusCqTag
+#include "client_reader_init_cqtag.h"               // for ClientReaderInitCqTag
 
 namespace grpc_cb_core {
 
@@ -52,6 +52,18 @@ void ClientAsyncReaderImpl::Start(const MsgStrCb& msg_cb/* = nullptr*/,
   reader_sptr_->Start();
 }
 
+static void RecvStatus(const CallSptr& call_sptr, const StatusCb& status_cb) {
+  assert(call_sptr);
+
+  auto* tag = new ClientReaderAsyncRecvStatusCqTag(call_sptr);
+  tag->SetStatusCb(status_cb);
+  if (tag->Start()) return;
+
+  delete tag;
+  if (status_cb)
+    status_cb(Status::InternalError("Failed to receive status."));
+}
+
 void ClientAsyncReaderImpl::OnEndOfReading() {
   Guard g(mtx_);
   assert(reader_sptr_);
@@ -62,8 +74,7 @@ void ClientAsyncReaderImpl::OnEndOfReading() {
   if (!status_.ok()) return;
   status_ = reader_sptr_->GetStatus();
   if (status_.ok()) {
-    ClientAsyncReader::RecvStatus(call_sptr_, status_cb_);  // run cb on recv
-    // XXX RecvStatus(call_sptr_, [sptr](Status) { sptr->OnRecvStatus(status) })
+    RecvStatus(call_sptr_, status_cb_);  // run cb on recv
     return;
   }
 
