@@ -6,7 +6,7 @@
 #include <cassert>  // for assert()
 
 #include <grpc_cb_core/client/channel.h>  // for MakeSharedCall()
-#include "client_async_read_worker.h"
+#include "client_async_read_worker.h"     // for ClientAsyncReadWorker
 #include "client_reader_async_recv_status_cqtag.h"  // for ClientReaderAsyncRecvStatusCqTag
 #include "client_reader_init_cqtag.h"               // for ClientReaderInitCqTag
 
@@ -36,20 +36,22 @@ ClientAsyncReaderImpl::~ClientAsyncReaderImpl() {}
 void ClientAsyncReaderImpl::Start(const MsgStrCb& msg_cb/* = nullptr*/,
     const StatusCb& status_cb/* = nullptr*/) {
   Guard g(mtx_);
-  if (reader_sptr_)
+  if (reading_started_)
     return;  // already started
 
   status_cb_ = status_cb;
 
   // Impl and Worker will share each other until the end of reading.
   auto sptr = shared_from_this();
-  reader_sptr_.reset(new ClientAsyncReadWorker(call_sptr_, msg_cb,
+  auto reader_sptr = std::make_shared<ClientAsyncReadWorker>(
+      call_sptr_, msg_cb,
       [sptr]() {
         auto p2 = sptr;
-        p2->OnEndOfReading();  // will clear this function
-        // sptr is invalid now
-      }));
-  reader_sptr_->Start();
+        p2->OnEndOfReading();  // will clear this function, XXX
+        // sptr is invalid now  XXX
+      });
+  reader_sptr->Start();
+  reader_wptr_ = reader_sptr;
 }
 
 static void RecvStatus(const CallSptr& call_sptr, const StatusCb& status_cb) {
@@ -66,13 +68,14 @@ static void RecvStatus(const CallSptr& call_sptr, const StatusCb& status_cb) {
 
 void ClientAsyncReaderImpl::OnEndOfReading() {
   Guard g(mtx_);
-  assert(reader_sptr_);
+  assert(reading_started_);
   if (reading_ended_) return;
   reading_ended_ = true;
-  reader_sptr_->Abort();  // Stop circular sharing.
 
   if (!status_.ok()) return;
-  status_ = reader_sptr_->GetStatus();
+  auto reader_sptr = reader_wptr_.lock();
+  assert(reader_sptr);
+  status_ = reader_sptr->GetStatus();
   if (status_.ok()) {
     RecvStatus(call_sptr_, status_cb_);  // run cb on recv
     return;
