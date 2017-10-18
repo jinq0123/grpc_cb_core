@@ -46,7 +46,7 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
  private:
   void SendCloseIfNot();
   void CallCloseCb(const std::string& sMsg = "");
-  void OnEndOfWriting();  // Callback from WriterHelper
+  void OnEndOfWriting();  // Callback from WriteWorker
   void SetInternalError(const std::string& sError);
 
  private:

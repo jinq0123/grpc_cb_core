@@ -41,9 +41,9 @@ void ClientAsyncReaderImpl::Start(const MsgStrCb& msg_cb/* = nullptr*/,
 
   status_cb_ = status_cb;
 
-  // Impl and Helper will share each other until the end of reading.
+  // Impl and Worker will share each other until the end of reading.
   auto sptr = shared_from_this();
-  reader_sptr_.reset(new ClientAsyncReaderHelper(call_sptr_, msg_cb,
+  reader_sptr_.reset(new ClientAsyncReadWorker(call_sptr_, msg_cb,
       [sptr]() {
         auto p2 = sptr;
         p2->OnEndOfReading();  // will clear this function

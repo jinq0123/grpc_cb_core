@@ -9,7 +9,7 @@
 
 namespace grpc_cb_core {
 
-ClientAsyncReaderHelper::ClientAsyncReaderHelper(CallSptr call_sptr,
+ClientAsyncReadWorker::ClientAsyncReadWorker(CallSptr call_sptr,
     const MsgStrCb& msg_cb, const EndCb& end_cb)
     : call_sptr_(call_sptr),
       msg_cb_(msg_cb),
@@ -17,17 +17,17 @@ ClientAsyncReaderHelper::ClientAsyncReaderHelper(CallSptr call_sptr,
   assert(call_sptr);
 }
 
-ClientAsyncReaderHelper::~ClientAsyncReaderHelper() {}
+ClientAsyncReadWorker::~ClientAsyncReadWorker() {}
 
 // Setup to read each.
-void ClientAsyncReaderHelper::Start() {
+void ClientAsyncReadWorker::Start() {
   Guard g(mtx_);
   if (started_) return;
   started_ = true;
   Next();
 }
 
-void ClientAsyncReaderHelper::Abort() {
+void ClientAsyncReadWorker::Abort() {
   Guard g(mtx_);
   if (aborted_) return;
   aborted_ = true;
@@ -37,13 +37,13 @@ void ClientAsyncReaderHelper::Abort() {
 }  // Abort()
 
 // Return copy for thread-safety.
-const Status ClientAsyncReaderHelper::GetStatus() const {
+const Status ClientAsyncReadWorker::GetStatus() const {
   Guard g(mtx_);
   return status_;
 }
 
 // Setup next async read.
-void ClientAsyncReaderHelper::Next() {
+void ClientAsyncReadWorker::Next() {
   Guard g(mtx_);
   assert(started_);
   if (aborted_)  // Maybe writer failed.
@@ -61,7 +61,7 @@ void ClientAsyncReaderHelper::Next() {
   End();
 }  // Next()
 
-void ClientAsyncReaderHelper::OnRead(bool success, ClientReaderReadCqTag& tag) {
+void ClientAsyncReadWorker::OnRead(bool success, ClientReaderReadCqTag& tag) {
   Guard g(mtx_);
   if (aborted_)  // Maybe writer failed.
     return;
@@ -95,7 +95,7 @@ void ClientAsyncReaderHelper::OnRead(bool success, ClientReaderReadCqTag& tag) {
   Next();
 }  // OnRead()
 
-void ClientAsyncReaderHelper::End() {
+void ClientAsyncReadWorker::End() {
   Guard g(mtx_);
   if (end_cb_)
     end_cb_();

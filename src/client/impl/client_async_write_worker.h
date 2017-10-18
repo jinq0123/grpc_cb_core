@@ -18,11 +18,11 @@ namespace grpc_cb_core {
 // Cache messages and write one by one.
 // Thread-safe.
 // Used by ClientAsyncWriter and ClientAsyncReaderWriter.
-// Differ from ClientAsyncReaderHelper:
-//  ReaderHelper is ended by the peer, while WriterHelper is ended by Writer.
-//  When Writer is destructed, WriterHelper must be informed that
+// Differ from ClientAsyncReadWorker:
+//  ReadWorker is ended by the peer, while WriteWorker is ended by Writer.
+//  When Writer is destructed, WriteWorker must be informed that
 //    there are no more writing.
-//  And WriterHelper must live longer than Writer.
+//  WriteWorker may live longer than Writer.
 class ClientAsyncWriterHelper GRPC_FINAL
     : public std::enable_shared_from_this<ClientAsyncWriterHelper> {
  public:

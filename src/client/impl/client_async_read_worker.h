@@ -1,7 +1,7 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
-#ifndef GRPC_CB_CORE_CLIENT_IMPL_CLIENT_ASYNC_READER_HELPER_H
-#define GRPC_CB_CORE_CLIENT_IMPL_CLIENT_ASYNC_READER_HELPER_H
+#ifndef GRPC_CB_CORE_CLIENT_IMPL_CLIENT_ASYNC_READ_WORKER_H
+#define GRPC_CB_CORE_CLIENT_IMPL_CLIENT_ASYNC_READ_WORKER_H
 
 #include <functional>
 #include <memory>  // for enable_shared_from_this<>
@@ -19,14 +19,14 @@ class ClientReaderReadCqTag;
 
 // Thread-safe.
 // Used in ClientAsyncReader and ClientAsyncReaderWriter.
-class ClientAsyncReaderHelper GRPC_FINAL
-    : public std::enable_shared_from_this<ClientAsyncReaderHelper> {
+class ClientAsyncReadWorker GRPC_FINAL
+    : public std::enable_shared_from_this<ClientAsyncReadWorker> {
  public:
   using EndCb = std::function<void()>;
-  ClientAsyncReaderHelper(CallSptr call_sptr,
+  ClientAsyncReadWorker(CallSptr call_sptr,
                           const MsgStrCb& msg_cb,
                           const EndCb& end_cb);
-  ~ClientAsyncReaderHelper();
+  ~ClientAsyncReadWorker();
 
  public:
   void Start();
@@ -54,7 +54,7 @@ class ClientAsyncReaderHelper GRPC_FINAL
 
   MsgStrCb msg_cb_;
   EndCb end_cb_;
-};  // ClientAsyncReaderHelper
+};  // ClientAsyncReadWorker
 
 }  // namespace grpc_cb_core
-#endif  // GRPC_CB_CORE_CLIENT_IMPL_CLIENT_ASYNC_READER_HELPER_H
+#endif  // GRPC_CB_CORE_CLIENT_IMPL_CLIENT_ASYNC_READ_WORKER_H

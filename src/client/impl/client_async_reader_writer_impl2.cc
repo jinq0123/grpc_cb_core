@@ -8,7 +8,7 @@
 #include "client_send_close_cqtag.h"    // for ClientSendCloseCqTag
 #include "client_send_init_md_cqtag.h"  // ClientSendInitMdCqTag
 
-#include "client_async_read_worker.h"  // for ClientAsyncReaderHelper
+#include "client_async_read_worker.h"  // for ClientAsyncReadWorker
 #include "client_async_write_worker.h"  // for ClientAsyncWriterHelper
 
 namespace grpc_cb_core {
@@ -61,7 +61,7 @@ bool ClientAsyncReaderWriterImpl2::Write(const std::string& msg) {
   if (writer_sptr_)
     return writer_sptr_->Queue(msg);
 
-  // Impl2 and WriterHelper share each other untill OnEndOfWriting().
+  // Impl2 and WriteWorker share each other untill OnEndOfWriting().
   auto sptr = shared_from_this();  // can not in ctr().
   writer_sptr_.reset(new ClientAsyncWriterHelper(call_sptr_,
       [sptr]() {
@@ -99,9 +99,9 @@ void ClientAsyncReaderWriterImpl2::ReadEach(const MsgStrCb& msg_cb) {
   Guard g(mtx_);
   if (reader_sptr_) return;  // already started.
 
-  // Impl2 and ReaderHelper will share each other until OnEndOfReading().
+  // Impl2 and ReadWorker will share each other until OnEndOfReading().
   auto sptr = shared_from_this();
-  reader_sptr_.reset(new ClientAsyncReaderHelper(call_sptr_, msg_cb,
+  reader_sptr_.reset(new ClientAsyncReadWorker(call_sptr_, msg_cb,
       [sptr]() {
         auto p2 = sptr;
         p2->OnEndOfReading();  // will clear this function<>

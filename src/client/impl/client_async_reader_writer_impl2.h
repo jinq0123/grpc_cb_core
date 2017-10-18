@@ -20,7 +20,7 @@
 
 namespace grpc_cb_core {
 
-class ClientAsyncReaderHelper;
+class ClientAsyncReadWorker;
 class ClientAsyncWriterHelper;
 
 // Impl of impl.
@@ -54,9 +54,9 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
   }
 
  private:
-  // Callback of ReaderHelper.
+  // Callback of ReadWorker.
   void OnEndOfReading();
-  // Callback of WriterHelper.
+  // Callback of WriteWorker.
   void OnEndOfWriting();
 
  private:
@@ -75,8 +75,8 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
   StatusCb status_cb_;
   bool has_sent_close_ = false;  // Client send close once.
 
-  // Helper will be shared by CqTag.
-  std::shared_ptr<ClientAsyncReaderHelper> reader_sptr_;
+  // Worker will be shared by CqTag.
+  std::shared_ptr<ClientAsyncReadWorker> reader_sptr_;
   std::shared_ptr<ClientAsyncWriterHelper> writer_sptr_;
   bool reading_ended_ = false;
   bool writing_ended_ = false;

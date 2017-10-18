@@ -18,7 +18,7 @@
 
 namespace grpc_cb_core {
 
-class ClientAsyncReaderHelper;
+class ClientAsyncReadWorker;
 
 // Thread-safe.
 class ClientAsyncReaderImpl GRPC_FINAL
@@ -42,7 +42,7 @@ class ClientAsyncReaderImpl GRPC_FINAL
   void CallStatusCb();
 
  private:
-  // ReaderHelper callback will lock again.
+  // ReadWorker callback will lock again.
   using Mutex = std::recursive_mutex;
   Mutex mtx_;
   using Guard = std::lock_guard<Mutex>;
@@ -51,8 +51,8 @@ class ClientAsyncReaderImpl GRPC_FINAL
   Status status_;
   StatusCb status_cb_;
 
-  // ReaderHelper will be shared by CqTag.
-  std::shared_ptr<ClientAsyncReaderHelper> reader_sptr_;
+  // ReadWorker will be shared by CqTag.
+  std::shared_ptr<ClientAsyncReadWorker> reader_sptr_;
   bool reading_ended_ = false;
 };  // class ClientAsyncReaderImpl
 

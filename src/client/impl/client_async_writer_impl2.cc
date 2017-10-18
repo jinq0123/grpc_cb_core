@@ -40,7 +40,7 @@ bool ClientAsyncWriterImpl2::Write(const std::string& request) {
   if (writer_sptr_)
     return writer_sptr_->Queue(request);
 
-  // Impl2 and WriterHelper shared each other untill OnEndOfWriting().
+  // Impl2 and WriteWorker shared each other untill OnEndOfWriting().
   auto sptr = shared_from_this();
   writer_sptr_.reset(new ClientAsyncWriterHelper(call_sptr_,
       [sptr]() {
