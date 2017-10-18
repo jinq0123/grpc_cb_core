@@ -17,6 +17,8 @@
 #include <grpc_cb_core/common/completion_queue_sptr.h>  // for CompletionQueueSptr
 #include <grpc_cb_core/common/status.h>                 // for Status
 #include <grpc_cb_core/common/support/config.h>         // for GRPC_FINAL
+#include "client_async_read_worker_sptr.h"   // for ClientAsyncReadWorkerWptr
+#include "client_async_write_worker_sptr.h"  // for ClientAsyncWriteWorkerWptr
 
 namespace grpc_cb_core {
 
@@ -75,9 +77,10 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
   StatusCb status_cb_;
   bool has_sent_close_ = false;  // Client send close once.
 
-  // Worker will be shared by CqTag.
-  std::shared_ptr<ClientAsyncReadWorker> reader_sptr_;
-  std::shared_ptr<ClientAsyncWriteWorker> writer_sptr_;
+  ClientAsyncReadWorkerWptr reader_wptr_;
+  ClientAsyncWriteWorkerWptr writer_wptr_;
+  bool reading_started_ = false;
+  bool writing_started_ = false;
   bool reading_ended_ = false;
   bool writing_ended_ = false;
 };  // class ClientAsyncReaderWriterImpl2

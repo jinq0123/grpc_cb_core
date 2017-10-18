@@ -46,8 +46,7 @@ void ClientAsyncReaderImpl::Start(const MsgStrCb& msg_cb/* = nullptr*/,
   auto reader_sptr = std::make_shared<ClientAsyncReadWorker>(
       call_sptr_, msg_cb,
       [sptr]() {
-        auto p2 = sptr;
-        p2->OnEndOfReading();  // will clear this function, XXX
+        sptr->OnEndOfReading();  // will clear this function, XXX
         // sptr is invalid now  XXX
       });
   reader_sptr->Start();
