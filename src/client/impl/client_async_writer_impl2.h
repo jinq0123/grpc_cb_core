@@ -15,6 +15,7 @@
 #include <grpc_cb_core/common/completion_queue_sptr.h>  // for CompletionQueueSptr
 #include <grpc_cb_core/common/status.h>                 // for Status
 #include <grpc_cb_core/common/support/config.h>         // for GRPC_FINAL
+#include "client_async_write_worker_sptr.h"  // for ClientAsyncWriteWorkerWptr
 
 namespace grpc_cb_core {
 
@@ -64,8 +65,9 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
   CloseCb close_cb_;
   bool close_cb_set_ = false;  // set only once
 
-  // shared by CqTag.
-  std::shared_ptr<ClientAsyncWriteWorker> writer_sptr_;
+  // Use weak_ptr to avoid share loop.
+  ClientAsyncWriteWorkerWptr writer_wptr_;
+  bool writing_started_ = false;
   bool writing_ended_ = false;
 };  // class ClientAsyncWriterImpl2
 
