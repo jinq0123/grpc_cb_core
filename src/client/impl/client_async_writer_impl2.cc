@@ -43,7 +43,6 @@ bool ClientAsyncWriterImpl2::Write(const std::string& request) {
     if (!writer_sptr) return false;
     return writer_sptr->Queue(request);
   }
-
   writing_started_ = true;
 
   // CqTag keeps WriteWorker, which keeps this, which weakly keeps WriterWorker

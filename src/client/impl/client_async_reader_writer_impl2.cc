@@ -101,6 +101,7 @@ void ClientAsyncReaderWriterImpl2::SendCloseIfNot() {
 void ClientAsyncReaderWriterImpl2::ReadEach(const MsgStrCb& msg_cb) {
   Guard g(mtx_);
   if (reading_started_) return;  // already started.
+  reading_started_ = true;
 
   // Impl2 and ReadWorker will share each other until OnEndOfReading().
   auto sptr = shared_from_this();

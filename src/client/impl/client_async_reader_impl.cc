@@ -38,7 +38,7 @@ void ClientAsyncReaderImpl::Start(const MsgStrCb& msg_cb/* = nullptr*/,
   Guard g(mtx_);
   if (reading_started_)
     return;  // already started
-
+  reading_started_ = true;
   status_cb_ = status_cb;
 
   // Impl and Worker will share each other until the end of reading.
