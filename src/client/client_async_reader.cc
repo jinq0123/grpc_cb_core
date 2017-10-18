@@ -6,12 +6,11 @@
 #include <cstdint>  // for int64_t
 #include <string>
 
-#include <grpc_cb_core/client/channel_sptr.h>  // for ChannelSptr
-#include "impl/client_async_read_handler.h"  // for ClientAsyncReadHandler
-#include "impl/client_async_reader_impl.h"  // for ClientAsyncReaderImpl
-#include <grpc_cb_core/client/msg_str_cb.h>  // for MsgStrCb
-#include <grpc_cb_core/client/status_cb.h>  // for StatusCb
+#include <grpc_cb_core/client/channel_sptr.h>           // for ChannelSptr
+#include <grpc_cb_core/client/msg_str_cb.h>             // for MsgStrCb
+#include <grpc_cb_core/client/status_cb.h>              // for StatusCb
 #include <grpc_cb_core/common/completion_queue_sptr.h>  // for CompletionQueueSptr
+#include "impl/client_async_reader_impl.h"  // for ClientAsyncReaderImpl
 
 namespace grpc_cb_core {
 
@@ -25,10 +24,9 @@ ClientAsyncReader::ClientAsyncReader(const ChannelSptr& channel,
 
 void ClientAsyncReader::ReadEach(
     const MsgStrCb& msg_cb, const StatusCb& status_cb /*= nullptr*/) const {
-  auto handler_sptr = std::make_shared<ClientAsyncReadHandler>(msg_cb);
-  impl_sptr_->SetReadHandler(handler_sptr);
+  impl_sptr_->SetMsgStrCb(msg_cb);
   impl_sptr_->SetStatusCb(status_cb);
-  impl_sptr_->Start();
+  impl_sptr_->Start();  // XXX Start with MsgStrCb and statusCb?
 }
 
 }  // namespace grpc_cb_core

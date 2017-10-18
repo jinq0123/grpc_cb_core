@@ -9,12 +9,12 @@
 #include <string>
 
 #include <grpc_cb_core/client/channel_sptr.h>           // for ChannelSptr
+#include <grpc_cb_core/client/msg_str_cb.h>             // for MsgStrCb
 #include <grpc_cb_core/client/status_cb.h>              // for StatusCb
 #include <grpc_cb_core/common/call_sptr.h>              // for CallSptr
 #include <grpc_cb_core/common/completion_queue_sptr.h>  // for CompletionQueueSptr
 #include <grpc_cb_core/common/status.h>                 // for Status
 #include <grpc_cb_core/common/support/config.h>         // for GRPC_FINAL
-#include "client_async_read_handler_sptr.h"  // for ClientAsyncReadHandlerSptr
 
 namespace grpc_cb_core {
 
@@ -30,8 +30,8 @@ class ClientAsyncReaderImpl GRPC_FINAL
   ~ClientAsyncReaderImpl();
 
  public:
-  // ReadHandler must be set before Start().
-  void SetReadHandler(const ClientAsyncReadHandlerSptr& handler);
+  // MsgStrCb must be set before Start().
+  void SetMsgStrCb(const MsgStrCb& msg_cb);
   void SetStatusCb(const StatusCb& status_cb);
   void Start();
 
@@ -51,7 +51,7 @@ class ClientAsyncReaderImpl GRPC_FINAL
 
   const CallSptr call_sptr_;
   Status status_;
-  ClientAsyncReadHandlerSptr read_handler_sptr_;
+  MsgStrCb msg_cb_;
   StatusCb status_cb_;
   bool set_status_cb_once_ = false;  // set status_cb_ only once
 

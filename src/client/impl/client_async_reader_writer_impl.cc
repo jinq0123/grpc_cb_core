@@ -32,9 +32,8 @@ void ClientAsyncReaderWriterImpl::CloseWriting() {
   impl2_sptr_->CloseWriting();
 }
 
-void ClientAsyncReaderWriterImpl::ReadEach(
-    const ClientAsyncReadHandlerSptr& handler_sptr) {
-  impl2_sptr_->ReadEach(handler_sptr);
+void ClientAsyncReaderWriterImpl::ReadEach(const MsgStrCb& msg_cb) {
+  impl2_sptr_->ReadEach(msg_cb);
 }
 
 void ClientAsyncReaderWriterImpl::SetErrorStatus(const Status& error_status) {

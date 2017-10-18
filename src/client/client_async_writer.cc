@@ -7,11 +7,10 @@
 #include <cstdint>  // for int64_t
 #include <string>
 
-#include <grpc_cb_core/client/channel_sptr.h>  // for ChannelSptr
-#include <grpc_cb_core/client/close_cb.h>      // for CloseCb
-#include "impl/client_async_writer_close_handler.h"  // for ClientAsyncWriterCloseHandler
-#include "impl/client_async_writer_impl.h"  // for ClientAsyncWriterImpl
+#include <grpc_cb_core/client/channel_sptr.h>           // for ChannelSptr
+#include <grpc_cb_core/client/close_cb.h>               // for CloseCb
 #include <grpc_cb_core/common/completion_queue_sptr.h>  // for CompletionQueueSptr
+#include "impl/client_async_writer_impl.h"  // for ClientAsyncWriterImpl
 
 namespace grpc_cb_core {
 
@@ -34,8 +33,7 @@ bool ClientAsyncWriter::Write(const std::string& request) const {
 }
 
 void ClientAsyncWriter::Close(const CloseCb& close_cb/* = nullptr*/) {
-  auto handler = std::make_shared<ClientAsyncWriterCloseHandler>(close_cb);
-  impl_sptr_->Close(handler);
+  impl_sptr_->Close(close_cb);
 }  // Close()
 
 }  // namespace grpc_cb_core

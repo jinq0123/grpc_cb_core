@@ -27,8 +27,8 @@ bool ClientAsyncWriterImpl::Write(const std::string& request) {
   return impl2_sptr_->Write(request);
 }
 
-void ClientAsyncWriterImpl::Close(const CloseHandlerSptr& handler_sptr) {
-  impl2_sptr_->Close(handler_sptr);
+void ClientAsyncWriterImpl::Close(const CloseCb& close_cb) {
+  impl2_sptr_->Close(close_cb);
 }
 
 }  // namespace grpc_cb_core

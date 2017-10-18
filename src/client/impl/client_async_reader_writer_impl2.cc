@@ -95,16 +95,15 @@ void ClientAsyncReaderWriterImpl2::SendCloseIfNot() {
 
 // Todo: same as ClientReader?
 
-void ClientAsyncReaderWriterImpl2::ReadEach(
-    const ReadHandlerSptr& handler_sptr) {
+void ClientAsyncReaderWriterImpl2::ReadEach(const MsgStrCb& msg_cb) {
   Guard g(mtx_);
   if (reader_sptr_) return;  // already started.
-  read_handler_sptr_ = handler_sptr;
+  msg_cb_ = msg_cb;  // XXX unused?
 
   // Impl2 and ReaderHelper will share each other until OnEndOfReading().
   auto sptr = shared_from_this();
   reader_sptr_.reset(new ClientAsyncReaderHelper(
-      call_sptr_, read_handler_sptr_, [sptr]() {
+      call_sptr_, msg_cb, [sptr]() {
         auto p2 = sptr;
         p2->OnEndOfReading();  // will clear this function<>
         // sptr is invalid now

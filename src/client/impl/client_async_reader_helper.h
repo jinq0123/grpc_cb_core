@@ -7,11 +7,10 @@
 #include <memory>  // for enable_shared_from_this<>
 #include <mutex>  // for recursive_mutex
 
+#include <grpc_cb_core/client/msg_str_cb.h>      // for MsgStrCb
 #include <grpc_cb_core/common/call_sptr.h>       // for CallSptr
 #include <grpc_cb_core/common/status.h>          // for Status
 #include <grpc_cb_core/common/support/config.h>  // for GRPC_FINAL
-
-#include "client_async_read_handler_sptr.h"  // for ClientAsyncReadHandlerSptr
 #include "client_async_reader_helper_sptr.h"
 
 namespace grpc_cb_core {
@@ -25,7 +24,7 @@ class ClientAsyncReaderHelper GRPC_FINAL
  public:
   using EndCb = std::function<void()>;
   ClientAsyncReaderHelper(CallSptr call_sptr,
-                          const ClientAsyncReadHandlerSptr& read_handler_sptr,
+                          const MsgStrCb& msg_cb,
                           const EndCb& end_cb);
   ~ClientAsyncReaderHelper();
 
@@ -53,7 +52,7 @@ class ClientAsyncReaderHelper GRPC_FINAL
   Status status_;
   bool started_{ false };
 
-  ClientAsyncReadHandlerSptr read_handler_sptr_;
+  MsgStrCb msg_cb_;
   EndCb end_cb_;
 };  // ClientAsyncReaderHelper
 

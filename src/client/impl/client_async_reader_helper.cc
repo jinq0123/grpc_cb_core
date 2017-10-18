@@ -5,18 +5,17 @@
 
 #include <cassert>  // for assert()
 
-#include "client_async_read_handler.h"  // for HandleMsg()
 #include "client_reader_read_cqtag.h"  // for ClientReaderReadCqTag
 
 namespace grpc_cb_core {
 
 ClientAsyncReaderHelper::ClientAsyncReaderHelper(CallSptr call_sptr,
-    const ClientAsyncReadHandlerSptr& read_handler_sptr, const EndCb& end_cb)
+    const MsgStrCb& msg_cb, const EndCb& end_cb)
     : call_sptr_(call_sptr),
-      read_handler_sptr_(read_handler_sptr),
+      msg_cb_(msg_cb),
       end_cb_(end_cb) {
   assert(call_sptr);
-  assert(read_handler_sptr);
+  assert(msg_cb);  // XXX
   assert(end_cb);
 }
 
@@ -35,7 +34,7 @@ void ClientAsyncReaderHelper::Abort() {
   if (aborted_) return;
   aborted_ = true;
   // to stop circular sharing
-  read_handler_sptr_.reset();
+  msg_cb_ = nullptr;
   end_cb_ = nullptr;
 }  // Abort()
 
@@ -81,13 +80,15 @@ void ClientAsyncReaderHelper::OnRead(bool success, ClientReaderReadCqTag& tag) {
     return;
   }
 
-  status_ = tag.GetResultMsg(read_handler_sptr_->GetMsg());
+  std::string sMsg;
+  status_ = tag.GetResultMsg(sMsg);
   if (!status_.ok()) {
     End();
     return;
   }
 
-  status_ = read_handler_sptr_->HandleMsg();
+  assert(msg_cb_);
+  status_ = msg_cb_(sMsg);
   if (!status_.ok()) {
     End();
     return;

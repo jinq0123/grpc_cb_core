@@ -33,10 +33,9 @@ ClientAsyncReaderImpl::ClientAsyncReaderImpl(
 
 ClientAsyncReaderImpl::~ClientAsyncReaderImpl() {}
 
-void ClientAsyncReaderImpl::SetReadHandler(
-    const ClientAsyncReadHandlerSptr& handler) {
+void ClientAsyncReaderImpl::SetMsgStrCb(const MsgStrCb& msg_cb) {
   Guard g(mtx_);
-  read_handler_sptr_ = handler;
+  msg_cb_ = msg_cb;
 }
 
 void ClientAsyncReaderImpl::SetStatusCb(const StatusCb& status_cb) {
@@ -55,8 +54,8 @@ void ClientAsyncReaderImpl::Start() {
 
   // Impl and Helper will share each other until the end of reading.
   auto sptr = shared_from_this();
-  reader_sptr_.reset(new ClientAsyncReaderHelper(
-      call_sptr_, read_handler_sptr_, [sptr]() {
+  reader_sptr_.reset(new ClientAsyncReaderHelper(call_sptr_, msg_cb_,
+      [sptr]() {
         auto p2 = sptr;
         p2->OnEndOfReading();  // will clear this function
         // sptr is invalid now

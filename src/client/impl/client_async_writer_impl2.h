@@ -9,12 +9,12 @@
 #include <mutex>
 #include <string>
 
-#include <grpc_cb_core/client/channel_sptr.h>  // for ChannelSptr
-#include "client_async_writer_close_handler_sptr.h"  // for ClientAsyncWriterCloseHandlerSptr
+#include <grpc_cb_core/client/channel_sptr.h>           // for ChannelSptr
+#include <grpc_cb_core/client/close_cb.h>               // for CloseCb
 #include <grpc_cb_core/common/call_sptr.h>              // for CallSptr
 #include <grpc_cb_core/common/completion_queue_sptr.h>  // for CompletionQueueSptr
-#include <grpc_cb_core/common/status.h>                      // for Status
-#include <grpc_cb_core/common/support/config.h>              // for GRPC_FINAL
+#include <grpc_cb_core/common/status.h>                 // for Status
+#include <grpc_cb_core/common/support/config.h>         // for GRPC_FINAL
 
 namespace grpc_cb_core {
 
@@ -34,9 +34,7 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
   ~ClientAsyncWriterImpl2();
 
   bool Write(const std::string& request);
-
-  using CloseHandlerSptr = ClientAsyncWriterCloseHandlerSptr;
-  void Close(const CloseHandlerSptr& handler_sptr = CloseHandlerSptr());
+  void Close(const CloseCb& close_cb = nullptr);
 
  private:
   // for ClientWriterCloseCqTag::OnComplete()
@@ -47,7 +45,7 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
 
  private:
   void SendCloseIfNot();
-  void CallCloseHandler();
+  void CallCloseCb(const std::string& sMsg = "");
   void OnEndOfWriting();  // Callback from WriterHelper
   void SetInternalError(const std::string& sError);
 
@@ -63,9 +61,8 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
 
   bool has_sent_close_ = false;  // Client send close once.
 
-  // Close handler hides the Response and on_closed callback.
-  CloseHandlerSptr close_handler_sptr_;
-  bool close_handler_set_ = false;  // set handler only once
+  CloseCb close_cb_;
+  bool close_cb_set_ = false;  // set only once
 
   // shared by CqTag.
   std::shared_ptr<ClientAsyncWriterHelper> writer_sptr_;

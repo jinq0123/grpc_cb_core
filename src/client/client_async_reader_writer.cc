@@ -7,10 +7,10 @@
 #include <cstdint>  // for int64_t
 #include <string>
 
-#include "impl/client_async_read_handler.h"  // for ClientAsyncReadHandler
+#include <grpc_cb_core/client/msg_str_cb.h>        // for MsgStrCb
+#include <grpc_cb_core/client/status_cb.h>         // for StatusCb
+#include <grpc_cb_core/common/status.h>            // for Status
 #include "impl/client_async_reader_writer_impl.h"  // for ClientAsyncReaderWriterImpl
-#include <grpc_cb_core/client/msg_str_cb.h>      // for MsgStrCb
-#include <grpc_cb_core/client/status_cb.h>       // for StatusCb
 
 namespace grpc_cb_core {
 
@@ -31,8 +31,7 @@ bool ClientAsyncReaderWriter::Write(const std::string& request) const {
 void ClientAsyncReaderWriter::CloseWriting() { impl_sptr_->CloseWriting(); }
 
 void ClientAsyncReaderWriter::ReadEach(const MsgStrCb& msg_cb) {
-  auto handler_sptr = std::make_shared<ClientAsyncReadHandler>(msg_cb);
-  impl_sptr_->ReadEach(handler_sptr);
+  impl_sptr_->ReadEach(msg_cb);
 }
 
 // Set error status to break reading. Such as when parsing message failed.

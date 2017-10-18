@@ -6,12 +6,10 @@
 
 #include <string>
 
-#include <grpc_cb_core/client/channel_sptr.h>                // for ChannelSptr
+#include <grpc_cb_core/client/channel_sptr.h>           // for ChannelSptr
+#include <grpc_cb_core/client/close_cb.h>               // for CloseCb
 #include <grpc_cb_core/common/completion_queue_sptr.h>  // for CompletionQueueSptr
-#include <grpc_cb_core/common/support/config.h>              // for GRPC_FINAL
-
-// for ClientAsyncWriterCloseHandlerSptr
-#include "client_async_writer_close_handler_sptr.h"
+#include <grpc_cb_core/common/support/config.h>         // for GRPC_FINAL
 
 namespace grpc_cb_core {
 
@@ -26,9 +24,7 @@ class ClientAsyncWriterImpl GRPC_FINAL {
   ~ClientAsyncWriterImpl();
 
   bool Write(const std::string& request);
-
-  using CloseHandlerSptr = ClientAsyncWriterCloseHandlerSptr;
-  void Close(const CloseHandlerSptr& handler_sptr);
+  void Close(const CloseCb& close_cb);
 
   // Todo: Force to close, cancel all writing. CloseNow()
   // Todo: get queue size

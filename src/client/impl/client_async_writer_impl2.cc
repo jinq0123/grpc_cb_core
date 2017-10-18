@@ -7,7 +7,6 @@
 
 #include <grpc_cb_core/client/channel.h>  // for MakeSharedCall()
 
-#include "client_async_writer_close_handler.h"  // for OnClose()
 #include "client_async_writer_helper.h"         // for ClientAsyncWriterHelper
 #include "client_send_init_md_cqtag.h"          // for ClientSendInitMdCqTag
 #include "client_writer_close_cqtag.h"          // for ClientWriterCloseCqTag
@@ -29,7 +28,7 @@ ClientAsyncWriterImpl2::ClientAsyncWriterImpl2(
 }
 
 ClientAsyncWriterImpl2::~ClientAsyncWriterImpl2() {
-  // Have done CallCloseHandler().
+  // Have done CallCloseCb().
 }
 
 bool ClientAsyncWriterImpl2::Write(const std::string& request) {
@@ -52,15 +51,15 @@ bool ClientAsyncWriterImpl2::Write(const std::string& request) {
   return writer_sptr_->Queue(request);
 }  // Write()
 
-void ClientAsyncWriterImpl2::Close(const CloseHandlerSptr& handler_sptr) {
+void ClientAsyncWriterImpl2::Close(const CloseCb& close_cb/* = nullptr*/) {
   Guard g(mtx_);
 
-  if (close_handler_set_) return;  // already done
-  close_handler_set_ = true;
-  close_handler_sptr_ = handler_sptr;  // reset after CallCloseHandler()
+  if (close_cb_set_) return;  // already done
+  close_cb_set_ = true;
+  close_cb_ = close_cb;  // reset in CallCloseCb()
 
   if (!status_.ok()) {
-    CallCloseHandler();
+    CallCloseCb();
     return;
   }
 
@@ -89,31 +88,30 @@ void ClientAsyncWriterImpl2::SendCloseIfNot() {
     return;
 
   delete tag;
-  SetInternalError("Failed to close client stream.");  // Calls CallCloseHandler();
+  SetInternalError("Failed to close client stream.");  // Calls CallCloseCb();
 }  // SendCloseIfNot()
 
-void ClientAsyncWriterImpl2::CallCloseHandler() {
-  if (!close_handler_sptr_) return;
-  close_handler_sptr_->OnClose(status_);
-  close_handler_sptr_.reset();
+void ClientAsyncWriterImpl2::CallCloseCb(const std::string& sMsg/* = ""*/) {
+  if (!close_cb_) return;
+  assert(close_cb_set_);
+  close_cb_(status_, sMsg);
+  close_cb_ = nullptr;
 }
 
 // Callback of ClientWriterCloseCqTag::OnComplete()
 void ClientAsyncWriterImpl2::OnClosed(bool success, ClientWriterCloseCqTag& tag) {
   Guard g(mtx_);
 
-  // Todo: Get trailing metadata.
-  if (tag.IsStatusOk()) {
-    if (close_handler_sptr_) {
-      status_ = tag.GetResponse(close_handler_sptr_->GetMsg());
-    } else {
-      status_.SetInternalError("Response is ignored.");
-    }
-  } else {
+  if (!tag.IsStatusOk()) {
     status_ = tag.GetStatus();
+    CallCloseCb();
+    return;
   }
 
-  CallCloseHandler();
+  // Todo: Get trailing metadata.
+  std::string sMsg;
+  status_ = tag.GetResponse(sMsg);
+  CallCloseCb(sMsg);
 }  // OnClosed()
 
 void ClientAsyncWriterImpl2::OnEndOfWriting() {
@@ -128,12 +126,12 @@ void ClientAsyncWriterImpl2::OnEndOfWriting() {
   if (status_.ok())
     SendCloseIfNot();
   else
-    CallCloseHandler();
+    CallCloseCb();
 }  // OnEndOfWriting()
 
 void ClientAsyncWriterImpl2::SetInternalError(const std::string& sError) {
   status_.SetInternalError(sError);
-  CallCloseHandler();
+  CallCloseCb();
   writing_ended_ = true;
   if (writer_sptr_)
     writer_sptr_->Abort();
