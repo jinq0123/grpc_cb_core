@@ -77,14 +77,16 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
   StatusCb status_cb_;
   bool has_sent_close_ = false;  // Client send close once.
 
+  bool reading_started_ = false;
+  bool writing_started_ = false;
+  bool writing_closing_ = false;
+  bool reading_ended_ = false;
+  bool writing_ended_ = false;
+
   // Use weak ptr to avoid loop sharing.
   ClientAsyncReadWorkerWptr reader_wptr_;
   ClientAsyncWriteWorkerWptr writer_wptr_;
   ClientAsyncWriteWorkerSptr writer_sptr_;  // Keep until CloseWriting().
-  bool reading_started_ = false;
-  bool writing_started_ = false;
-  bool reading_ended_ = false;
-  bool writing_ended_ = false;
 };  // class ClientAsyncReaderWriterImpl2
 
 // Todo: SyncGetInitMd();
