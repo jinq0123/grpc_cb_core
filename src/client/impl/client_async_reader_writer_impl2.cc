@@ -22,6 +22,12 @@ ClientAsyncReaderWriterImpl2::ClientAsyncReaderWriterImpl2(
       status_cb_(status_cb) {
   assert(cq_sptr);
   assert(call_sptr_);
+}
+
+void ClientAsyncReaderWriterImpl2::InitIfNot() {
+  // private function has no Guard
+  if (inited_) return;
+  inited_ = true;
 
   ClientSendInitMdCqTag* send_tag = new ClientSendInitMdCqTag(call_sptr_);
   if (!send_tag->Start()) {
@@ -42,12 +48,12 @@ ClientAsyncReaderWriterImpl2::~ClientAsyncReaderWriterImpl2() {
   // Reader and Writer helpers share this.
   assert(reading_ended_);
   assert(writing_ended_);
-  SendCloseIfNot();
+  if (inited_) SendCloseIfNot();
 }
 
 bool ClientAsyncReaderWriterImpl2::Write(const std::string& msg) {
   Guard g(mtx_);
-
+  InitIfNot();
   if (!status_.ok()) {
     assert(reading_ended_ && writing_ended_);
     return false;
@@ -107,6 +113,7 @@ void ClientAsyncReaderWriterImpl2::SendCloseIfNot() {
 
 void ClientAsyncReaderWriterImpl2::ReadEach(const MsgStrCb& msg_cb) {
   Guard g(mtx_);
+  InitIfNot();
   if (reading_started_) return;  // already started.
   reading_started_ = true;
 

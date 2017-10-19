@@ -58,6 +58,7 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
   void OnEndOfWriting();
 
  private:
+  void InitIfNot();
   void SendCloseIfNot();
   void SetInternalError(const std::string& sError);
   void CallStatusCb();
@@ -71,8 +72,8 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
   const CallSptr call_sptr_;
   Status status_;
   StatusCb status_cb_;
+  bool inited_ = false;  // Init once.
   bool has_sent_close_ = false;  // Client send close once.
-
   bool reading_started_ = false;
   bool writing_started_ = false;
   bool writing_closing_ = false;
