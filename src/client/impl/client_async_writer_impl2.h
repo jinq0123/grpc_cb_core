@@ -48,6 +48,7 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
 
  private:
   void SendClose();
+  void TryToCallCloseCb();  // always on error
   void CallCloseCb(const std::string& sMsg = "");
   bool TryToSendNext();
 

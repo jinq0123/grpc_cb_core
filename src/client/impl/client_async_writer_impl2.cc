@@ -26,7 +26,7 @@ ClientAsyncWriterImpl2::ClientAsyncWriterImpl2(
   if (tag->Start()) return;
   delete tag;
   status_.SetInternalError("Failed to init client stream.");
-  // Will CallCloseCb() after Close(close_cb).
+  assert(!is_closing_);  // Will CallCloseCb() after Close(close_cb).
 }
 
 ClientAsyncWriterImpl2::~ClientAsyncWriterImpl2() {
@@ -69,15 +69,18 @@ void ClientAsyncWriterImpl2::OnSent(bool success) {
   assert(!msg_queue_.empty());
   msg_queue_.pop();  // The front is sent.
 
-  if (!status_.ok()) return;  // XXX
+  if (!status_.ok()) {
+    assert(!close_cb_);  // Already reset in CallCloseCb() or not set yet.
+    return;
+  }
   if (!success) {
     status_.SetInternalError("Failed to send message.");
-    // XXX CallEndCb();  // error end  XXX
+    TryToCallCloseCb();  // error end
     return;
   }
 
   if (!msg_queue_.empty()) {
-    TryToSendNext();  // XXX check return?
+    TryToSendNext();
     return;
   }
 
@@ -107,16 +110,28 @@ void ClientAsyncWriterImpl2::SendClose() {
   CallCloseCb();
 }  // SendClose()
 
+void ClientAsyncWriterImpl2::TryToCallCloseCb() {
+  // private function need no Guard.
+  assert(!status_.ok());  // always on error
+  if (is_closing_)
+    CallCloseCb();
+}
+
 void ClientAsyncWriterImpl2::CallCloseCb(const std::string& sMsg/* = ""*/) {
   // private function need no Guard.
   if (!close_cb_) return;
   close_cb_(status_, sMsg);
-  close_cb_ = nullptr;
+  close_cb_ = nullptr;  // called once
 }
 
 // Callback of ClientWriterCloseCqTag::OnComplete()
 void ClientAsyncWriterImpl2::OnClosed(bool success, ClientWriterCloseCqTag& tag) {
   Guard g(mtx_);  // Callback need Guard.
+
+  if (!status_.ok()) {
+    assert(!close_cb_);  // Already called and reset.
+    return;
+  }
 
   if (!tag.IsStatusOk()) {
     status_ = tag.GetStatus();
@@ -127,7 +142,7 @@ void ClientAsyncWriterImpl2::OnClosed(bool success, ClientWriterCloseCqTag& tag)
   // Todo: Get trailing metadata.
   std::string sMsg;
   status_ = tag.GetResponse(sMsg);
-  CallCloseCb(sMsg);
+  CallCloseCb(sMsg);  // normal end
 }  // OnClosed()
 
 bool ClientAsyncWriterImpl2::TryToSendNext() {
@@ -147,7 +162,7 @@ bool ClientAsyncWriterImpl2::TryToSendNext() {
 
   delete tag;
   status_.SetInternalError("Failed to write client-side streaming.");
-  if (is_closing_) CallCloseCb();
+  TryToCallCloseCb();
   return false;
 }  // TryToSendNext()
 
