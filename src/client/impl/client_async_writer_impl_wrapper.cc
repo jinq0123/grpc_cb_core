@@ -13,22 +13,22 @@ ClientAsyncWriterImplWrapper::ClientAsyncWriterImplWrapper(const ChannelSptr& ch
                                              const std::string& method,
                                              const CompletionQueueSptr& cq_sptr,
                                              int64_t timeout_ms)
-    : impl2_sptr_(
+    : impl_sptr_(
           new ClientAsyncWriterImpl(channel, method, cq_sptr, timeout_ms)) {
   assert(cq_sptr);
   assert(channel);
 }
 
 ClientAsyncWriterImplWrapper::~ClientAsyncWriterImplWrapper() {
-  impl2_sptr_->Close();  // without handler
+  impl_sptr_->Close();  // without handler
 }
 
 bool ClientAsyncWriterImplWrapper::Write(const std::string& request) {
-  return impl2_sptr_->Write(request);
+  return impl_sptr_->Write(request);
 }
 
 void ClientAsyncWriterImplWrapper::Close(const CloseCb& close_cb) {
-  impl2_sptr_->Close(close_cb);
+  impl_sptr_->Close(close_cb);
 }
 
 }  // namespace grpc_cb_core

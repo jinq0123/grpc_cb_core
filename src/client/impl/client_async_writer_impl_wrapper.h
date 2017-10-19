@@ -33,7 +33,7 @@ class ClientAsyncWriterImplWrapper GRPC_FINAL {
 
  private:
   // Will live longer than ClientAsyncWriter.
-  std::shared_ptr<ClientAsyncWriterImpl> impl2_sptr_;
+  std::shared_ptr<ClientAsyncWriterImpl> impl_sptr_;
 };  // class ClientAsyncWriterImplWrapper
 
 }  // namespace grpc_cb_core

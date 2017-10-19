@@ -1,8 +1,8 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#ifndef GRPC_CB_CORE_CLIENT_CLIENT_ASYNC_READER_WRITER_IMPL2_H
-#define GRPC_CB_CORE_CLIENT_CLIENT_ASYNC_READER_WRITER_IMPL2_H
+#ifndef GRPC_CB_CORE_CLIENT_IMPL_CLIENT_ASYNC_READER_WRITER_IMPL_H
+#define GRPC_CB_CORE_CLIENT_IMPL_CLIENT_ASYNC_READER_WRITER_IMPL_H
 
 #include <cassert>
 #include <cstdint>  // for int64_t
@@ -23,8 +23,8 @@ namespace grpc_cb_core {
 
 class ClientReaderReadCqTag;
 
-// ImplWrapper is to make Writer copyable and call CloseWriting() in dtr().
-// Impl2 will live longer than the Writer.
+// ImplWrapper is to make ReaderWriter copyable and call CloseWriting() in dtr().
+// Impl will live longer than the ImplWrapper.
 // Thread-safe.
 class ClientAsyncReaderWriterImpl GRPC_FINAL
     : public std::enable_shared_from_this<ClientAsyncReaderWriterImpl> {
@@ -87,4 +87,4 @@ class ClientAsyncReaderWriterImpl GRPC_FINAL
 // Todo: SyncGetInitMd();
 
 }  // namespace grpc_cb_core
-#endif  // GRPC_CB_CORE_CLIENT_CLIENT_ASYNC_READER_WRITER_IMPL2_H
+#endif  // GRPC_CB_CORE_CLIENT_IMPL_CLIENT_ASYNC_READER_WRITER_IMPL_H

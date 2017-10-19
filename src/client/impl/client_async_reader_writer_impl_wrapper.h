@@ -42,7 +42,7 @@ class ClientAsyncReaderWriterImplWrapper GRPC_FINAL {
 
  private:
   // Live longer than ClientAsyncReaderWriter.
-  std::shared_ptr<ClientAsyncReaderWriterImpl> impl2_sptr_;
+  std::shared_ptr<ClientAsyncReaderWriterImpl> impl_sptr_;
 };  // class ClientAsyncReaderWriterImplWrapper
 
 // Todo: SyncGetInitMd();

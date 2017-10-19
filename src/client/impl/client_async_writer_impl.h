@@ -1,8 +1,8 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#ifndef GRPC_CB_CORE_CLIENT_ASYNC_WRITER_IMPL2_H
-#define GRPC_CB_CORE_CLIENT_ASYNC_WRITER_IMPL2_H
+#ifndef GRPC_CB_CORE_CLIENT_IMPL_CLIENT_ASYNC_WRITER_IMPL_H
+#define GRPC_CB_CORE_CLIENT_IMPL_CLIENT_ASYNC_WRITER_IMPL_H
 
 #include <cstdint>  // for int64_t
 #include <memory>  // for enable_shared_from_this<>
@@ -21,10 +21,8 @@ namespace grpc_cb_core {
 
 class ClientWriterCloseCqTag;
 
-// Impl of impl.
-// Impl1 is to make Writer copyable.
-// Impl2 will live longer than the Writer.
-// We need dtr() of Impl1 to close writing.
+// ImplWrapper is to make Writer copyable and call Close() in dtr().
+// Impl will live longer than the ImplWrapper.
 // Thread-safe.
 class ClientAsyncWriterImpl GRPC_FINAL
     : public std::enable_shared_from_this<ClientAsyncWriterImpl> {
@@ -73,4 +71,4 @@ class ClientAsyncWriterImpl GRPC_FINAL
 };  // class ClientAsyncWriterImpl
 
 }  // namespace grpc_cb_core
-#endif  // GRPC_CB_CORE_CLIENT_ASYNC_WRITER_IMPL2_H
+#endif  // GRPC_CB_CORE_CLIENT_IMPL_CLIENT_ASYNC_WRITER_IMPL_H
