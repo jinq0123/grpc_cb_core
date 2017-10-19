@@ -75,6 +75,7 @@ void ClientAsyncReaderWriterImpl2::CloseWriting() {
   if (writing_closing_) return;
   writing_closing_ = true;
 
+  if (!status_.ok()) return;
   if (!msg_queue_.empty()) return;  // sending
 
   // End when all messages are written.
@@ -87,8 +88,9 @@ void ClientAsyncReaderWriterImpl2::CloseWriting() {
 void ClientAsyncReaderWriterImpl2::SendClose() {
   // private function has no Guard
   assert(!has_sent_close_);
-  has_sent_close_ = true;
-  writing_ended_ = true;
+  assert((has_sent_close_ = true));
+  assert(status_.ok());
+  writing_ended_ = true;  // Normal end.
   ClientSendCloseCqTag* tag = new ClientSendCloseCqTag(call_sptr_);
   if (tag->Start()) return;
   delete tag;
@@ -146,7 +148,7 @@ void ClientAsyncReaderWriterImpl2::OnRead(bool success,
     return;
   }
   if (!tag.HasGotMsg()) {  // End of reading.
-    reading_ended_ = true;
+    reading_ended_ = true;  // Normal end.
     if (writing_ended_)
       CallStatusCb();
     return;
@@ -215,6 +217,7 @@ void ClientAsyncReaderWriterImpl2::InternalSetErrorStatus(
   assert(status_.ok());
   status_ = error_status;
   CallStatusCb();
+  // Set ended on error.
   reading_ended_ = true;
   writing_ended_ = true;
 }  // InternalSetErrorStatus()

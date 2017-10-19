@@ -75,12 +75,15 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
   MsgStrCb msg_cb_;
   StatusCb status_cb_;
   bool inited_ = false;  // Init once.
-  bool has_sent_close_ = false;  // Client send close once.
-  bool reading_started_ = false;
-  bool writing_closing_ = false;
+  bool reading_started_ = false;  // Set by ReadEach()
+  bool writing_closing_ = false;  // Set by CloseWriting()
   bool reading_ended_ = false;
   bool writing_ended_ = false;
   std::queue<std::string> msg_queue_;  // Cache messages to write.
+
+#ifndef NDEBUG
+  bool has_sent_close_ = false;  // Client send close once.
+#endif  // NDEBUG
 };  // class ClientAsyncReaderWriterImpl2
 
 // Todo: SyncGetInitMd();
