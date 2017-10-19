@@ -62,29 +62,8 @@ static void RecvStatus(const CallSptr& call_sptr, const StatusCb& status_cb) {
     status_cb(Status::InternalError("Failed to receive status."));
 }
 
-void ClientAsyncReaderImpl::OnEndOfReading() {
-  Guard g(mtx_);
-  assert(reading_started_);
-  if (reading_ended_) return;
-  reading_ended_ = true;
-
-  if (!status_.ok()) return;
-  // XXX
-  //auto reader_sptr = reader_wptr_.lock();
-  //assert(reader_sptr);
-  //status_ = reader_sptr->GetStatus();
-  if (status_.ok()) {
-    RecvStatus(call_sptr_, status_cb_);  // run cb on recv
-    return;
-  }
-
-  CallStatusCb();
-}
-
 void ClientAsyncReaderImpl::OnRead(bool success, ClientReaderReadCqTag& tag) {
   Guard g(mtx_);  // Callback need guard.
-  // XXX if (aborted_)  // Maybe writer failed.
-  //  return;
   assert(reading_started_);
   assert(status_.ok());
   if (!success) {
@@ -93,8 +72,7 @@ void ClientAsyncReaderImpl::OnRead(bool success, ClientReaderReadCqTag& tag) {
     return;
   }
   if (!tag.HasGotMsg()) {
-    // Receiving status.
-    // XXX 
+    RecvStatus(call_sptr_, status_cb_);  // run cb on recv
     return;
   }
 

@@ -37,9 +37,6 @@ class ClientAsyncReaderImpl GRPC_FINAL
   // Todo: Stop reading any more...
 
  private:
-  // Reader callback on end with status.
-  void OnEndOfReading();  // XXX del?
-
   void OnRead(bool success, ClientReaderReadCqTag& tag);
 
  private:
