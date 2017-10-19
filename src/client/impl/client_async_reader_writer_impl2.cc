@@ -84,7 +84,7 @@ void ClientAsyncReaderWriterImpl2::CloseWriting() {
 // Called in dtr().
 // Send close to half-close when writing are ended.
 void ClientAsyncReaderWriterImpl2::SendCloseIfNot() {
-  // private function need no Guard
+  // private function has no Guard
   assert(writing_ended_);  // Must be ended.
   if (!status_.ok()) return;
   if (has_sent_close_) return;
@@ -159,21 +159,20 @@ void ClientAsyncReaderWriterImpl2::OnRead(bool success,
   //  return;
   assert(status_.ok());
   if (!success) {
-    status_.SetInternalError("ClientReaderReadCqTag failed.");
-    // XXX CallEndCb();
+    SetInternalError("ClientReaderReadCqTag failed.");
     return;
   }
   if (!tag.HasGotMsg()) {
-    // CallEndCb of read.
+    // CallStatusCb of read.
     // Receiving status will be after all reading and writing.
-    // XXX CallEndCb();
+    // XXX CallStatusCb();
     return;
   }
 
   std::string sMsg;
   status_ = tag.GetResultMsg(sMsg);
   if (!status_.ok()) {
-    // XXX CallEndCb();
+    // XXX CallStatusCb();
     return;
   }
 
@@ -181,7 +180,7 @@ void ClientAsyncReaderWriterImpl2::OnRead(bool success,
   //if (msg_cb_) {
   //  status_ = msg_cb_(sMsg);
   //  if (!status_.ok()) {
-  //    // XXX CallEndCb();
+  //    // XXX CallStatusCb();
   //    return;
   //  }
   //}
@@ -203,12 +202,12 @@ bool ClientAsyncReaderWriterImpl2::TryToSendNext() {
   if (ok) return true;
 
   delete tag;
-  status_.SetInternalError("Failed to write bidirectional streaming.");
-  // XXX CallEndCb();  // error end
+  SetInternalError("Failed to write bidirectional streaming.");
   return false;
 }
 
 void ClientAsyncReaderWriterImpl2::ReadNext() {
+  // private function has no Guard
   auto* tag = new ClientReaderReadCqTag(call_sptr_);
   auto sptr = shared_from_this();
   tag->SetCompleteCb([sptr, tag](bool success) {
@@ -217,27 +216,21 @@ void ClientAsyncReaderWriterImpl2::ReadNext() {
   if (tag->Start()) return;
 
   delete tag;
-  status_.SetInternalError("Failed to async read bidi streaming.");
-  // XXX CallEndCb();
+  SetInternalError("Failed to async read bidi streaming.");
 }  // ReadNext()
 
 // Set status, call status callback and reset helpers.
 void ClientAsyncReaderWriterImpl2::SetInternalError(const std::string& sError) {
-  // private function need no Guard
+  // private function has no Guard
   status_.SetInternalError(sError);
   CallStatusCb();
 
   reading_ended_ = true;
   writing_ended_ = true;
-  // XXX
-  //auto reader_sptr = reader_wptr_.lock();
-  //auto writer_sptr = writer_wptr_.lock();
-  //if (reader_sptr) reader_sptr->Abort();
-  //if (writer_sptr) writer_sptr->Abort();
 }
 
 void ClientAsyncReaderWriterImpl2::CallStatusCb() {
-  // private function need no Guard
+  // private function has no Guard
   if (!status_cb_) return;
   status_cb_(status_);
   status_cb_ = nullptr;
