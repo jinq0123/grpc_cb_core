@@ -14,7 +14,7 @@
 
 namespace grpc_cb_core {
 
-class ClientAsyncWriterWrappedImpl;
+class ClientAsyncWriterImplWrapper;
 class Status;
 
 // Copyable. Thread-safe.
@@ -32,7 +32,7 @@ class ClientAsyncWriter GRPC_FINAL {
   // Todo: Use a default CloseHandler if no Close()?
 
  private:
-  const std::shared_ptr<ClientAsyncWriterWrappedImpl> impl_sptr_;  // Easy to copy.
+  const std::shared_ptr<ClientAsyncWriterImplWrapper> impl_sptr_;  // Easy to copy.
 };  // class ClientAsyncWriter
 
 }  // namespace grpc_cb_core

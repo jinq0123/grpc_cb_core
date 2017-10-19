@@ -15,7 +15,7 @@
 
 namespace grpc_cb_core {
 
-class ClientAsyncReaderWriterWrappedImpl;
+class ClientAsyncReaderWriterImplWrapper;
 
 // Copyable. Thread-safe.
 class ClientAsyncReaderWriter GRPC_FINAL {
@@ -39,7 +39,7 @@ class ClientAsyncReaderWriter GRPC_FINAL {
   void SetErrorStatus(const Status& error_status);
 
  private:
-  using Impl = ClientAsyncReaderWriterWrappedImpl;
+  using Impl = ClientAsyncReaderWriterImplWrapper;
   const std::shared_ptr<Impl> impl_sptr_;
 };  // class ClientAsyncReaderWriter
 

@@ -9,7 +9,7 @@
 
 namespace grpc_cb_core {
 
-ClientAsyncWriterWrappedImpl::ClientAsyncWriterWrappedImpl(const ChannelSptr& channel,
+ClientAsyncWriterImplWrapper::ClientAsyncWriterImplWrapper(const ChannelSptr& channel,
                                              const std::string& method,
                                              const CompletionQueueSptr& cq_sptr,
                                              int64_t timeout_ms)
@@ -19,15 +19,15 @@ ClientAsyncWriterWrappedImpl::ClientAsyncWriterWrappedImpl(const ChannelSptr& ch
   assert(channel);
 }
 
-ClientAsyncWriterWrappedImpl::~ClientAsyncWriterWrappedImpl() {
+ClientAsyncWriterImplWrapper::~ClientAsyncWriterImplWrapper() {
   impl2_sptr_->Close();  // without handler
 }
 
-bool ClientAsyncWriterWrappedImpl::Write(const std::string& request) {
+bool ClientAsyncWriterImplWrapper::Write(const std::string& request) {
   return impl2_sptr_->Write(request);
 }
 
-void ClientAsyncWriterWrappedImpl::Close(const CloseCb& close_cb) {
+void ClientAsyncWriterImplWrapper::Close(const CloseCb& close_cb) {
   impl2_sptr_->Close(close_cb);
 }
 
