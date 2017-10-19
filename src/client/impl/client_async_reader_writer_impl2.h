@@ -75,7 +75,7 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
   bool inited_ = false;  // Init once.
   bool has_sent_close_ = false;  // Client send close once.
   bool reading_started_ = false;
-  bool writing_started_ = false;
+  // DEL bool writing_started_ = false;
   bool writing_closing_ = false;
   bool reading_ended_ = false;
   bool writing_ended_ = false;

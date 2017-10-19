@@ -61,11 +61,12 @@ bool ClientAsyncReaderWriterImpl2::Write(const std::string& msg) {
   if (writing_closing_ || writing_ended_)
     return false;
 
-  if (writing_started_) {
-    // XXX assert(writer_sptr_);  // because not CloseWriting() yet
-    return false;  // XXX writer_sptr_->Queue(msg);
-  }
-  writing_started_ = true;
+  // DEL
+  //if (writing_started_) {
+  //  // XXX assert(writer_sptr_);  // because not CloseWriting() yet
+  //  return false;  // XXX writer_sptr_->Queue(msg);
+  //}
+  //writing_started_ = true;
   // XXX assert(!writer_sptr_);
 
   // XXX Impl2 and WriteWorker share each other untill OnEndOfWriting().
@@ -146,7 +147,7 @@ void ClientAsyncReaderWriterImpl2::OnEndOfReading() {
 
 void ClientAsyncReaderWriterImpl2::OnEndOfWriting() {
   Guard g(mtx_);  // Callback need Guard.
-  assert(writing_started_);
+  // XXX assert(writing_started_);
   assert(!writing_ended_);  // only call once
   writing_ended_ = true;
 
