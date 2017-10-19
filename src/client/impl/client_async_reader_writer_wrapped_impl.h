@@ -1,8 +1,8 @@
 // Licensed under the Apache License, Version 2.0.
 // Author: Jin Qing (http://blog.csdn.net/jq0123)
 
-#ifndef GRPC_CB_CORE_CLIENT_CLIENT_ASYNC_READER_WRITER_IMPL_H
-#define GRPC_CB_CORE_CLIENT_CLIENT_ASYNC_READER_WRITER_IMPL_H
+#ifndef GRPC_CB_CORE_CLIENT_IMPL_CLIENT_ASYNC_READER_WRITER_WRAPPED_IMPL_H
+#define GRPC_CB_CORE_CLIENT_IMPL_CLIENT_ASYNC_READER_WRITER_WRAPPED_IMPL_H
 
 #include <string>
 
@@ -22,10 +22,10 @@ class Status;
 class ClientAsyncReaderWriterWrappedImpl GRPC_FINAL {
  public:
   ClientAsyncReaderWriterWrappedImpl(const ChannelSptr& channel,
-                              const std::string& method,
-                              const CompletionQueueSptr& cq_sptr,
-                              int64_t timeout_ms,
-                              const StatusCb& status_cb);
+                                     const std::string& method,
+                                     const CompletionQueueSptr& cq_sptr,
+                                     int64_t timeout_ms,
+                                     const StatusCb& status_cb);
   ~ClientAsyncReaderWriterWrappedImpl();
 
  public:
@@ -49,4 +49,4 @@ class ClientAsyncReaderWriterWrappedImpl GRPC_FINAL {
 // Todo: SyncGetInitMd();
 
 }  // namespace grpc_cb_core
-#endif  // GRPC_CB_CORE_CLIENT_CLIENT_ASYNC_READER_WRITER_IMPL_H
+#endif  // GRPC_CB_CORE_CLIENT_IMPL_CLIENT_ASYNC_READER_WRITER_WRAPPED_IMPL_H

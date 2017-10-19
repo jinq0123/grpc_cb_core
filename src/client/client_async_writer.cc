@@ -10,7 +10,7 @@
 #include <grpc_cb_core/client/channel_sptr.h>           // for ChannelSptr
 #include <grpc_cb_core/client/close_cb.h>               // for CloseCb
 #include <grpc_cb_core/common/completion_queue_sptr.h>  // for CompletionQueueSptr
-#include "impl/client_async_writer_impl.h"  // for ClientAsyncWriterWrappedImpl
+#include "impl/client_async_writer_wrapped_impl.h"  // for ClientAsyncWriterWrappedImpl
 
 namespace grpc_cb_core {
 
