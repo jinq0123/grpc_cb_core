@@ -113,25 +113,6 @@ void ClientAsyncReaderWriterImpl2::SetErrorStatus(const Status& error_status) {
   CallStatusCb();
 }  // SetErrorStatus()
 
-void ClientAsyncReaderWriterImpl2::OnEndOfWriting() {
-  Guard g(mtx_);  // Callback need Guard.
-  // XXX assert(writing_started_);
-  assert(!writing_ended_);  // only call once
-  writing_ended_ = true;
-
-  if (!status_.ok()) return;
-  // XXX
-  //auto writer_sptr = writer_wptr_.lock();
-  //assert(writer_sptr);
-  //status_ = writer_sptr->GetStatus();
-  if (!status_.ok()) {
-    CallStatusCb();
-    return;
-  }
-
-  SendCloseIfNot();
-}  // OnEndOfWriting()
-
 void ClientAsyncReaderWriterImpl2::OnSent(bool success) {
   assert(!msg_queue_.empty());
   msg_queue_.pop();  // front msg is sent
@@ -146,7 +127,8 @@ void ClientAsyncReaderWriterImpl2::OnSent(bool success) {
     return;
   }
 
-  // XXX is_closing?
+  if (writing_closing_)  // XXX
+    SendCloseIfNot();
 }  // OnSent()
 
 void ClientAsyncReaderWriterImpl2::OnRead(bool success,

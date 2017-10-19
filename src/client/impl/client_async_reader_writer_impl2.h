@@ -50,9 +50,6 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
   void SetErrorStatus(const Status& error_status);
 
  private:
-  // Callback of WriteWorker. XXX
-  void OnEndOfWriting();
-
   // For ClientSendMsgCqTag.
   void OnSent(bool success);
   // For ClientReaderReadCqTag.
