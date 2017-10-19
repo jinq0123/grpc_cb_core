@@ -52,7 +52,6 @@ ClientAsyncReaderWriterImpl2::~ClientAsyncReaderWriterImpl2() {
   // No CqTag shares this.
   assert(reading_ended_);
   assert(writing_ended_);
-  if (inited_) SendCloseIfNot();  // XXX
 }
 
 bool ClientAsyncReaderWriterImpl2::Write(const std::string& msg) {
@@ -68,7 +67,7 @@ bool ClientAsyncReaderWriterImpl2::Write(const std::string& msg) {
   bool is_sending = !msg_queue_.empty();
   msg_queue_.push(msg);
   if (is_sending) return true;
-  return TryToSendNext();
+  return SendNext();
 }  // Write()
 
 void ClientAsyncReaderWriterImpl2::CloseWriting() {
@@ -83,18 +82,6 @@ void ClientAsyncReaderWriterImpl2::CloseWriting() {
   SendClose();
   assert(writing_ended_);
 }  // CloseWriting()
-
-// Called in dtr().
-// Send close to half-close when writing are ended.
-void ClientAsyncReaderWriterImpl2::SendCloseIfNot() {
-  // private function has no Guard
-  assert(writing_ended_);  // Must be ended.
-  if (!status_.ok()) return;
-  if (has_sent_close_) return;
-  SendClose();
-  assert(has_sent_close_);
-  assert(writing_ended_);
-}  // SendCloseIfNot()
 
 // Send close to half-close when writing are ended.
 void ClientAsyncReaderWriterImpl2::SendClose() {
@@ -135,7 +122,7 @@ void ClientAsyncReaderWriterImpl2::OnSent(bool success) {
   }
 
   if (!msg_queue_.empty()) {
-    TryToSendNext();
+    SendNext();
     return;
   }
 
@@ -184,7 +171,7 @@ void ClientAsyncReaderWriterImpl2::OnRead(bool success,
   ReadNext();
 }  // OnRead()
 
-bool ClientAsyncReaderWriterImpl2::TryToSendNext() {
+bool ClientAsyncReaderWriterImpl2::SendNext() {
   // private function has no Guard
   assert(!msg_queue_.empty());
   assert(call_sptr_);
@@ -200,7 +187,7 @@ bool ClientAsyncReaderWriterImpl2::TryToSendNext() {
   delete tag;
   SetInternalError("Failed to write bidirectional streaming.");
   return false;
-}  // TryToSendNext()
+}  // SendNext()
 
 void ClientAsyncReaderWriterImpl2::ReadNext() {
   // private function has no Guard
