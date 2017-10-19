@@ -37,21 +37,20 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
   bool Write(const std::string& request);
   void Close(const CloseCb& close_cb = nullptr);
 
+  // Todo: Force to close, cancel all writing.
+  // Todo: get queue size
+
  private:
   // for ClientWriterCloseCqTag::OnComplete()
   void OnClosed(bool success, ClientWriterCloseCqTag& tag);
-  void OnEndOfWriting();  // XXX Callback from WriteWorker
-
-  // Todo: Force to close, cancel all writing.
-  // Todo: get queue size
 
   // for ClientSendMsgCqTag::OnComplete()
   void OnWritten(bool success);
 
  private:
+  void EndWriting();
   void SendCloseIfNot();
   void CallCloseCb(const std::string& sMsg = "");
-  void SetInternalError(const std::string& sError);
 
   bool TryToWriteNext();
 
