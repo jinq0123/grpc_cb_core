@@ -111,7 +111,7 @@ void ClientAsyncReaderWriterImpl2::SetErrorStatus(const Status& error_status) {
   assert(!error_status.ok());
   Guard g(mtx_);
   if (!status_.ok()) return;
-  InternalSetErrorStatus(error_status);
+  EndOnErrorStatus(error_status);
 }  // SetErrorStatus()
 
 void ClientAsyncReaderWriterImpl2::OnSent(bool success) {
@@ -157,14 +157,14 @@ void ClientAsyncReaderWriterImpl2::OnRead(bool success,
   std::string sMsg;
   Status status = tag.GetResultMsg(sMsg);
   if (!status.ok()) {
-    InternalSetErrorStatus(status);  // trigger status cb
+    EndOnErrorStatus(status);  // trigger status cb
     return;
   }
 
   if (msg_cb_) {
     Status status = msg_cb_(sMsg);
     if (!status.ok()) {
-      InternalSetErrorStatus(status);
+      EndOnErrorStatus(status);
       return;
     }
   }
@@ -207,10 +207,10 @@ void ClientAsyncReaderWriterImpl2::ReadNext() {
 void ClientAsyncReaderWriterImpl2::SetInternalError(const std::string& sError) {
   // private function has no Guard
   assert(status_.ok());
-  InternalSetErrorStatus(Status::InternalError(sError));
+  EndOnErrorStatus(Status::InternalError(sError));
 }
 
-void ClientAsyncReaderWriterImpl2::InternalSetErrorStatus(
+void ClientAsyncReaderWriterImpl2::EndOnErrorStatus(
     const Status& error_status) {
   assert(!error_status.ok());
   // private function has no Guard
@@ -220,7 +220,7 @@ void ClientAsyncReaderWriterImpl2::InternalSetErrorStatus(
   // Set ended on error.
   reading_ended_ = true;
   writing_ended_ = true;
-}  // InternalSetErrorStatus()
+}  // EndOnErrorStatus()
 
 void ClientAsyncReaderWriterImpl2::CallStatusCb() {
   // private function has no Guard
