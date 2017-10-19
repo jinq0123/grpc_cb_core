@@ -43,14 +43,12 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
  private:
   // for ClientWriterCloseCqTag::OnComplete()
   void OnClosed(bool success, ClientWriterCloseCqTag& tag);
-
   // for ClientSendMsgCqTag::OnComplete()
-  void OnWritten(bool success);
+  void OnSent(bool success);
 
  private:
   void SendClose();
   void CallCloseCb(const std::string& sMsg = "");
-
   bool TryToWriteNext();
 
  private:

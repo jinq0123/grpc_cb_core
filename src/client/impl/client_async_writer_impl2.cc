@@ -65,7 +65,7 @@ void ClientAsyncWriterImpl2::Close(const CloseCb& close_cb/* = nullptr*/) {
   SendClose();
 }  // Close()
 
-void ClientAsyncWriterImpl2::OnWritten(bool success) {
+void ClientAsyncWriterImpl2::OnSent(bool success) {
   Guard g(mtx_);  // Callback needs Guard.
   assert(is_writing_);
   is_writing_ = false;
@@ -85,7 +85,7 @@ void ClientAsyncWriterImpl2::OnWritten(bool success) {
   // All messages are sent. Wait for Close()
   if (writing_closing_)
     SendClose();  // normal end
-}  // OnWritten()
+}  // OnSent()
 
 // Finally close...
 void ClientAsyncWriterImpl2::SendClose() {
@@ -140,7 +140,7 @@ bool ClientAsyncWriterImpl2::TryToWriteNext() {
   auto* tag = new ClientSendMsgCqTag(call_sptr_);
   auto sptr = shared_from_this();  // CqTag will keep sptr
   CompleteCb complete_cb = [sptr](bool success) {
-    sptr->OnWritten(success);  // XXX Rename to OnSent
+    sptr->OnSent(success);
   };
   tag->SetCompleteCb(complete_cb);
 
