@@ -31,6 +31,7 @@ void ClientAsyncReaderWriterImpl2::InitIfNot() {
   // private function has no Guard
   if (inited_) return;
   inited_ = true;
+  if (!status_.ok()) return;
 
   ClientSendInitMdCqTag* send_tag = new ClientSendInitMdCqTag(call_sptr_);
   if (!send_tag->Start()) {
@@ -48,10 +49,10 @@ void ClientAsyncReaderWriterImpl2::InitIfNot() {
 }  // InitIfNot()
 
 ClientAsyncReaderWriterImpl2::~ClientAsyncReaderWriterImpl2() {
-  // Reader and Writer helpers share this.
+  // No CqTag shares this.
   assert(reading_ended_);
   assert(writing_ended_);
-  if (inited_) SendCloseIfNot();
+  if (inited_) SendCloseIfNot();  // XXX
 }
 
 bool ClientAsyncReaderWriterImpl2::Write(const std::string& msg) {
@@ -98,9 +99,10 @@ void ClientAsyncReaderWriterImpl2::SendCloseIfNot() {
 
 void ClientAsyncReaderWriterImpl2::ReadEach(const MsgStrCb& msg_cb) {
   Guard g(mtx_);
-  InitIfNot();
   if (reading_started_) return;  // already started.
   reading_started_ = true;
+  InitIfNot();
+  if (!status_.ok()) return;
   msg_cb_ = msg_cb;
   ReadNext();
 }  // ReadEach()
@@ -109,8 +111,7 @@ void ClientAsyncReaderWriterImpl2::SetErrorStatus(const Status& error_status) {
   assert(!error_status.ok());
   Guard g(mtx_);
   if (!status_.ok()) return;
-  status_ = error_status;
-  CallStatusCb();
+  InternalSetErrorStatus(error_status);
 }  // SetErrorStatus()
 
 void ClientAsyncReaderWriterImpl2::OnSent(bool success) {
@@ -127,8 +128,12 @@ void ClientAsyncReaderWriterImpl2::OnSent(bool success) {
     return;
   }
 
-  if (writing_closing_)  // XXX
-    SendCloseIfNot();
+  if (!writing_closing_)
+    return;
+  SendCloseIfNot();
+  writing_ended_ = true;
+  if (reading_ended_)
+    CallStatusCb();  // Both ended.
 }  // OnSent()
 
 void ClientAsyncReaderWriterImpl2::OnRead(bool success,
@@ -143,8 +148,9 @@ void ClientAsyncReaderWriterImpl2::OnRead(bool success,
     return;
   }
   if (!tag.HasGotMsg()) {  // End of reading.
+    reading_ended_ = true;
     // XXX Receiving status will be after all reading and writing.
-    if (writing_ended_)
+    if (writing_ended_)  // XXX
       CallStatusCb();
     return;
   }
@@ -202,9 +208,16 @@ void ClientAsyncReaderWriterImpl2::ReadNext() {
 void ClientAsyncReaderWriterImpl2::SetInternalError(const std::string& sError) {
   // private function has no Guard
   assert(status_.ok());
-  status_.SetInternalError(sError);
-  CallStatusCb();
+  InternalSetErrorStatus(Status::InternalError(sError));
+}
 
+void ClientAsyncReaderWriterImpl2::InternalSetErrorStatus(
+    const Status& error_status) {
+  assert(!error_status.ok());
+  // private function has no Guard
+  assert(status_.ok());
+  status_ = error_status;
+  CallStatusCb();
   reading_ended_ = true;
   writing_ended_ = true;
 }  // SetInternalError
