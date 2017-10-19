@@ -30,7 +30,7 @@ class ClientSyncReaderWriterImpl GRPC_FINAL {
 
  public:
   inline bool Write(const string& request) const;
-  // Writing() is optional which is called in dtr().
+  // Optional. Auto called in dtr().
   inline void CloseWriting();
 
   inline bool ReadOne(string* response);

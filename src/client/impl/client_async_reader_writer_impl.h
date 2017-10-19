@@ -30,7 +30,7 @@ class ClientAsyncReaderWriterImpl GRPC_FINAL {
 
  public:
   bool Write(const std::string& msg);
-  // CloseWriting() is optional. Auto closed on dtr().
+  // Optional. Auto closed in dtr().
   void CloseWriting();
 
   // Todo: Force to close reading/writing. Cancel all reading/writing.
