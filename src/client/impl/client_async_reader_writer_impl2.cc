@@ -108,7 +108,9 @@ void ClientAsyncReaderWriterImpl2::ReadEach(const MsgStrCb& msg_cb) {
 void ClientAsyncReaderWriterImpl2::SetErrorStatus(const Status& error_status) {
   assert(!error_status.ok());
   Guard g(mtx_);
+  if (!status_.ok()) return;
   status_ = error_status;
+  CallStatusCb();
 }
 
 void ClientAsyncReaderWriterImpl2::OnEndOfReading() {
