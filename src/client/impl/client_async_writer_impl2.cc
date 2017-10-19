@@ -50,11 +50,7 @@ void ClientAsyncWriterImpl2::Close(const CloseCb& close_cb/* = nullptr*/) {
   Guard g(mtx_);
   if (writing_closing_) return;  // already done
   writing_closing_ = true;
-
   close_cb_ = close_cb;  // reset in CallCloseCb()
-  // DEL
-  //auto writer_sptr(writer_sptr_);
-  //writer_sptr_.reset();  // always stop circular sharing
 
   if (!status_.ok()) {
     CallCloseCb();
@@ -71,11 +67,25 @@ void ClientAsyncWriterImpl2::Close(const CloseCb& close_cb/* = nullptr*/) {
 }  // Close()
 
 void ClientAsyncWriterImpl2::OnWritten(bool success) {
-    // XXX
-  //assert(writer_);
-  //writer_->OnWritten(success);
-  // TryToWriteNext();
-  // XXX
+  Guard g(mtx_);  // Callback needs Guard.
+  assert(is_writing_);
+  is_writing_ = false;
+
+  if (!status_.ok()) return;  // XXX
+  if (!success) {
+    status_.SetInternalError("Failed to send message.");
+    CallEndCb();  // error end  XXX
+    return;
+  }
+
+  if (!msg_queue_.empty()) {
+    TryToWriteNext();  // XXX check return?
+    return;
+  }
+
+  // All messages are written.
+  if (is_closing_)
+    CallEndCb();  // normal end
 }  // OnWritten()
 
 // Finally close...
