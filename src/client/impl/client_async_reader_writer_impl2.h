@@ -50,8 +50,6 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
   void SetErrorStatus(const Status& error_status);
 
  private:
-  // Callback of ReadWorker. XXX
-  void OnEndOfReading();
   // Callback of WriteWorker. XXX
   void OnEndOfWriting();
 

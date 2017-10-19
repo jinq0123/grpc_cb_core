@@ -113,21 +113,6 @@ void ClientAsyncReaderWriterImpl2::SetErrorStatus(const Status& error_status) {
   CallStatusCb();
 }  // SetErrorStatus()
 
-void ClientAsyncReaderWriterImpl2::OnEndOfReading() {
-  Guard g(mtx_);  // Callback need Guard.
-  assert(reading_started_);
-  if (reading_ended_) return;
-  reading_ended_ = true;
-
-  if (!status_.ok()) return;
-  // XXX
-  //auto reader_sptr = reader_wptr_.lock();
-  //assert(reader_sptr);
-  //status_ = reader_sptr->GetStatus();
-  if (!status_.ok() || writing_ended_)
-    CallStatusCb();
-}  // OnEndOfReading()
-
 void ClientAsyncReaderWriterImpl2::OnEndOfWriting() {
   Guard g(mtx_);  // Callback need Guard.
   // XXX assert(writing_started_);
@@ -175,10 +160,10 @@ void ClientAsyncReaderWriterImpl2::OnRead(bool success,
     SetInternalError("ClientReaderReadCqTag failed.");
     return;
   }
-  if (!tag.HasGotMsg()) {
-    // CallStatusCb of read.
-    // Receiving status will be after all reading and writing.
-    // XXX CallStatusCb();
+  if (!tag.HasGotMsg()) {  // End of reading.
+    // XXX Receiving status will be after all reading and writing.
+    if (writing_ended_)
+      CallStatusCb();
     return;
   }
 
