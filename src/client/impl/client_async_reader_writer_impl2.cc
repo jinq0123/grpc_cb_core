@@ -101,6 +101,7 @@ void ClientAsyncReaderWriterImpl2::ReadEach(const MsgStrCb& msg_cb) {
   InitIfNot();
   if (reading_started_) return;  // already started.
   reading_started_ = true;
+  msg_cb_ = msg_cb;
   ReadNext();
 }
 
@@ -142,22 +143,26 @@ void ClientAsyncReaderWriterImpl2::OnSent(bool success) {
   assert(!msg_queue_.empty());
   msg_queue_.pop();  // front msg is sent
 
+  if (!status_.ok()) {
+    assert(!status_cb_);  // already called and rest  XXX
+    return;
+  }
+
   if (!msg_queue_.empty()) {
     TryToSendNext();
     return;
   }
 
   // XXX is_closing?
-}
+}  // OnSent()
 
-// XXX
 void ClientAsyncReaderWriterImpl2::OnRead(bool success,
     ClientReaderReadCqTag& tag) {
   Guard g(mtx_);  // Callback needs Guard.
-  // XXX
-  //if (aborted_)  // Maybe writer failed.
-  //  return;
-  assert(status_.ok());
+  if (!status_.ok()) {
+    assert(!status_cb_);  // already called and reset  XXX
+    return;
+  }
   if (!success) {
     SetInternalError("ClientReaderReadCqTag failed.");
     return;
@@ -172,25 +177,24 @@ void ClientAsyncReaderWriterImpl2::OnRead(bool success,
   std::string sMsg;
   status_ = tag.GetResultMsg(sMsg);
   if (!status_.ok()) {
-    // XXX CallStatusCb();
+    CallStatusCb();
     return;
   }
 
-  // XXX
-  //if (msg_cb_) {
-  //  status_ = msg_cb_(sMsg);
-  //  if (!status_.ok()) {
-  //    // XXX CallStatusCb();
-  //    return;
-  //  }
-  //}
+  if (msg_cb_) {
+    status_ = msg_cb_(sMsg);
+    if (!status_.ok()) {
+      CallStatusCb();
+      return;
+    }
+  }
 
   ReadNext();
 }  // OnRead()
 
 bool ClientAsyncReaderWriterImpl2::TryToSendNext() {
+  // private function has no Guard
   assert(!msg_queue_.empty());
-
   assert(call_sptr_);
   auto* tag = new ClientSendMsgCqTag(call_sptr_);
   auto sptr = shared_from_this();
