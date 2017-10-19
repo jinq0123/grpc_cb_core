@@ -44,9 +44,10 @@ bool ClientAsyncWriterImpl2::Write(const std::string& request) {
   if (is_closing_)
     return false;
 
+  bool is_sending = !msg_queue_.empty();
   msg_queue_.push(request);
-  if (is_sending_) return true;
-  return TryToWriteNext();
+  if (is_sending) return true;
+  return TryToSendNext();
 }  // Write()
 
 void ClientAsyncWriterImpl2::Close(const CloseCb& close_cb/* = nullptr*/) {
@@ -60,15 +61,14 @@ void ClientAsyncWriterImpl2::Close(const CloseCb& close_cb/* = nullptr*/) {
     return;
   }
 
-  if (is_sending_) return;
-  assert(msg_queue_.empty());
-  SendClose();
+  if (msg_queue_.empty())  // All messages are sent.
+    SendClose();
 }  // Close()
 
 void ClientAsyncWriterImpl2::OnSent(bool success) {
   Guard g(mtx_);  // Callback needs Guard.
-  assert(is_sending_);
-  is_sending_ = false;
+  assert(!msg_queue_.empty());
+  msg_queue_.pop();  // The front is sent.
 
   if (!status_.ok()) return;  // XXX
   if (!success) {
@@ -78,7 +78,7 @@ void ClientAsyncWriterImpl2::OnSent(bool success) {
   }
 
   if (!msg_queue_.empty()) {
-    TryToWriteNext();  // XXX check return?
+    TryToSendNext();  // XXX check return?
     return;
   }
 
@@ -131,12 +131,10 @@ void ClientAsyncWriterImpl2::OnClosed(bool success, ClientWriterCloseCqTag& tag)
   CallCloseCb(sMsg);
 }  // OnClosed()
 
-bool ClientAsyncWriterImpl2::TryToWriteNext() {
-  assert(!is_sending_);
+bool ClientAsyncWriterImpl2::TryToSendNext() {
   assert(!msg_queue_.empty());
   assert(status_.ok());
 
-  is_sending_ = true;
   auto* tag = new ClientSendMsgCqTag(call_sptr_);
   auto sptr = shared_from_this();  // CqTag will keep sptr
   CompleteCb complete_cb = [sptr](bool success) {
@@ -144,8 +142,7 @@ bool ClientAsyncWriterImpl2::TryToWriteNext() {
   };
   tag->SetCompleteCb(complete_cb);
 
-  bool ok = tag->Start(msg_queue_.front());
-  msg_queue_.pop();  // may empty now but is_sending_
+  bool ok = tag->Start(msg_queue_.front());  // Send the front.
   if (ok) return true;
 
   delete tag;

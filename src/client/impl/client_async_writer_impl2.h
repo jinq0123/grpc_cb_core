@@ -66,8 +66,8 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
   bool is_closing_ = false;  // Set by Close() once
 
   // Grpc only allows to write one by one, so queue messages before write.
-  std::queue<std::string> msg_queue_;  // Cache messages to write. Pop and write.
-  bool is_sending_ = false;  // one message is sending
+  // The front message is sending.
+  std::queue<std::string> msg_queue_;
 };  // class ClientAsyncWriterImpl2
 
 }  // namespace grpc_cb_core
