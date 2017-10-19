@@ -49,7 +49,7 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
  private:
   void SendClose();
   void CallCloseCb(const std::string& sMsg = "");
-  bool TryToWriteNext();
+  bool TryToSendNext();
 
  private:
   // The callback may lock the mutex recursively.
@@ -61,13 +61,13 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
   const CallSptr call_sptr_;
   Status status_;
   bool has_sent_close_ = false;  // Client send close once.
-  CloseCb close_cb_;
+
+  CloseCb close_cb_;         // Set by Close() once
+  bool is_closing_ = false;  // Set by Close() once
 
   // Grpc only allows to write one by one, so queue messages before write.
   std::queue<std::string> msg_queue_;  // Cache messages to write. Pop and write.
-  bool is_writing_ = false;  // one message is writing
-  bool writing_closing_ = false;  // Set by Close()
-  // XXX rename writing to sending
+  bool is_sending_ = false;  // one message is sending
 };  // class ClientAsyncWriterImpl2
 
 }  // namespace grpc_cb_core
