@@ -19,6 +19,7 @@
 namespace grpc_cb_core {
 
 class ClientAsyncReadWorker;
+class ClientReaderReadCqTag;
 
 // Thread-safe.
 class ClientAsyncReaderImpl GRPC_FINAL
@@ -37,21 +38,27 @@ class ClientAsyncReaderImpl GRPC_FINAL
 
  private:
   // Reader callback on end with status.
-  void OnEndOfReading();
+  void OnEndOfReading();  // XXX del?
 
+  void OnRead(bool success, ClientReaderReadCqTag& tag);
+
+ private:
+  bool Init();
+  void ReadNext();  // Setup next async read.
   void CallStatusCb();
 
  private:
-  // ReadWorker callback will lock again.
+  // XXX ReadWorker callback will lock again.
   using Mutex = std::recursive_mutex;
   Mutex mtx_;
   using Guard = std::lock_guard<Mutex>;
 
   const CallSptr call_sptr_;
+  const std::string request_;
   Status status_;
+  MsgStrCb msg_cb_;
   StatusCb status_cb_;
 
-  // XXX ClientAsyncReadWorkerWptr reader_wptr_;
   bool reading_started_ = false;
   bool reading_ended_ = false;
 };  // class ClientAsyncReaderImpl

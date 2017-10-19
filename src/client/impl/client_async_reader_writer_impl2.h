@@ -21,9 +21,6 @@
 
 namespace grpc_cb_core {
 
-class ClientAsyncReadWorker;
-class ClientAsyncWriteWorker;
-
 // Impl of impl.
 // Impl1 is to make Writer copyable.
 // Impl2 will live longer than the Writer.
@@ -55,9 +52,9 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
   }
 
  private:
-  // Callback of ReadWorker.
+  // Callback of ReadWorker. XXX
   void OnEndOfReading();
-  // Callback of WriteWorker.
+  // Callback of WriteWorker. XXX
   void OnEndOfWriting();
 
  private:

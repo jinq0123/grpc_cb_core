@@ -19,7 +19,6 @@
 
 namespace grpc_cb_core {
 
-class ClientAsyncWriteWorker;
 class ClientWriterCloseCqTag;
 
 // Impl of impl.

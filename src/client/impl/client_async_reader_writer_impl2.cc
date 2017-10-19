@@ -62,7 +62,7 @@ bool ClientAsyncReaderWriterImpl2::Write(const std::string& msg) {
   writing_started_ = true;
   // XXX assert(!writer_sptr_);
 
-  // Impl2 and WriteWorker share each other untill OnEndOfWriting().
+  // XXX Impl2 and WriteWorker share each other untill OnEndOfWriting().
   auto sptr = shared_from_this();  // can not in ctr().
   // XXX
   //writer_sptr_.reset(new ClientAsyncWriteWorker(call_sptr_,
