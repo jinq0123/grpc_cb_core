@@ -25,7 +25,7 @@ ClientAsyncReaderWriterImpl2::ClientAsyncReaderWriterImpl2(
       status_cb_(status_cb) {
   assert(cq_sptr);
   assert(call_sptr_);
-}
+}  // ClientAsyncReaderWriterImpl2()
 
 void ClientAsyncReaderWriterImpl2::InitIfNot() {
   // private function has no Guard
@@ -37,15 +37,15 @@ void ClientAsyncReaderWriterImpl2::InitIfNot() {
     delete send_tag;
     SetInternalError("Failed to send init metadata to init bidirectional streaming.");
     return;
-  }
+  }  // if
 
   ClientRecvInitMdCqTag* recv_tag = new ClientRecvInitMdCqTag(call_sptr_);
   if (!recv_tag->Start()) {
     delete recv_tag;
     SetInternalError("Failed to receive init metadata to init bidirectional streaming.");
     return;
-  }
-}
+  }  // if
+}  // InitIfNot()
 
 ClientAsyncReaderWriterImpl2::~ClientAsyncReaderWriterImpl2() {
   // Reader and Writer helpers share this.
@@ -68,7 +68,7 @@ bool ClientAsyncReaderWriterImpl2::Write(const std::string& msg) {
   msg_queue_.push(msg);
   if (is_sending) return true;
   return TryToSendNext();
-}
+}  // Write()
 
 void ClientAsyncReaderWriterImpl2::CloseWriting() {
   Guard g(mtx_);
@@ -79,7 +79,7 @@ void ClientAsyncReaderWriterImpl2::CloseWriting() {
 
   // XXX 
   // End when all messages are written.
-}
+}  // CloseWriting()
 
 // Called in dtr().
 // Send close to half-close when writing are ended.
@@ -94,7 +94,7 @@ void ClientAsyncReaderWriterImpl2::SendCloseIfNot() {
   if (tag->Start()) return;
   delete tag;
   SetInternalError("Failed to close writing.");  // calls status_cb_
-}
+}  // SendCloseIfNot()
 
 void ClientAsyncReaderWriterImpl2::ReadEach(const MsgStrCb& msg_cb) {
   Guard g(mtx_);
@@ -103,7 +103,7 @@ void ClientAsyncReaderWriterImpl2::ReadEach(const MsgStrCb& msg_cb) {
   reading_started_ = true;
   msg_cb_ = msg_cb;
   ReadNext();
-}
+}  // ReadEach()
 
 void ClientAsyncReaderWriterImpl2::SetErrorStatus(const Status& error_status) {
   assert(!error_status.ok());
@@ -111,7 +111,7 @@ void ClientAsyncReaderWriterImpl2::SetErrorStatus(const Status& error_status) {
   if (!status_.ok()) return;
   status_ = error_status;
   CallStatusCb();
-}
+}  // SetErrorStatus()
 
 void ClientAsyncReaderWriterImpl2::OnEndOfReading() {
   Guard g(mtx_);  // Callback need Guard.
@@ -126,7 +126,7 @@ void ClientAsyncReaderWriterImpl2::OnEndOfReading() {
   //status_ = reader_sptr->GetStatus();
   if (!status_.ok() || writing_ended_)
     CallStatusCb();
-}
+}  // OnEndOfReading()
 
 void ClientAsyncReaderWriterImpl2::OnEndOfWriting() {
   Guard g(mtx_);  // Callback need Guard.
@@ -145,7 +145,7 @@ void ClientAsyncReaderWriterImpl2::OnEndOfWriting() {
   }
 
   SendCloseIfNot();
-}
+}  // OnEndOfWriting()
 
 void ClientAsyncReaderWriterImpl2::OnSent(bool success) {
   assert(!msg_queue_.empty());
@@ -216,7 +216,7 @@ bool ClientAsyncReaderWriterImpl2::TryToSendNext() {
   delete tag;
   SetInternalError("Failed to write bidirectional streaming.");
   return false;
-}
+}  // TryToSendNext()
 
 void ClientAsyncReaderWriterImpl2::ReadNext() {
   // private function has no Guard
@@ -234,12 +234,13 @@ void ClientAsyncReaderWriterImpl2::ReadNext() {
 // Set status, call status callback and reset helpers.
 void ClientAsyncReaderWriterImpl2::SetInternalError(const std::string& sError) {
   // private function has no Guard
+  assert(status_.ok());
   status_.SetInternalError(sError);
   CallStatusCb();
 
   reading_ended_ = true;
   writing_ended_ = true;
-}
+}  // SetInternalError
 
 void ClientAsyncReaderWriterImpl2::CallStatusCb() {
   // private function has no Guard
