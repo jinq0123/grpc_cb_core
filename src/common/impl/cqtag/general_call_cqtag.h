@@ -8,7 +8,7 @@
 
 #include <grpc_cb_core/common/support/config.h>  // for GRPC_OVERRIDE
 #include "call_cqtag.h"                          // for CallCqTag
-#include "complete_cb.h"                         // for CompleteCb
+#include "common/impl/complete_cb.h"             // for CompleteCb
 
 namespace grpc_cb_core {
 

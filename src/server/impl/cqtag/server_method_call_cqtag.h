@@ -9,9 +9,9 @@
 #include <grpc/grpc.h>          // for grpc_metadata_array
 #include <grpc/support/time.h>  // for gpr_timespec
 
-#include "grpc_cb_core/common/completion_queue_for_next_sptr.h"  // for CompletionQueueForNextSptr
-#include "common/impl/completion_queue_tag.h"  // for CompletionQueueTag
+#include <grpc_cb_core/common/completion_queue_for_next_sptr.h>  // for CompletionQueueForNextSptr
 #include <grpc_cb_core/common/support/config.h>      // for GRPC_FINAL
+#include "common/impl/cqtag/completion_queue_tag.h"  // for CompletionQueueTag
 
 struct grpc_call;
 

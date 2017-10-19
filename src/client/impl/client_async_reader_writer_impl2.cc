@@ -3,13 +3,13 @@
 
 #include "client_async_reader_writer_impl2.h"
 
-#include <grpc_cb_core/client/channel.h>  // for MakeSharedCall()
-#include "client_reader_read_cqtag.h"     // for ClientReaderReadCqTag
-#include "client_recv_init_md_cqtag.h"    // for ClientRecvInitMdCqTag
-#include "client_send_close_cqtag.h"      // for ClientSendCloseCqTag
-#include "client_send_init_md_cqtag.h"    // ClientSendInitMdCqTag
-#include "client_send_msg_cqtag.h"        // for ClientSendMsgCqTag
-#include "common/impl/complete_cb.h"      // for CompleteCb
+#include <grpc_cb_core/client/channel.h>      // for MakeSharedCall()
+#include "common/impl/complete_cb.h"          // for CompleteCb
+#include "cqtag/client_reader_read_cqtag.h"   // for ClientReaderReadCqTag
+#include "cqtag/client_recv_init_md_cqtag.h"  // for ClientRecvInitMdCqTag
+#include "cqtag/client_send_close_cqtag.h"    // for ClientSendCloseCqTag
+#include "cqtag/client_send_init_md_cqtag.h"  // ClientSendInitMdCqTag
+#include "cqtag/client_send_msg_cqtag.h"      // for ClientSendMsgCqTag
 
 namespace grpc_cb_core {
 

@@ -7,10 +7,10 @@
 #include <cassert>     // for assert()
 #include <string>
 
-#include "client_send_msg_cqtag.h"  // for ClientSendMsgCqTag
-#include <grpc_cb_core/common/call_sptr.h>              // for CallSptr
-#include "common/impl/cqueue_for_pluck.h"  // for Pluck()
-#include <grpc_cb_core/common/status.h>                 // for Status
+#include <grpc_cb_core/common/call_sptr.h>  // for CallSptr
+#include <grpc_cb_core/common/status.h>     // for Status
+#include "common/impl/cqueue_for_pluck.h"   // for Pluck()
+#include "cqtag/client_send_msg_cqtag.h"    // for ClientSendMsgCqTag
 
 namespace grpc_cb_core {
 namespace ClientSyncWriterHelper {

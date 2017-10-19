@@ -6,9 +6,9 @@
 #include <cassert>  // for assert()
 
 #include <grpc_cb_core/client/channel.h>  // for MakeSharedCall()
-#include "client_reader_async_recv_status_cqtag.h"  // for ClientReaderAsyncRecvStatusCqTag
-#include "client_reader_init_cqtag.h"               // for ClientReaderInitCqTag
-#include "client_reader_read_cqtag.h"               // for ClientReaderReadCqTag
+#include "cqtag/client_reader_async_recv_status_cqtag.h"  // for ClientReaderAsyncRecvStatusCqTag
+#include "cqtag/client_reader_init_cqtag.h"               // for ClientReaderInitCqTag
+#include "cqtag/client_reader_read_cqtag.h"               // for ClientReaderReadCqTag
 
 namespace grpc_cb_core {
 

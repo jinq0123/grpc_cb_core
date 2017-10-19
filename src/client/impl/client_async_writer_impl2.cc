@@ -7,10 +7,10 @@
 
 #include <grpc_cb_core/client/channel.h>  // for MakeSharedCall()
 
-#include "client_send_init_md_cqtag.h"  // for ClientSendInitMdCqTag
-#include "client_send_msg_cqtag.h"      // for ClientSendMsgCqTag
-#include "client_writer_close_cqtag.h"  // for ClientWriterCloseCqTag
-#include "common/impl/complete_cb.h"    // for CompleteCb
+#include "common/impl/complete_cb.h"          // for CompleteCb
+#include "cqtag/client_send_init_md_cqtag.h"  // for ClientSendInitMdCqTag
+#include "cqtag/client_send_msg_cqtag.h"      // for ClientSendMsgCqTag
+#include "cqtag/client_writer_close_cqtag.h"  // for ClientWriterCloseCqTag
 
 namespace grpc_cb_core {
 

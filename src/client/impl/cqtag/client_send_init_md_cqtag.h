@@ -6,10 +6,10 @@
 
 #include <grpc/support/port_platform.h>    // for GRPC_MUST_USE_RESULT
 
-#include "common/impl/call.h"             // for StartBatch()
-#include "common/impl/call_cqtag.h"       // for CallCqTag
-#include "common/impl/call_op_data.h"     // for CodSendInitMd
-#include "common/impl/call_operations.h"  // for CallOperations
+#include "common/impl/call.h"              // for StartBatch()
+#include "common/impl/call_op_data.h"      // for CodSendInitMd
+#include "common/impl/call_operations.h"   // for CallOperations
+#include "common/impl/cqtag/call_cqtag.h"  // for CallCqTag
 
 namespace grpc_cb_core {
 

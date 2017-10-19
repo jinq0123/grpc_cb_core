@@ -4,14 +4,14 @@
 #include <grpc_cb_core/client/service_stub.h>
 
 #include <grpc_cb_core/client/channel.h>  // for GetCallTimeoutMs()
-#include "impl/client_async_call_cqtag.h"  // for ClientAsyncCallCqTag
-#include "impl/client_call_cqtag.h"  // for ClientCallCqTag
+#include <grpc_cb_core/client/channel.h>  // for MakeSharedCall()
+#include <grpc_cb_core/common/completion_queue_for_next.h>  // for CompletionQueueForNext
+#include <grpc_cb_core/common/completion_queue_for_next.h>  // to convert *cq4n_sptr_ to CompletionQueue in MakeSharedCall()
+#include <grpc_cb_core/common/run.h>  // for Run()
 #include "common/impl/call.h"
-#include <grpc_cb_core/common/completion_queue_for_next.h>   // for CompletionQueueForNext
-#include "common/impl/cqueue_for_pluck.h"  // for CQueueForPluck
-#include <grpc_cb_core/common/completion_queue_for_next.h>   // to convert *cq4n_sptr_ to CompletionQueue in MakeSharedCall()
-#include <grpc_cb_core/common/run.h>                    // for Run()
-#include <grpc_cb_core/client/channel.h>          // for MakeSharedCall()
+#include "common/impl/cqueue_for_pluck.h"        // for CQueueForPluck
+#include "impl/cqtag/client_async_call_cqtag.h"  // for ClientAsyncCallCqTag
+#include "impl/cqtag/client_call_cqtag.h"        // for ClientCallCqTag
 
 namespace grpc_cb_core {
 
