@@ -45,7 +45,7 @@ class ClientAsyncReaderImpl GRPC_FINAL
   void CallStatusCb();
 
  private:
-  // XXX ReadWorker callback will lock again.
+  // OnRead() may lock again.
   using Mutex = std::recursive_mutex;
   Mutex mtx_;
   using Guard = std::lock_guard<Mutex>;
