@@ -62,7 +62,7 @@ void ClientAsyncWriterImpl2::Close(const CloseCb& close_cb/* = nullptr*/) {
 
   if (is_writing_) return;
   assert(msg_queue_.empty());
-  SendCloseIfNot();
+  SendClose();
 }  // Close()
 
 void ClientAsyncWriterImpl2::OnWritten(bool success) {
@@ -82,17 +82,10 @@ void ClientAsyncWriterImpl2::OnWritten(bool success) {
     return;
   }
 
-  // All messages are written.
+  // All messages are sent. Wait for Close()
   if (writing_closing_)
-    SendCloseIfNot();  // normal end
+    SendClose();  // normal end
 }  // OnWritten()
-
-void ClientAsyncWriterImpl2::SendCloseIfNot() {
-  // private function need no Guard.
-  if (has_sent_close_) return;
-  SendClose();
-  assert(has_sent_close_);
-}
 
 // Finally close...
 void ClientAsyncWriterImpl2::SendClose() {
@@ -113,7 +106,7 @@ void ClientAsyncWriterImpl2::SendClose() {
   delete tag;
   status_.SetInternalError("Failed to close client stream.");
   CallCloseCb();
-}  // SendCloseIfNot()
+}  // SendClose()
 
 void ClientAsyncWriterImpl2::CallCloseCb(const std::string& sMsg/* = ""*/) {
   // private function need no Guard.
@@ -147,7 +140,7 @@ bool ClientAsyncWriterImpl2::TryToWriteNext() {
   auto* tag = new ClientSendMsgCqTag(call_sptr_);
   auto sptr = shared_from_this();  // CqTag will keep sptr
   CompleteCb complete_cb = [sptr](bool success) {
-    sptr->OnWritten(success);
+    sptr->OnWritten(success);  // XXX Rename to OnSent
   };
   tag->SetCompleteCb(complete_cb);
 
