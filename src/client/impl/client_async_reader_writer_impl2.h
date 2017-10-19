@@ -21,6 +21,8 @@
 
 namespace grpc_cb_core {
 
+class ClientReaderReadCqTag;
+
 // Impl of impl.
 // Impl1 is to make Writer copyable.
 // Impl2 will live longer than the Writer.
@@ -57,11 +59,15 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
   // Callback of WriteWorker. XXX
   void OnEndOfWriting();
 
-  void OnSent(bool success);  // For ClientSendMsgCqTag.
+  // For ClientSendMsgCqTag.
+  void OnSent(bool success);
+  // For ClientReaderReadCqTag.
+  void OnRead(bool success, ClientReaderReadCqTag& tag);
 
  private:
   void InitIfNot();
   bool TryToSendNext();
+  void ReadNext();
   void SendCloseIfNot();
   void SetInternalError(const std::string& sError);
   void CallStatusCb();

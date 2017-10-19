@@ -33,7 +33,7 @@ inline bool SyncWrite(
     return true;
   }
 
-  status.SetInternalError("Failed to write client stream.");
+  status.SetInternalError("Failed to write client-side streaming.");
   return false;
 }  // SyncWrite()
 

@@ -38,7 +38,7 @@ inline bool SyncReadOne(
 
   ClientReaderReadCqTag tag(call_sptr);
   if (!tag.Start()) {
-    status.SetInternalError("Failed to read server stream.");
+    status.SetInternalError("Failed to read server-side streaming.");
     return false;
   }
 

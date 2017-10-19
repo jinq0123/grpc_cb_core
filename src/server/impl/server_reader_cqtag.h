@@ -79,7 +79,7 @@ void ServerReaderCqTag::DoComplete(bool success) {
   auto* tag = new ServerReaderCqTag(call_sptr, reader_sptr_);
   if (tag->Start()) return;
   delete tag;
-  EndOnError(Status::InternalError("Failed to read client stream."));
+  EndOnError(Status::InternalError("Failed to read client-side streaming."));
 }
 
 void ServerReaderCqTag::EndOnError(const Status& status)

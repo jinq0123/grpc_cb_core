@@ -25,7 +25,7 @@ ClientAsyncWriterImpl2::ClientAsyncWriterImpl2(
   ClientSendInitMdCqTag* tag = new ClientSendInitMdCqTag(call_sptr_);
   if (tag->Start()) return;
   delete tag;
-  status_.SetInternalError("Failed to init client stream.");
+  status_.SetInternalError("Failed to init client-side streaming.");
   assert(!is_closing_);  // Will CallCloseCb() after Close(close_cb).
 }
 
@@ -106,7 +106,7 @@ void ClientAsyncWriterImpl2::SendClose() {
     return;
 
   delete tag;
-  status_.SetInternalError("Failed to close client stream.");
+  status_.SetInternalError("Failed to close client-side streaming.");
   CallCloseCb();
 }  // SendClose()
 

@@ -108,7 +108,7 @@ void ClientAsyncReaderImpl::ReadNext() {
   if (tag->Start()) return;
 
   delete tag;
-  status_.SetInternalError("Failed to async read server stream.");
+  status_.SetInternalError("Failed to async read server-side streaming.");
   CallStatusCb();
 }  // ReadNext()
 

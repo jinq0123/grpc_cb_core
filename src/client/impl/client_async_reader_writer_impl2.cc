@@ -4,6 +4,7 @@
 #include "client_async_reader_writer_impl2.h"
 
 #include <grpc_cb_core/client/channel.h>  // for MakeSharedCall()
+#include "client_reader_read_cqtag.h"     // for ClientReaderReadCqTag
 #include "client_recv_init_md_cqtag.h"    // for ClientRecvInitMdCqTag
 #include "client_send_close_cqtag.h"      // for ClientSendCloseCqTag
 #include "client_send_init_md_cqtag.h"    // ClientSendInitMdCqTag
@@ -34,14 +35,14 @@ void ClientAsyncReaderWriterImpl2::InitIfNot() {
   ClientSendInitMdCqTag* send_tag = new ClientSendInitMdCqTag(call_sptr_);
   if (!send_tag->Start()) {
     delete send_tag;
-    SetInternalError("Failed to send init metadata to init stream.");
+    SetInternalError("Failed to send init metadata to init bidirectional streaming.");
     return;
   }
 
   ClientRecvInitMdCqTag* recv_tag = new ClientRecvInitMdCqTag(call_sptr_);
   if (!recv_tag->Start()) {
     delete recv_tag;
-    SetInternalError("Failed to receive init metadata to init stream.");
+    SetInternalError("Failed to receive init metadata to init bidirectional streaming.");
     return;
   }
 }
@@ -74,14 +75,10 @@ void ClientAsyncReaderWriterImpl2::CloseWriting() {
   if (writing_closing_) return;
   writing_closing_ = true;
 
-  // XXX
-  //auto writer_sptr = writer_sptr_;
-  //writer_sptr_.reset();  // always stop circular sharing
+  if (!msg_queue_.empty()) return;  // sending
 
+  // XXX 
   // End when all messages are written.
-  // XXX
-  //if (writer_sptr)
-  //  writer_sptr->SetClosing();
 }
 
 // Called in dtr().
@@ -99,24 +96,12 @@ void ClientAsyncReaderWriterImpl2::SendCloseIfNot() {
   SetInternalError("Failed to close writing.");  // calls status_cb_
 }
 
-// Todo: same as ClientReader?
-
 void ClientAsyncReaderWriterImpl2::ReadEach(const MsgStrCb& msg_cb) {
   Guard g(mtx_);
   InitIfNot();
   if (reading_started_) return;  // already started.
   reading_started_ = true;
-
-  // Impl2 and ReadWorker will share each other until OnEndOfReading().
-  auto sptr = shared_from_this();
-  // XXX
-  //auto reader_sptr = std::make_shared<ClientAsyncReadWorker>(
-  //    call_sptr_, msg_cb,
-  //    [sptr]() {
-  //      sptr->OnEndOfReading();
-  //    });
-  //reader_sptr->Start();
-  //reader_wptr_ = reader_sptr;
+  ReadNext();
 }
 
 void ClientAsyncReaderWriterImpl2::OnEndOfReading() {
@@ -165,6 +150,45 @@ void ClientAsyncReaderWriterImpl2::OnSent(bool success) {
   // XXX is_closing?
 }
 
+// XXX
+void ClientAsyncReaderWriterImpl2::OnRead(bool success,
+    ClientReaderReadCqTag& tag) {
+  Guard g(mtx_);  // Callback needs Guard.
+  // XXX
+  //if (aborted_)  // Maybe writer failed.
+  //  return;
+  assert(status_.ok());
+  if (!success) {
+    status_.SetInternalError("ClientReaderReadCqTag failed.");
+    // XXX CallEndCb();
+    return;
+  }
+  if (!tag.HasGotMsg()) {
+    // CallEndCb of read.
+    // Receiving status will be after all reading and writing.
+    // XXX CallEndCb();
+    return;
+  }
+
+  std::string sMsg;
+  status_ = tag.GetResultMsg(sMsg);
+  if (!status_.ok()) {
+    // XXX CallEndCb();
+    return;
+  }
+
+  // XXX
+  //if (msg_cb_) {
+  //  status_ = msg_cb_(sMsg);
+  //  if (!status_.ok()) {
+  //    // XXX CallEndCb();
+  //    return;
+  //  }
+  //}
+
+  ReadNext();
+}  // OnRead()
+
 bool ClientAsyncReaderWriterImpl2::TryToSendNext() {
   assert(!msg_queue_.empty());
 
@@ -179,10 +203,23 @@ bool ClientAsyncReaderWriterImpl2::TryToSendNext() {
   if (ok) return true;
 
   delete tag;
-  status_.SetInternalError("Failed to write client stream.");
+  status_.SetInternalError("Failed to write bidirectional streaming.");
   // XXX CallEndCb();  // error end
   return false;
 }
+
+void ClientAsyncReaderWriterImpl2::ReadNext() {
+  auto* tag = new ClientReaderReadCqTag(call_sptr_);
+  auto sptr = shared_from_this();
+  tag->SetCompleteCb([sptr, tag](bool success) {
+      sptr->OnRead(success, *tag);
+  });
+  if (tag->Start()) return;
+
+  delete tag;
+  status_.SetInternalError("Failed to async read bidi streaming.");
+  // XXX CallEndCb();
+}  // ReadNext()
 
 // Set status, call status callback and reset helpers.
 void ClientAsyncReaderWriterImpl2::SetInternalError(const std::string& sError) {

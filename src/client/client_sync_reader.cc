@@ -33,7 +33,7 @@ ClientSyncReader::ClientSyncReader(const ChannelSptr& channel,
   }
 
   data_sptr_->status.SetInternalError(
-      "Failed to start client sync reader stream.");
+      "Failed to start client sync reader.");
 }  // ClientSyncReader()
 
 // Return false if error or end of stream.

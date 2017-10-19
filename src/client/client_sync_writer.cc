@@ -49,7 +49,7 @@ Status ClientSyncWriter::Close(std::string* response) const {
   if (!status.ok()) return status;
   ClientWriterCloseCqTag tag(data.call_sptr);
   if (!tag.Start()) {
-    status.SetInternalError("Failed to finish client stream.");
+    status.SetInternalError("Failed to finish client-side streaming.");
     return status;
   }
 
