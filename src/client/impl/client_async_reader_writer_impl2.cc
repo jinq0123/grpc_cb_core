@@ -27,27 +27,6 @@ ClientAsyncReaderWriterImpl2::ClientAsyncReaderWriterImpl2(
   assert(call_sptr_);
 }  // ClientAsyncReaderWriterImpl2()
 
-void ClientAsyncReaderWriterImpl2::InitIfNot() {
-  // private function has no Guard
-  if (inited_) return;
-  inited_ = true;
-  if (!status_.ok()) return;
-
-  ClientSendInitMdCqTag* send_tag = new ClientSendInitMdCqTag(call_sptr_);
-  if (!send_tag->Start()) {
-    delete send_tag;
-    SetInternalError("Failed to send init metadata to init bidirectional streaming.");
-    return;
-  }  // if
-
-  ClientRecvInitMdCqTag* recv_tag = new ClientRecvInitMdCqTag(call_sptr_);
-  if (!recv_tag->Start()) {
-    delete recv_tag;
-    SetInternalError("Failed to receive init metadata to init bidirectional streaming.");
-    return;
-  }  // if
-}  // InitIfNot()
-
 ClientAsyncReaderWriterImpl2::~ClientAsyncReaderWriterImpl2() {
   // No CqTag shares this.
   assert(reading_ended_);
@@ -84,19 +63,6 @@ void ClientAsyncReaderWriterImpl2::CloseWriting() {
   assert(writing_ended_);
 }  // CloseWriting()
 
-// Send close to half-close when writing are ended.
-void ClientAsyncReaderWriterImpl2::SendClose() {
-  // private function has no Guard
-  assert(!has_sent_close_);
-  assert((has_sent_close_ = true));
-  assert(status_.ok());
-  writing_ended_ = true;  // Normal end.
-  ClientSendCloseCqTag* tag = new ClientSendCloseCqTag(call_sptr_);
-  if (tag->Start()) return;
-  delete tag;
-  SetInternalError("Failed to close writing.");  // calls status_cb_
-}  // SendClose()
-
 void ClientAsyncReaderWriterImpl2::ReadEach(const MsgStrCb& msg_cb) {
   Guard g(mtx_);
   if (reading_started_) return;  // already started.
@@ -115,6 +81,7 @@ void ClientAsyncReaderWriterImpl2::SetErrorStatus(const Status& error_status) {
 }  // SetErrorStatus()
 
 void ClientAsyncReaderWriterImpl2::OnSent(bool success) {
+  Guard g(mtx_);  // Callback need Guard.
   assert(!msg_queue_.empty());
   msg_queue_.pop();  // front msg is sent
 
@@ -172,6 +139,27 @@ void ClientAsyncReaderWriterImpl2::OnRead(bool success,
   ReadNext();
 }  // OnRead()
 
+void ClientAsyncReaderWriterImpl2::InitIfNot() {
+  // private function has no Guard
+  if (inited_) return;
+  inited_ = true;
+  if (!status_.ok()) return;
+
+  ClientSendInitMdCqTag* send_tag = new ClientSendInitMdCqTag(call_sptr_);
+  if (!send_tag->Start()) {
+    delete send_tag;
+    SetInternalError("Failed to send init metadata to init bidirectional streaming.");
+    return;
+  }  // if
+
+  ClientRecvInitMdCqTag* recv_tag = new ClientRecvInitMdCqTag(call_sptr_);
+  if (!recv_tag->Start()) {
+    delete recv_tag;
+    SetInternalError("Failed to receive init metadata to init bidirectional streaming.");
+    return;
+  }  // if
+}  // InitIfNot()
+
 bool ClientAsyncReaderWriterImpl2::SendNext() {
   // private function has no Guard
   assert(!msg_queue_.empty());
@@ -202,6 +190,19 @@ void ClientAsyncReaderWriterImpl2::ReadNext() {
   delete tag;
   SetInternalError("Failed to async read bidi streaming.");
 }  // ReadNext()
+
+// Send close to half-close when writing are ended.
+void ClientAsyncReaderWriterImpl2::SendClose() {
+  // private function has no Guard
+  assert(!has_sent_close_);
+  assert((has_sent_close_ = true));
+  assert(status_.ok());
+  writing_ended_ = true;  // Normal end.
+  ClientSendCloseCqTag* tag = new ClientSendCloseCqTag(call_sptr_);
+  if (tag->Start()) return;
+  delete tag;
+  SetInternalError("Failed to close writing.");  // calls status_cb_
+}  // SendClose()
 
 // Set status, call status callback and reset helpers.
 void ClientAsyncReaderWriterImpl2::SetInternalError(const std::string& sError) {
