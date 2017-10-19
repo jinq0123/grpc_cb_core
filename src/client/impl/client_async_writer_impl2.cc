@@ -92,7 +92,7 @@ void ClientAsyncWriterImpl2::SendClose() {
   assert(is_closing_);  // Must after Close().
   assert(status_.ok());
   assert(!has_sent_close_);
-  has_sent_close_ = true;
+  assert((has_sent_close_ = true));
 
   auto sptr = shared_from_this();
   auto* tag = new ClientWriterCloseCqTag(call_sptr_);

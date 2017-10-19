@@ -59,7 +59,10 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
 
   const CallSptr call_sptr_;
   Status status_;
+
+#ifndef NDEBUG
   bool has_sent_close_ = false;  // Client send close once.
+#endif  // NDEBUG
 
   CloseCb close_cb_;         // Set by Close() once
   bool is_closing_ = false;  // Set by Close() once
