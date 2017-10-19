@@ -41,12 +41,12 @@ bool ClientAsyncWriterImpl2::Write(const std::string& request) {
   if (!status_.ok())
     return false;
   if (is_closing_)
-    return false;
+    return false;  // Ignore any messages after Close().
 
-  bool is_sending = !msg_queue_.empty();
+  bool is_sending = !msg_queue_.empty();  // Is sending the front msg?
   msg_queue_.push(request);
   if (is_sending) return true;
-  return TryToSendNext();
+  return TryToSendNext();  // Resume sending.
 }  // Write()
 
 void ClientAsyncWriterImpl2::Close(const CloseCb& close_cb/* = nullptr*/) {
