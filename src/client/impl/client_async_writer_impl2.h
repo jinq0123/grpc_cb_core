@@ -57,7 +57,6 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
   mutable Mutex mtx_;
   using Guard = std::lock_guard<Mutex>;
 
-  const CompletionQueueSptr cq_sptr_;
   const CallSptr call_sptr_;
   Status status_;
   bool has_sent_close_ = false;  // Client send close once.

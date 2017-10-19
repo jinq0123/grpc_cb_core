@@ -17,8 +17,7 @@ namespace grpc_cb_core {
 ClientAsyncWriterImpl2::ClientAsyncWriterImpl2(
     const ChannelSptr& channel, const std::string& method,
     const CompletionQueueSptr& cq_sptr, int64_t timeout_ms)
-    : cq_sptr_(cq_sptr),
-      call_sptr_(channel->MakeSharedCall(method, *cq_sptr, timeout_ms)) {
+    : call_sptr_(channel->MakeSharedCall(method, *cq_sptr, timeout_ms)) {
   assert(cq_sptr);
   assert(channel);
   assert(call_sptr_);
@@ -27,7 +26,7 @@ ClientAsyncWriterImpl2::ClientAsyncWriterImpl2(
   if (tag->Start()) return;
   delete tag;
   status_.SetInternalError("Failed to init client stream.");
-  // Call close handler when Close(CloseHandler)
+  // Will CallCloseCb() after Close(close_cb).
 }
 
 ClientAsyncWriterImpl2::~ClientAsyncWriterImpl2() {
@@ -132,6 +131,7 @@ void ClientAsyncWriterImpl2::OnClosed(bool success, ClientWriterCloseCqTag& tag)
 }  // OnClosed()
 
 bool ClientAsyncWriterImpl2::TryToSendNext() {
+  // private function has no Guard.
   assert(!msg_queue_.empty());
   assert(status_.ok());
 
@@ -149,6 +149,6 @@ bool ClientAsyncWriterImpl2::TryToSendNext() {
   status_.SetInternalError("Failed to write client-side streaming.");
   if (is_closing_) CallCloseCb();
   return false;
-}
+}  // TryToSendNext()
 
 }  // namespace grpc_cb_core
