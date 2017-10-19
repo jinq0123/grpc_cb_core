@@ -19,14 +19,14 @@ class Status;
 
 // Thread-safe.
 // Only shared in ClientAsyncReaderWriter, because we need dtr() to close writing.
-class ClientAsyncReaderWriterImpl GRPC_FINAL {
+class ClientAsyncReaderWriterWrappedImpl GRPC_FINAL {
  public:
-  ClientAsyncReaderWriterImpl(const ChannelSptr& channel,
+  ClientAsyncReaderWriterWrappedImpl(const ChannelSptr& channel,
                               const std::string& method,
                               const CompletionQueueSptr& cq_sptr,
                               int64_t timeout_ms,
                               const StatusCb& status_cb);
-  ~ClientAsyncReaderWriterImpl();
+  ~ClientAsyncReaderWriterWrappedImpl();
 
  public:
   bool Write(const std::string& msg);
@@ -44,7 +44,7 @@ class ClientAsyncReaderWriterImpl GRPC_FINAL {
   // Live longer than ClientAsyncReaderWriter.
   std::shared_ptr<ClientAsyncReaderWriterImpl2> impl2_sptr_;
   // XXX Do we really need Impl and Impl2?
-};  // class ClientAsyncReaderWriterImpl
+};  // class ClientAsyncReaderWriterWrappedImpl
 
 // Todo: SyncGetInitMd();
 

@@ -17,11 +17,11 @@ class ClientAsyncWriterImpl2;
 
 // Only shared in ClientAsyncWriter, because we need dtr() to close writing.
 // Thread-safe.
-class ClientAsyncWriterImpl GRPC_FINAL {
+class ClientAsyncWriterWrappedImpl GRPC_FINAL {
  public:
-  ClientAsyncWriterImpl(const ChannelSptr& channel, const std::string& method,
+  ClientAsyncWriterWrappedImpl(const ChannelSptr& channel, const std::string& method,
                         const CompletionQueueSptr& cq_sptr, int64_t timeout_ms);
-  ~ClientAsyncWriterImpl();
+  ~ClientAsyncWriterWrappedImpl();
 
   bool Write(const std::string& request);
   void Close(const CloseCb& close_cb);
@@ -32,7 +32,7 @@ class ClientAsyncWriterImpl GRPC_FINAL {
  private:
   // Will live longer than ClientAsyncWriter.
   std::shared_ptr<ClientAsyncWriterImpl2> impl2_sptr_;
-};  // class ClientAsyncWriterImpl
+};  // class ClientAsyncWriterWrappedImpl
 
 }  // namespace grpc_cb_core
 #endif  // GRPC_CB_CORE_CLIENT_ASYNC_WRITER_IMPL_H

@@ -11,7 +11,7 @@ namespace grpc_cb_core {
 
 // Todo: SyncGetInitMd();
 
-ClientAsyncReaderWriterImpl::ClientAsyncReaderWriterImpl(
+ClientAsyncReaderWriterWrappedImpl::ClientAsyncReaderWriterWrappedImpl(
     const ChannelSptr& channel, const std::string& method,
     const CompletionQueueSptr& cq_sptr, int64_t timeout_ms,
     const StatusCb& status_cb)
@@ -20,23 +20,23 @@ ClientAsyncReaderWriterImpl::ClientAsyncReaderWriterImpl(
   assert(cq_sptr);
 }
 
-ClientAsyncReaderWriterImpl::~ClientAsyncReaderWriterImpl() {
+ClientAsyncReaderWriterWrappedImpl::~ClientAsyncReaderWriterWrappedImpl() {
   impl2_sptr_->CloseWriting();  // impl2_sptr_ will live on.
 }
 
-bool ClientAsyncReaderWriterImpl::Write(const std::string& msg) {
+bool ClientAsyncReaderWriterWrappedImpl::Write(const std::string& msg) {
   return impl2_sptr_->Write(msg);
 }
 
-void ClientAsyncReaderWriterImpl::CloseWriting() {
+void ClientAsyncReaderWriterWrappedImpl::CloseWriting() {
   impl2_sptr_->CloseWriting();
 }
 
-void ClientAsyncReaderWriterImpl::ReadEach(const MsgStrCb& msg_cb) {
+void ClientAsyncReaderWriterWrappedImpl::ReadEach(const MsgStrCb& msg_cb) {
   impl2_sptr_->ReadEach(msg_cb);
 }
 
-void ClientAsyncReaderWriterImpl::SetErrorStatus(const Status& error_status) {
+void ClientAsyncReaderWriterWrappedImpl::SetErrorStatus(const Status& error_status) {
   assert(!error_status.ok());
   impl2_sptr_->SetErrorStatus(error_status);
 }
