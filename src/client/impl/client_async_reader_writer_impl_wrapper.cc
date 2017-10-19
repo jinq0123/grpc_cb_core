@@ -5,7 +5,7 @@
 
 #include <cassert>
 
-#include "client_async_reader_writer_impl2.h"  // for ClientAsyncReaderWriterImpl
+#include "client_async_reader_writer_impl.h"  // for ClientAsyncReaderWriterImpl
 
 namespace grpc_cb_core {
 

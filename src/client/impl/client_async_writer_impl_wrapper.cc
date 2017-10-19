@@ -5,7 +5,7 @@
 
 #include <cassert>  // for assert()
 
-#include "client_async_writer_impl2.h"  // for ClientAsyncWriterImpl
+#include "client_async_writer_impl.h"  // for ClientAsyncWriterImpl
 
 namespace grpc_cb_core {
 
