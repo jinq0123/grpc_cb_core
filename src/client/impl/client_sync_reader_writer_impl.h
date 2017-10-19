@@ -20,6 +20,8 @@
 
 namespace grpc_cb_core {
 
+// XXX thread-safe?
+
 class ClientSyncReaderWriterImpl GRPC_FINAL {
  public:
   using string = std::string;

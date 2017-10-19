@@ -10,3 +10,6 @@
 * Rename Impl2 to Impl, Impl to WrappedImpl
 
 * Rename worker to handler
+* SetErrorStatus() should check current status.
+    if (!status_.ok()) return;
+    status_ = new_status;

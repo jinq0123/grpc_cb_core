@@ -47,10 +47,7 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
   void ReadEach(const MsgStrCb& msg_cb);
 
   // Set error status to break reading. Such as when parsing message failed.
-  void SetErrorStatus(const Status& error_status) {
-    assert(!error_status.ok());
-    status_ = error_status;
-  }
+  void SetErrorStatus(const Status& error_status);
 
  private:
   // Callback of ReadWorker. XXX
@@ -94,5 +91,4 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
 // Todo: SyncGetInitMd();
 
 }  // namespace grpc_cb_core
-
 #endif  // GRPC_CB_CORE_CLIENT_CLIENT_ASYNC_READER_WRITER_IMPL2_H

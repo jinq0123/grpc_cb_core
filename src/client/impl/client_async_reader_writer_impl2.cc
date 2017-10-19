@@ -105,6 +105,12 @@ void ClientAsyncReaderWriterImpl2::ReadEach(const MsgStrCb& msg_cb) {
   ReadNext();
 }
 
+void ClientAsyncReaderWriterImpl2::SetErrorStatus(const Status& error_status) {
+  assert(!error_status.ok());
+  Guard g(mtx_);
+  status_ = error_status;
+}
+
 void ClientAsyncReaderWriterImpl2::OnEndOfReading() {
   Guard g(mtx_);  // Callback need Guard.
   assert(reading_started_);
