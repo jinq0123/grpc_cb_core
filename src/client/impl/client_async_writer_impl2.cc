@@ -14,7 +14,7 @@
 
 namespace grpc_cb_core {
 
-ClientAsyncWriterImpl2::ClientAsyncWriterImpl2(
+ClientAsyncWriterImpl::ClientAsyncWriterImpl(
     const ChannelSptr& channel, const std::string& method,
     const CompletionQueueSptr& cq_sptr, int64_t timeout_ms)
     : call_sptr_(channel->MakeSharedCall(method, *cq_sptr, timeout_ms)) {
@@ -29,14 +29,14 @@ ClientAsyncWriterImpl2::ClientAsyncWriterImpl2(
   assert(!is_closing_);  // Will CallCloseCb() after Close(close_cb).
 }
 
-ClientAsyncWriterImpl2::~ClientAsyncWriterImpl2() {
+ClientAsyncWriterImpl::~ClientAsyncWriterImpl() {
   // Have done CallCloseCb().
 }
 
 // Queue messages -> Send messages one by one
 // Close writing -> Send messages -> Send close
 
-bool ClientAsyncWriterImpl2::Write(const std::string& request) {
+bool ClientAsyncWriterImpl::Write(const std::string& request) {
   Guard g(mtx_);
   if (!status_.ok())
     return false;
@@ -49,7 +49,7 @@ bool ClientAsyncWriterImpl2::Write(const std::string& request) {
   return TryToSendNext();  // Resume sending.
 }  // Write()
 
-void ClientAsyncWriterImpl2::Close(const CloseCb& close_cb/* = nullptr*/) {
+void ClientAsyncWriterImpl::Close(const CloseCb& close_cb/* = nullptr*/) {
   Guard g(mtx_);
   if (is_closing_) return;  // already done
   is_closing_ = true;
@@ -64,7 +64,7 @@ void ClientAsyncWriterImpl2::Close(const CloseCb& close_cb/* = nullptr*/) {
     SendClose();
 }  // Close()
 
-void ClientAsyncWriterImpl2::OnSent(bool success) {
+void ClientAsyncWriterImpl::OnSent(bool success) {
   Guard g(mtx_);  // Callback needs Guard.
   assert(!msg_queue_.empty());
   msg_queue_.pop();  // The front is sent.
@@ -90,7 +90,7 @@ void ClientAsyncWriterImpl2::OnSent(bool success) {
 }  // OnSent()
 
 // Finally close...
-void ClientAsyncWriterImpl2::SendClose() {
+void ClientAsyncWriterImpl::SendClose() {
   // private function need no Guard.
   assert(is_closing_);  // Must after Close().
   assert(status_.ok());
@@ -110,14 +110,14 @@ void ClientAsyncWriterImpl2::SendClose() {
   CallCloseCb();
 }  // SendClose()
 
-void ClientAsyncWriterImpl2::TryToCallCloseCb() {
+void ClientAsyncWriterImpl::TryToCallCloseCb() {
   // private function need no Guard.
   assert(!status_.ok());  // always on error
   if (is_closing_)
     CallCloseCb();
 }
 
-void ClientAsyncWriterImpl2::CallCloseCb(const std::string& sMsg/* = ""*/) {
+void ClientAsyncWriterImpl::CallCloseCb(const std::string& sMsg/* = ""*/) {
   // private function need no Guard.
   if (!close_cb_) return;
   close_cb_(status_, sMsg);
@@ -125,7 +125,7 @@ void ClientAsyncWriterImpl2::CallCloseCb(const std::string& sMsg/* = ""*/) {
 }
 
 // Callback of ClientWriterCloseCqTag::OnComplete()
-void ClientAsyncWriterImpl2::OnClosed(bool success, ClientWriterCloseCqTag& tag) {
+void ClientAsyncWriterImpl::OnClosed(bool success, ClientWriterCloseCqTag& tag) {
   Guard g(mtx_);  // Callback need Guard.
 
   if (!status_.ok()) {
@@ -145,7 +145,7 @@ void ClientAsyncWriterImpl2::OnClosed(bool success, ClientWriterCloseCqTag& tag)
   CallCloseCb(sMsg);  // normal end
 }  // OnClosed()
 
-bool ClientAsyncWriterImpl2::TryToSendNext() {
+bool ClientAsyncWriterImpl::TryToSendNext() {
   // private function has no Guard.
   assert(!msg_queue_.empty());
   assert(status_.ok());

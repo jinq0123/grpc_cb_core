@@ -5,7 +5,7 @@
 
 #include <cassert>
 
-#include "client_async_reader_writer_impl2.h"  // for ClientAsyncReaderWriterImpl2
+#include "client_async_reader_writer_impl2.h"  // for ClientAsyncReaderWriterImpl
 
 namespace grpc_cb_core {
 
@@ -15,7 +15,7 @@ ClientAsyncReaderWriterImplWrapper::ClientAsyncReaderWriterImplWrapper(
     const ChannelSptr& channel, const std::string& method,
     const CompletionQueueSptr& cq_sptr, int64_t timeout_ms,
     const StatusCb& status_cb)
-    : impl2_sptr_(new ClientAsyncReaderWriterImpl2(channel, method, cq_sptr,
+    : impl2_sptr_(new ClientAsyncReaderWriterImpl(channel, method, cq_sptr,
                                                    timeout_ms, status_cb)) {
   assert(cq_sptr);
 }

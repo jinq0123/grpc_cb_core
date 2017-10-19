@@ -26,12 +26,12 @@ class ClientWriterCloseCqTag;
 // Impl2 will live longer than the Writer.
 // We need dtr() of Impl1 to close writing.
 // Thread-safe.
-class ClientAsyncWriterImpl2 GRPC_FINAL
-    : public std::enable_shared_from_this<ClientAsyncWriterImpl2> {
+class ClientAsyncWriterImpl GRPC_FINAL
+    : public std::enable_shared_from_this<ClientAsyncWriterImpl> {
  public:
-  ClientAsyncWriterImpl2(const ChannelSptr& channel, const std::string& method,
+  ClientAsyncWriterImpl(const ChannelSptr& channel, const std::string& method,
                          const CompletionQueueSptr& cq_sptr, int64_t timeout_ms);
-  ~ClientAsyncWriterImpl2();
+  ~ClientAsyncWriterImpl();
 
   bool Write(const std::string& request);
   void Close(const CloseCb& close_cb = nullptr);
@@ -70,7 +70,7 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
   // Grpc only allows to write one by one, so queue messages before write.
   // The front message is sending.
   std::queue<std::string> msg_queue_;
-};  // class ClientAsyncWriterImpl2
+};  // class ClientAsyncWriterImpl
 
 }  // namespace grpc_cb_core
 #endif  // GRPC_CB_CORE_CLIENT_ASYNC_WRITER_IMPL2_H

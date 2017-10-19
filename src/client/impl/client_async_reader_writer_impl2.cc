@@ -13,11 +13,9 @@
 
 namespace grpc_cb_core {
 
-using Sptr = std::shared_ptr<ClientAsyncReaderWriterImpl2>;
-
 // Todo: SyncGetInitMd();
 
-ClientAsyncReaderWriterImpl2::ClientAsyncReaderWriterImpl2(
+ClientAsyncReaderWriterImpl::ClientAsyncReaderWriterImpl(
     const ChannelSptr& channel, const std::string& method,
     const CompletionQueueSptr& cq_sptr, int64_t timeout_ms,
     const StatusCb& status_cb)
@@ -25,15 +23,15 @@ ClientAsyncReaderWriterImpl2::ClientAsyncReaderWriterImpl2(
       status_cb_(status_cb) {
   assert(cq_sptr);
   assert(call_sptr_);
-}  // ClientAsyncReaderWriterImpl2()
+}  // ClientAsyncReaderWriterImpl()
 
-ClientAsyncReaderWriterImpl2::~ClientAsyncReaderWriterImpl2() {
+ClientAsyncReaderWriterImpl::~ClientAsyncReaderWriterImpl() {
   // No CqTag shares this.
   assert(reading_ended_);
   assert(writing_ended_);
 }
 
-bool ClientAsyncReaderWriterImpl2::Write(const std::string& msg) {
+bool ClientAsyncReaderWriterImpl::Write(const std::string& msg) {
   Guard g(mtx_);
   InitIfNot();
   if (!status_.ok()) {
@@ -49,7 +47,7 @@ bool ClientAsyncReaderWriterImpl2::Write(const std::string& msg) {
   return SendNext();
 }  // Write()
 
-void ClientAsyncReaderWriterImpl2::CloseWriting() {
+void ClientAsyncReaderWriterImpl::CloseWriting() {
   Guard g(mtx_);
   if (writing_closing_) return;
   writing_closing_ = true;
@@ -63,7 +61,7 @@ void ClientAsyncReaderWriterImpl2::CloseWriting() {
   assert(writing_ended_);
 }  // CloseWriting()
 
-void ClientAsyncReaderWriterImpl2::ReadEach(const MsgStrCb& msg_cb) {
+void ClientAsyncReaderWriterImpl::ReadEach(const MsgStrCb& msg_cb) {
   Guard g(mtx_);
   if (reading_started_) return;  // already started.
   reading_started_ = true;
@@ -73,7 +71,7 @@ void ClientAsyncReaderWriterImpl2::ReadEach(const MsgStrCb& msg_cb) {
   ReadNext();
 }  // ReadEach()
 
-void ClientAsyncReaderWriterImpl2::SetErrorStatus(const Status& error_status) {
+void ClientAsyncReaderWriterImpl::SetErrorStatus(const Status& error_status) {
   assert(!error_status.ok());
   Guard g(mtx_);
   if (status_.ok()) {
@@ -85,7 +83,7 @@ void ClientAsyncReaderWriterImpl2::SetErrorStatus(const Status& error_status) {
   status_ = error_status;
 }  // SetErrorStatus()
 
-void ClientAsyncReaderWriterImpl2::OnSent(bool success) {
+void ClientAsyncReaderWriterImpl::OnSent(bool success) {
   Guard g(mtx_);  // Callback need Guard.
   assert(!msg_queue_.empty());
   msg_queue_.pop();  // front msg is sent
@@ -108,7 +106,7 @@ void ClientAsyncReaderWriterImpl2::OnSent(bool success) {
     CallStatusCb();  // Both ended.
 }  // OnSent()
 
-void ClientAsyncReaderWriterImpl2::OnRead(bool success,
+void ClientAsyncReaderWriterImpl::OnRead(bool success,
     ClientReaderReadCqTag& tag) {
   Guard g(mtx_);  // Callback needs Guard.
   if (!status_.ok()) {
@@ -144,7 +142,7 @@ void ClientAsyncReaderWriterImpl2::OnRead(bool success,
   ReadNext();
 }  // OnRead()
 
-void ClientAsyncReaderWriterImpl2::InitIfNot() {
+void ClientAsyncReaderWriterImpl::InitIfNot() {
   // private function has no Guard
   if (inited_) return;
   inited_ = true;
@@ -165,7 +163,7 @@ void ClientAsyncReaderWriterImpl2::InitIfNot() {
   }  // if
 }  // InitIfNot()
 
-bool ClientAsyncReaderWriterImpl2::SendNext() {
+bool ClientAsyncReaderWriterImpl::SendNext() {
   // private function has no Guard
   assert(!msg_queue_.empty());
   assert(call_sptr_);
@@ -183,7 +181,7 @@ bool ClientAsyncReaderWriterImpl2::SendNext() {
   return false;
 }  // SendNext()
 
-void ClientAsyncReaderWriterImpl2::ReadNext() {
+void ClientAsyncReaderWriterImpl::ReadNext() {
   // private function has no Guard
   auto* tag = new ClientReaderReadCqTag(call_sptr_);
   auto sptr = shared_from_this();
@@ -197,7 +195,7 @@ void ClientAsyncReaderWriterImpl2::ReadNext() {
 }  // ReadNext()
 
 // Send close to half-close when writing are ended.
-void ClientAsyncReaderWriterImpl2::SendClose() {
+void ClientAsyncReaderWriterImpl::SendClose() {
   // private function has no Guard
   assert(!has_sent_close_);
   assert((has_sent_close_ = true));
@@ -210,13 +208,13 @@ void ClientAsyncReaderWriterImpl2::SendClose() {
 }  // SendClose()
 
 // Set status, call status callback and reset helpers.
-void ClientAsyncReaderWriterImpl2::SetInternalError(const std::string& sError) {
+void ClientAsyncReaderWriterImpl::SetInternalError(const std::string& sError) {
   // private function has no Guard
   assert(status_.ok());
   EndOnErrorStatus(Status::InternalError(sError));
 }
 
-void ClientAsyncReaderWriterImpl2::EndOnErrorStatus(
+void ClientAsyncReaderWriterImpl::EndOnErrorStatus(
     const Status& error_status) {
   assert(!error_status.ok());
   // private function has no Guard
@@ -228,7 +226,7 @@ void ClientAsyncReaderWriterImpl2::EndOnErrorStatus(
   writing_ended_ = true;
 }  // EndOnErrorStatus()
 
-void ClientAsyncReaderWriterImpl2::CallStatusCb() {
+void ClientAsyncReaderWriterImpl::CallStatusCb() {
   // private function has no Guard
   if (!status_cb_) return;
   status_cb_(status_);

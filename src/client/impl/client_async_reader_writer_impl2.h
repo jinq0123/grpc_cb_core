@@ -23,20 +23,18 @@ namespace grpc_cb_core {
 
 class ClientReaderReadCqTag;
 
-// Impl of impl.
-// Impl1 is to make Writer copyable.
+// ImplWrapper is to make Writer copyable and call CloseWriting() in dtr().
 // Impl2 will live longer than the Writer.
-// We need dtr() of Impl1 to close writing.
 // Thread-safe.
-class ClientAsyncReaderWriterImpl2 GRPC_FINAL
-    : public std::enable_shared_from_this<ClientAsyncReaderWriterImpl2> {
+class ClientAsyncReaderWriterImpl GRPC_FINAL
+    : public std::enable_shared_from_this<ClientAsyncReaderWriterImpl> {
  public:
-  ClientAsyncReaderWriterImpl2(const ChannelSptr& channel,
+  ClientAsyncReaderWriterImpl(const ChannelSptr& channel,
                                const std::string& method,
                                const CompletionQueueSptr& cq_sptr,
                                int64_t timeout_ms,
                                const StatusCb& status_cb);
-  ~ClientAsyncReaderWriterImpl2();
+  ~ClientAsyncReaderWriterImpl();
 
  public:
   bool Write(const std::string& msg);
@@ -84,7 +82,7 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
 #ifndef NDEBUG
   bool has_sent_close_ = false;  // Client send close once.
 #endif  // NDEBUG
-};  // class ClientAsyncReaderWriterImpl2
+};  // class ClientAsyncReaderWriterImpl
 
 // Todo: SyncGetInitMd();
 

@@ -14,7 +14,7 @@
 
 namespace grpc_cb_core {
 
-class ClientAsyncReaderWriterImpl2;
+class ClientAsyncReaderWriterImpl;
 class Status;
 
 // Thread-safe.
@@ -42,8 +42,7 @@ class ClientAsyncReaderWriterImplWrapper GRPC_FINAL {
 
  private:
   // Live longer than ClientAsyncReaderWriter.
-  std::shared_ptr<ClientAsyncReaderWriterImpl2> impl2_sptr_;
-  // XXX Do we really need Impl and Impl2?
+  std::shared_ptr<ClientAsyncReaderWriterImpl> impl2_sptr_;
 };  // class ClientAsyncReaderWriterImplWrapper
 
 // Todo: SyncGetInitMd();

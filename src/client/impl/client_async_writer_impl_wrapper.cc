@@ -5,7 +5,7 @@
 
 #include <cassert>  // for assert()
 
-#include "client_async_writer_impl2.h"  // for ClientAsyncWriterImpl2
+#include "client_async_writer_impl2.h"  // for ClientAsyncWriterImpl
 
 namespace grpc_cb_core {
 
@@ -14,7 +14,7 @@ ClientAsyncWriterImplWrapper::ClientAsyncWriterImplWrapper(const ChannelSptr& ch
                                              const CompletionQueueSptr& cq_sptr,
                                              int64_t timeout_ms)
     : impl2_sptr_(
-          new ClientAsyncWriterImpl2(channel, method, cq_sptr, timeout_ms)) {
+          new ClientAsyncWriterImpl(channel, method, cq_sptr, timeout_ms)) {
   assert(cq_sptr);
   assert(channel);
 }
