@@ -57,8 +57,11 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
   // Callback of WriteWorker. XXX
   void OnEndOfWriting();
 
+  void OnSent(bool success);  // For ClientSendMsgCqTag.
+
  private:
   void InitIfNot();
+  bool TryToSendNext();
   void SendCloseIfNot();
   void SetInternalError(const std::string& sError);
   void CallStatusCb();

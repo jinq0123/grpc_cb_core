@@ -7,6 +7,8 @@
 #include "client_recv_init_md_cqtag.h"    // for ClientRecvInitMdCqTag
 #include "client_send_close_cqtag.h"      // for ClientSendCloseCqTag
 #include "client_send_init_md_cqtag.h"    // ClientSendInitMdCqTag
+#include "client_send_msg_cqtag.h"        // for ClientSendMsgCqTag
+#include "common/impl/complete_cb.h"      // for CompleteCb
 
 namespace grpc_cb_core {
 
@@ -61,23 +63,10 @@ bool ClientAsyncReaderWriterImpl2::Write(const std::string& msg) {
   if (writing_closing_ || writing_ended_)
     return false;
 
-  // DEL
-  //if (writing_started_) {
-  //  // XXX assert(writer_sptr_);  // because not CloseWriting() yet
-  //  return false;  // XXX writer_sptr_->Queue(msg);
-  //}
-  //writing_started_ = true;
-  // XXX assert(!writer_sptr_);
-
-  // XXX Impl2 and WriteWorker share each other untill OnEndOfWriting().
-  auto sptr = shared_from_this();  // can not in ctr().
-  // XXX
-  //writer_sptr_.reset(new ClientAsyncWriteWorker(call_sptr_,
-  //    [sptr]() {
-  //      sptr->OnEndOfWriting();
-  //    }));
-  //writer_wptr_ = writer_sptr_;
-  return false;  // XXX writer_sptr_->Queue(msg);
+  bool is_sending = !msg_queue_.empty();
+  msg_queue_.push(msg);
+  if (is_sending) return true;
+  return TryToSendNext();
 }
 
 void ClientAsyncReaderWriterImpl2::CloseWriting() {
@@ -162,6 +151,37 @@ void ClientAsyncReaderWriterImpl2::OnEndOfWriting() {
   }
 
   SendCloseIfNot();
+}
+
+void ClientAsyncReaderWriterImpl2::OnSent(bool success) {
+  assert(!msg_queue_.empty());
+  msg_queue_.pop();  // front msg is sent
+
+  if (!msg_queue_.empty()) {
+    TryToSendNext();
+    return;
+  }
+
+  // XXX is_closing?
+}
+
+bool ClientAsyncReaderWriterImpl2::TryToSendNext() {
+  assert(!msg_queue_.empty());
+
+  assert(call_sptr_);
+  auto* tag = new ClientSendMsgCqTag(call_sptr_);
+  auto sptr = shared_from_this();
+  CompleteCb complete_cb = [sptr](bool success) {
+    sptr->OnSent(success);
+  };
+  tag->SetCompleteCb(complete_cb);
+  bool ok = tag->Start(msg_queue_.front());
+  if (ok) return true;
+
+  delete tag;
+  status_.SetInternalError("Failed to write client stream.");
+  // XXX CallEndCb();  // error end
+  return false;
 }
 
 // Set status, call status callback and reset helpers.
