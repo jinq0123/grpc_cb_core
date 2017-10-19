@@ -7,8 +7,10 @@
 
 #include <grpc_cb_core/client/channel.h>  // for MakeSharedCall()
 
-#include "client_send_init_md_cqtag.h"          // for ClientSendInitMdCqTag
-#include "client_writer_close_cqtag.h"          // for ClientWriterCloseCqTag
+#include "client_send_init_md_cqtag.h"  // for ClientSendInitMdCqTag
+#include "client_send_msg_cqtag.h"      // for ClientSendMsgCqTag
+#include "client_writer_close_cqtag.h"  // for ClientWriterCloseCqTag
+#include "common/impl/complete_cb.h"    // for CompleteCb
 
 namespace grpc_cb_core {
 
@@ -19,6 +21,8 @@ ClientAsyncWriterImpl2::ClientAsyncWriterImpl2(
       call_sptr_(channel->MakeSharedCall(method, *cq_sptr, timeout_ms)) {
   assert(cq_sptr);
   assert(channel);
+  assert(call_sptr_);
+
   ClientSendInitMdCqTag* tag = new ClientSendInitMdCqTag(call_sptr_);
   if (tag->Start()) return;
   delete tag;
@@ -37,12 +41,9 @@ bool ClientAsyncWriterImpl2::Write(const std::string& request) {
   if (writing_closing_ || writing_ended_)
     return false;
 
-  // XXX
-  //if (!writer_) {
-  //  writer_.reset(new ClientAsyncWriteWorker(call_sptr_));
-  //}
-
-  //return writer_->Queue(request) && ResumeWriting();
+  msg_queue_.push(request);
+  if (is_writing_) return true;
+  return TryToWriteNext();
 }  // Write()
 
 void ClientAsyncWriterImpl2::Close(const CloseCb& close_cb/* = nullptr*/) {
@@ -145,17 +146,27 @@ void ClientAsyncWriterImpl2::SetInternalError(const std::string& sError) {
   //  writer_->Abort();  // XXX
 }
 
-bool ClientAsyncWriterImpl2::ResumeWriting() {
-  // XXX assert(writer_);
-  // XXX assert(!writer_->IsQueueEmpty());
-  // if (writer_->CanWriteNext()) ...
-  //if (writer_->IsWriting())
-  //  return true;
+bool ClientAsyncWriterImpl2::TryToWriteNext() {
+  assert(!is_writing_);
+  assert(!msg_queue_.empty());
+  assert(status_.ok());
+
+  is_writing_ = true;
+  auto* tag = new ClientSendMsgCqTag(call_sptr_);
   auto sptr = shared_from_this();  // CqTag will keep sptr
-  CompleteCb cb = [sptr](bool success) {
+  CompleteCb complete_cb = [sptr](bool success) {
     sptr->OnWritten(success);
   };
-  return false;  // XXX writer_->WriteNext(cb);
+  tag->SetCompleteCb(complete_cb);
+
+  bool ok = tag->Start(msg_queue_.front());
+  msg_queue_.pop();  // may empty now but is_writing_
+  if (ok) return true;
+
+  delete tag;
+  status_.SetInternalError("Failed to write client-side streaming.");
+  // XXX CallEndCb();  // error end  XXX OnEndOfWriting()?
+  return false;
 }
 
 }  // namespace grpc_cb_core

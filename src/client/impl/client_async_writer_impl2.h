@@ -16,7 +16,6 @@
 #include <grpc_cb_core/common/completion_queue_sptr.h>  // for CompletionQueueSptr
 #include <grpc_cb_core/common/status.h>                 // for Status
 #include <grpc_cb_core/common/support/config.h>         // for GRPC_FINAL
-// DEL #include "client_async_write_worker_sptr.h"  // for ClientAsyncWriteWorkerWptr
 
 namespace grpc_cb_core {
 
@@ -41,7 +40,7 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
  private:
   // for ClientWriterCloseCqTag::OnComplete()
   void OnClosed(bool success, ClientWriterCloseCqTag& tag);
-  void OnEndOfWriting();  // Callback from WriteWorker
+  void OnEndOfWriting();  // XXX Callback from WriteWorker
 
   // Todo: Force to close, cancel all writing.
   // Todo: get queue size
@@ -54,7 +53,7 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
   void CallCloseCb(const std::string& sMsg = "");
   void SetInternalError(const std::string& sError);
 
-  bool ResumeWriting();
+  bool TryToWriteNext();
 
  private:
   // The callback may lock the mutex recursively.
@@ -68,9 +67,11 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
   bool has_sent_close_ = false;  // Client send close once.
   CloseCb close_cb_;
 
+  // Grpc only allows to write one by one, so queue messages before write.
+  std::queue<std::string> msg_queue_;  // Cache messages to write. Pop and write.
+  bool is_writing_ = false;  // one message is writing
   bool writing_closing_ = false;  // Set by Close()
   bool writing_ended_ = false;  // all written?
-  std::queue<std::string> msg_queue_;  // Cache messages to write.
 };  // class ClientAsyncWriterImpl2
 
 }  // namespace grpc_cb_core
