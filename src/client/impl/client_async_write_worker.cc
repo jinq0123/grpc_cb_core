@@ -18,7 +18,6 @@ ClientAsyncWriteWorker::ClientAsyncWriteWorker(const CallSptr& call_sptr)
 ClientAsyncWriteWorker::~ClientAsyncWriteWorker() {}
 
 bool ClientAsyncWriteWorker::Queue(const std::string& msg) {
-  Guard g(mtx_);
   if (aborted_)  // Maybe reader failed.
     return false;
   if (is_closing_)
@@ -33,7 +32,6 @@ bool ClientAsyncWriteWorker::Queue(const std::string& msg) {
 }  // Queue()
 
 void ClientAsyncWriteWorker::SetClosing() {
-  Guard g(mtx_);
   if (is_closing_) return;
   if (aborted_) return;
   is_closing_ = true;
@@ -44,18 +42,15 @@ void ClientAsyncWriteWorker::SetClosing() {
 
 // Abort writing. Stop sending.
 void ClientAsyncWriteWorker::Abort() {
-  Guard g(mtx_);
   aborted_ = true;
 }
 
 // return copy for thread-safety
 const Status ClientAsyncWriteWorker::GetStatus() const {
-  Guard g(mtx_);
   return status_;
 }
 
 bool ClientAsyncWriteWorker::WriteNext(const CompleteCb& complete_cb) {
-  Guard g(mtx_);
   assert(!is_writing_);
   assert(!msg_queue_.empty());
 
@@ -76,7 +71,6 @@ bool ClientAsyncWriteWorker::WriteNext(const CompleteCb& complete_cb) {
 }  // WriteNext()
 
 void ClientAsyncWriteWorker::OnWritten(bool success) {
-  Guard g(mtx_);
   assert(status_.ok());
   assert(is_writing_);
   is_writing_ = false;
@@ -96,7 +90,6 @@ void ClientAsyncWriteWorker::OnWritten(bool success) {
 }  // OnWritten()
 
 void ClientAsyncWriteWorker::CallEndCb() {
-  // private function need no Guard g(mtx_);
     // XXX
   //if (end_cb_)
   //  end_cb_();

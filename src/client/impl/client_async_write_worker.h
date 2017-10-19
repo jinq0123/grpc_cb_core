@@ -16,7 +16,6 @@
 namespace grpc_cb_core {
 
 // Cache messages and write one by one.
-// Thread-safe. XXX
 // Used by ClientAsyncWriter and ClientAsyncReaderWriter.
 //
 // Differ from ClientAsyncReadWorker: XXX
@@ -51,11 +50,6 @@ class ClientAsyncWriteWorker GRPC_FINAL {
   void CallEndCb();
 
  private:
-  // OnWritten() may lock the mutex recursively.
-  using Mutex = std::recursive_mutex;
-  mutable Mutex mtx_;
-  using Guard = std::lock_guard<Mutex>;
-
   const CallSptr call_sptr_;
   bool aborted_ = false;  // to abort writer
   // XXX EndCb end_cb_;  // callback on the end
