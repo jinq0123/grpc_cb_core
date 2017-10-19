@@ -5,7 +5,7 @@
 
 #include <cassert>
 
-#include "impl/server_reader_cqtag.h"         // for ServerReaderCqTag
+#include "impl/cqtag/server_reader_cqtag.h"         // for ServerReaderCqTag
 
 namespace grpc_cb_core {
 

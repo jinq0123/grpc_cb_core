@@ -13,7 +13,7 @@
 #include <grpc_cb_core/server/security/server_credentials.h>  // for InsecureServerCredentials
 #include <grpc_cb_core/server/service.h>
 
-#include "impl/server_method_call_cqtag.h"   // for ServerMethodCallCqTag
+#include "impl/cqtag/server_method_call_cqtag.h"   // for ServerMethodCallCqTag
 
 namespace grpc_cb_core {
 

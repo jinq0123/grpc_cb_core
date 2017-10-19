@@ -5,8 +5,8 @@
 
 #include <thread>  // for yield()
 
-#include "server_writer_send_status_cqtag.h"  // for ServerWriterSendStatusCqTag
-#include "server_writer_write_cqtag.h"        // for ServerWriterWriteCqTag
+#include "cqtag/server_writer_send_status_cqtag.h"  // for ServerWriterSendStatusCqTag
+#include "cqtag/server_writer_write_cqtag.h"        // for ServerWriterWriteCqTag
 
 namespace grpc_cb_core {
 

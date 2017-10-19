@@ -9,7 +9,7 @@
 
 #include <grpc_cb_core/common/call_sptr.h>                  // for CallSptr
 #include <grpc_cb_core/common/support/config.h>             // for GRPC_FINAL
-#include "server_replier_cqtag.h"  // for ServerReplierCqTag
+#include "cqtag/server_replier_cqtag.h"  // for ServerReplierCqTag
 
 namespace grpc_cb_core {
 
