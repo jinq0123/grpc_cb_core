@@ -117,7 +117,7 @@ void ClientAsyncReaderWriterImpl2::OnSent(bool success) {
   msg_queue_.pop();  // front msg is sent
 
   if (!status_.ok()) {
-    assert(!status_cb_);  // already called and rest  XXX
+    assert(!status_cb_);  // already called and rest
     return;
   }
 
@@ -138,7 +138,7 @@ void ClientAsyncReaderWriterImpl2::OnRead(bool success,
     ClientReaderReadCqTag& tag) {
   Guard g(mtx_);  // Callback needs Guard.
   if (!status_.ok()) {
-    assert(!status_cb_);  // already called and reset  XXX
+    assert(!status_cb_);  // already called and reset
     return;
   }
   if (!success) {
@@ -147,23 +147,22 @@ void ClientAsyncReaderWriterImpl2::OnRead(bool success,
   }
   if (!tag.HasGotMsg()) {  // End of reading.
     reading_ended_ = true;
-    // XXX Receiving status will be after all reading and writing.
-    if (writing_ended_)  // XXX
+    if (writing_ended_)
       CallStatusCb();
     return;
   }
 
   std::string sMsg;
-  status_ = tag.GetResultMsg(sMsg);
-  if (!status_.ok()) {
-    CallStatusCb();
+  Status status = tag.GetResultMsg(sMsg);
+  if (!status.ok()) {
+    InternalSetErrorStatus(status);  // trigger status cb
     return;
   }
 
   if (msg_cb_) {
-    status_ = msg_cb_(sMsg);
-    if (!status_.ok()) {
-      CallStatusCb();
+    Status status = msg_cb_(sMsg);
+    if (!status.ok()) {
+      InternalSetErrorStatus(status);
       return;
     }
   }
