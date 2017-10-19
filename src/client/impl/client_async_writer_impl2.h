@@ -48,8 +48,8 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
   void OnWritten(bool success);
 
  private:
-  void EndWriting();
   void SendCloseIfNot();
+  void SendClose();
   void CallCloseCb(const std::string& sMsg = "");
 
   bool TryToWriteNext();
@@ -70,7 +70,7 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
   std::queue<std::string> msg_queue_;  // Cache messages to write. Pop and write.
   bool is_writing_ = false;  // one message is writing
   bool writing_closing_ = false;  // Set by Close()
-  bool writing_ended_ = false;  // all written?
+  // XXX rename writing to sending
 };  // class ClientAsyncWriterImpl2
 
 }  // namespace grpc_cb_core

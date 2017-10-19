@@ -34,11 +34,14 @@ ClientAsyncWriterImpl2::~ClientAsyncWriterImpl2() {
   // Have done CallCloseCb().
 }
 
+// Queue messages -> Send messages one by one
+// Close writing -> Send messages -> Send close
+
 bool ClientAsyncWriterImpl2::Write(const std::string& request) {
   Guard g(mtx_);
   if (!status_.ok())
     return false;
-  if (writing_closing_ || writing_ended_)
+  if (writing_closing_)
     return false;
 
   msg_queue_.push(request);
@@ -59,7 +62,6 @@ void ClientAsyncWriterImpl2::Close(const CloseCb& close_cb/* = nullptr*/) {
 
   if (is_writing_) return;
   assert(msg_queue_.empty());
-  writing_ended_ = true;  // Ended without start.
   SendCloseIfNot();
 }  // Close()
 
@@ -85,15 +87,21 @@ void ClientAsyncWriterImpl2::OnWritten(bool success) {
     SendCloseIfNot();  // normal end
 }  // OnWritten()
 
-// Finally close...
 void ClientAsyncWriterImpl2::SendCloseIfNot() {
   // private function need no Guard.
-  assert(writing_ended_);  // Must be ended.
-  if (!status_.ok())
-    return;
-
   if (has_sent_close_) return;
+  SendClose();
+  assert(has_sent_close_);
+}
+
+// Finally close...
+void ClientAsyncWriterImpl2::SendClose() {
+  // private function need no Guard.
+  assert(writing_closing_);  // Must after Close().
+  assert(status_.ok());
+  assert(!has_sent_close_);
   has_sent_close_ = true;
+
   auto sptr = shared_from_this();
   auto* tag = new ClientWriterCloseCqTag(call_sptr_);
   tag->SetCompleteCb([sptr, tag](bool success) {
@@ -103,7 +111,8 @@ void ClientAsyncWriterImpl2::SendCloseIfNot() {
     return;
 
   delete tag;
-  status_.SetInternalError("Failed to close client stream.");  // Calls CallCloseCb();
+  status_.SetInternalError("Failed to close client stream.");
+  CallCloseCb();
 }  // SendCloseIfNot()
 
 void ClientAsyncWriterImpl2::CallCloseCb(const std::string& sMsg/* = ""*/) {
@@ -129,16 +138,6 @@ void ClientAsyncWriterImpl2::OnClosed(bool success, ClientWriterCloseCqTag& tag)
   CallCloseCb(sMsg);
 }  // OnClosed()
 
-// XXX void ClientAsyncWriterImpl2::OnEndOfWriting() {
-void ClientAsyncWriterImpl2::EndWriting() {
-  // private function need no Guard.
-  assert(!writing_ended_);  // call EndWriting() only once
-  writing_ended_ = true;  // necessary?
-
-  if (!status_.ok()) return;  // XXX CallCloseCb() already?
-  SendCloseIfNot();
-}  // EndWriting()
-
 bool ClientAsyncWriterImpl2::TryToWriteNext() {
   assert(!is_writing_);
   assert(!msg_queue_.empty());
@@ -158,7 +157,7 @@ bool ClientAsyncWriterImpl2::TryToWriteNext() {
 
   delete tag;
   status_.SetInternalError("Failed to write client-side streaming.");
-  // XXX CallEndCb();  // error end  XXX OnEndOfWriting()?
+  if (writing_closing_) CallCloseCb();
   return false;
 }
 
