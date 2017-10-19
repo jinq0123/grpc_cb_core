@@ -60,6 +60,7 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
   bool TryToSendNext();
   void ReadNext();
   void SendCloseIfNot();
+  void SendClose();
   void SetInternalError(const std::string& sError);
   void InternalSetErrorStatus(const Status& error_status);
   void CallStatusCb();

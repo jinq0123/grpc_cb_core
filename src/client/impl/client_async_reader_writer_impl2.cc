@@ -78,8 +78,10 @@ void ClientAsyncReaderWriterImpl2::CloseWriting() {
 
   if (!msg_queue_.empty()) return;  // sending
 
-  // XXX 
   // End when all messages are written.
+  assert(!has_sent_close_);
+  SendClose();
+  assert(writing_ended_);
 }  // CloseWriting()
 
 // Called in dtr().
@@ -89,13 +91,22 @@ void ClientAsyncReaderWriterImpl2::SendCloseIfNot() {
   assert(writing_ended_);  // Must be ended.
   if (!status_.ok()) return;
   if (has_sent_close_) return;
-  has_sent_close_ = true;
+  SendClose();
+  assert(has_sent_close_);
+  assert(writing_ended_);
+}  // SendCloseIfNot()
 
+// Send close to half-close when writing are ended.
+void ClientAsyncReaderWriterImpl2::SendClose() {
+  // private function has no Guard
+  assert(!has_sent_close_);
+  has_sent_close_ = true;
+  writing_ended_ = true;
   ClientSendCloseCqTag* tag = new ClientSendCloseCqTag(call_sptr_);
   if (tag->Start()) return;
   delete tag;
   SetInternalError("Failed to close writing.");  // calls status_cb_
-}  // SendCloseIfNot()
+}  // SendClose()
 
 void ClientAsyncReaderWriterImpl2::ReadEach(const MsgStrCb& msg_cb) {
   Guard g(mtx_);
@@ -130,8 +141,8 @@ void ClientAsyncReaderWriterImpl2::OnSent(bool success) {
 
   if (!writing_closing_)
     return;
-  SendCloseIfNot();
-  writing_ended_ = true;
+  SendClose();
+  assert(writing_ended_);
   if (reading_ended_)
     CallStatusCb();  // Both ended.
 }  // OnSent()
@@ -220,7 +231,7 @@ void ClientAsyncReaderWriterImpl2::InternalSetErrorStatus(
   CallStatusCb();
   reading_ended_ = true;
   writing_ended_ = true;
-}  // SetInternalError
+}  // InternalSetErrorStatus()
 
 void ClientAsyncReaderWriterImpl2::CallStatusCb() {
   // private function has no Guard
