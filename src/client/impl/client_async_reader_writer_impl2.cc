@@ -4,8 +4,6 @@
 #include "client_async_reader_writer_impl2.h"
 
 #include <grpc_cb_core/client/channel.h>  // for MakeSharedCall()
-#include "client_async_read_worker.h"     // for ClientAsyncReadWorker
-#include "client_async_write_worker.h"    // for ClientAsyncWriteWorker
 #include "client_recv_init_md_cqtag.h"    // for ClientRecvInitMdCqTag
 #include "client_send_close_cqtag.h"      // for ClientSendCloseCqTag
 #include "client_send_init_md_cqtag.h"    // ClientSendInitMdCqTag
@@ -58,11 +56,11 @@ bool ClientAsyncReaderWriterImpl2::Write(const std::string& msg) {
     return false;
 
   if (writing_started_) {
-    assert(writer_sptr_);  // because not CloseWriting() yet
-    return writer_sptr_->Queue(msg);
+    // XXX assert(writer_sptr_);  // because not CloseWriting() yet
+    return false;  // XXX writer_sptr_->Queue(msg);
   }
   writing_started_ = true;
-  assert(!writer_sptr_);
+  // XXX assert(!writer_sptr_);
 
   // Impl2 and WriteWorker share each other untill OnEndOfWriting().
   auto sptr = shared_from_this();  // can not in ctr().
@@ -72,7 +70,7 @@ bool ClientAsyncReaderWriterImpl2::Write(const std::string& msg) {
   //      sptr->OnEndOfWriting();
   //    }));
   //writer_wptr_ = writer_sptr_;
-  return writer_sptr_->Queue(msg);
+  return false;  // XXX writer_sptr_->Queue(msg);
 }
 
 void ClientAsyncReaderWriterImpl2::CloseWriting() {
@@ -80,12 +78,14 @@ void ClientAsyncReaderWriterImpl2::CloseWriting() {
   if (writing_closing_) return;
   writing_closing_ = true;
 
-  auto writer_sptr = writer_sptr_;
-  writer_sptr_.reset();  // always stop circular sharing
+  // XXX
+  //auto writer_sptr = writer_sptr_;
+  //writer_sptr_.reset();  // always stop circular sharing
 
   // End when all messages are written.
-  if (writer_sptr)
-    writer_sptr->SetClosing();
+  // XXX
+  //if (writer_sptr)
+  //  writer_sptr->SetClosing();
 }
 
 // Called in dtr().
@@ -112,13 +112,14 @@ void ClientAsyncReaderWriterImpl2::ReadEach(const MsgStrCb& msg_cb) {
 
   // Impl2 and ReadWorker will share each other until OnEndOfReading().
   auto sptr = shared_from_this();
-  auto reader_sptr = std::make_shared<ClientAsyncReadWorker>(
-      call_sptr_, msg_cb,
-      [sptr]() {
-        sptr->OnEndOfReading();
-      });
-  reader_sptr->Start();
-  reader_wptr_ = reader_sptr;
+  // XXX
+  //auto reader_sptr = std::make_shared<ClientAsyncReadWorker>(
+  //    call_sptr_, msg_cb,
+  //    [sptr]() {
+  //      sptr->OnEndOfReading();
+  //    });
+  //reader_sptr->Start();
+  //reader_wptr_ = reader_sptr;
 }
 
 void ClientAsyncReaderWriterImpl2::OnEndOfReading() {
@@ -128,9 +129,10 @@ void ClientAsyncReaderWriterImpl2::OnEndOfReading() {
   reading_ended_ = true;
 
   if (!status_.ok()) return;
-  auto reader_sptr = reader_wptr_.lock();
-  assert(reader_sptr);
-  status_ = reader_sptr->GetStatus();
+  // XXX
+  //auto reader_sptr = reader_wptr_.lock();
+  //assert(reader_sptr);
+  //status_ = reader_sptr->GetStatus();
   if (!status_.ok() || writing_ended_)
     CallStatusCb();
 }
@@ -142,9 +144,10 @@ void ClientAsyncReaderWriterImpl2::OnEndOfWriting() {
   writing_ended_ = true;
 
   if (!status_.ok()) return;
-  auto writer_sptr = writer_wptr_.lock();
-  assert(writer_sptr);
-  status_ = writer_sptr->GetStatus();
+  // XXX
+  //auto writer_sptr = writer_wptr_.lock();
+  //assert(writer_sptr);
+  //status_ = writer_sptr->GetStatus();
   if (!status_.ok()) {
     CallStatusCb();
     return;
@@ -161,10 +164,11 @@ void ClientAsyncReaderWriterImpl2::SetInternalError(const std::string& sError) {
 
   reading_ended_ = true;
   writing_ended_ = true;
-  auto reader_sptr = reader_wptr_.lock();
-  auto writer_sptr = writer_wptr_.lock();
-  if (reader_sptr) reader_sptr->Abort();
-  if (writer_sptr) writer_sptr->Abort();
+  // XXX
+  //auto reader_sptr = reader_wptr_.lock();
+  //auto writer_sptr = writer_wptr_.lock();
+  //if (reader_sptr) reader_sptr->Abort();
+  //if (writer_sptr) writer_sptr->Abort();
 }
 
 void ClientAsyncReaderWriterImpl2::CallStatusCb() {

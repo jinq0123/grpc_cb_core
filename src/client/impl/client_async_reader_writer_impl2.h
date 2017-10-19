@@ -9,6 +9,7 @@
 #include <memory>  // for enable_shared_from_this<>
 #include <mutex>
 #include <string>
+#include <queue>
 
 #include <grpc_cb_core/client/channel_sptr.h>           // for ChannelSptr
 #include <grpc_cb_core/client/msg_str_cb.h>             // for MsgStrCb
@@ -17,8 +18,6 @@
 #include <grpc_cb_core/common/completion_queue_sptr.h>  // for CompletionQueueSptr
 #include <grpc_cb_core/common/status.h>                 // for Status
 #include <grpc_cb_core/common/support/config.h>         // for GRPC_FINAL
-#include "client_async_read_worker_sptr.h"   // for ClientAsyncReadWorkerWptr
-#include "client_async_write_worker_sptr.h"  // for ClientAsyncWriteWorkerWptr
 
 namespace grpc_cb_core {
 
@@ -82,11 +81,7 @@ class ClientAsyncReaderWriterImpl2 GRPC_FINAL
   bool writing_closing_ = false;
   bool reading_ended_ = false;
   bool writing_ended_ = false;
-
-  // Use weak ptr to avoid loop sharing.
-  ClientAsyncReadWorkerWptr reader_wptr_;
-  ClientAsyncWriteWorkerWptr writer_wptr_;
-  ClientAsyncWriteWorkerSptr writer_sptr_;  // Keep until CloseWriting().
+  std::queue<std::string> msg_queue_;  // Cache messages to write.
 };  // class ClientAsyncReaderWriterImpl2
 
 // Todo: SyncGetInitMd();

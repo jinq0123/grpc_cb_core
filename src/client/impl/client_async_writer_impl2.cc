@@ -7,7 +7,6 @@
 
 #include <grpc_cb_core/client/channel.h>  // for MakeSharedCall()
 
-#include "client_async_write_worker.h"         // for ClientAsyncWriteWorker
 #include "client_send_init_md_cqtag.h"          // for ClientSendInitMdCqTag
 #include "client_writer_close_cqtag.h"          // for ClientWriterCloseCqTag
 
@@ -38,11 +37,12 @@ bool ClientAsyncWriterImpl2::Write(const std::string& request) {
   if (writing_closing_ || writing_ended_)
     return false;
 
-  if (!writer_) {
-    writer_.reset(new ClientAsyncWriteWorker(call_sptr_));
-  }
+  // XXX
+  //if (!writer_) {
+  //  writer_.reset(new ClientAsyncWriteWorker(call_sptr_));
+  //}
 
-  return writer_->Queue(request) && ResumeWriting();
+  //return writer_->Queue(request) && ResumeWriting();
 }  // Write()
 
 void ClientAsyncWriterImpl2::Close(const CloseCb& close_cb/* = nullptr*/) {
@@ -60,13 +60,22 @@ void ClientAsyncWriterImpl2::Close(const CloseCb& close_cb/* = nullptr*/) {
     return;
   }
 
-  if (writer_) {
-    writer_->SetClosing();  // May trigger OnEndOfWriting().  XXX
-  } else {
-    writing_ended_ = true;  // Ended without start.
-    SendCloseIfNot();
-  }
+  // XXX
+  //if (writer_) {
+  //  writer_->SetClosing();  // May trigger OnEndOfWriting().  XXX
+  //} else {
+  //  writing_ended_ = true;  // Ended without start.
+  //  SendCloseIfNot();
+  //}
 }  // Close()
+
+void ClientAsyncWriterImpl2::OnWritten(bool success) {
+    // XXX
+  //assert(writer_);
+  //writer_->OnWritten(success);
+  // TryToWriteNext();
+  // XXX
+}  // OnWritten()
 
 // Finally close...
 void ClientAsyncWriterImpl2::SendCloseIfNot() {
@@ -114,12 +123,12 @@ void ClientAsyncWriterImpl2::OnClosed(bool success, ClientWriterCloseCqTag& tag)
 
 void ClientAsyncWriterImpl2::OnEndOfWriting() {
   Guard g(mtx_);  // Callback need Guard.
-  assert(writer_);
+  // XXX assert(writer_);
   assert(!writing_ended_);  // call OnEndOfWriting() only once
   writing_ended_ = true;
 
   if (!status_.ok()) return;
-  status_ = writer_->GetStatus();  // XXX
+  // XXX status_ = writer_->GetStatus();  // XXX
   if (status_.ok())
     SendCloseIfNot();
   else
@@ -131,20 +140,22 @@ void ClientAsyncWriterImpl2::SetInternalError(const std::string& sError) {
   status_.SetInternalError(sError);
   CallCloseCb();
   writing_ended_ = true;
-  if (writer_)
-    writer_->Abort();  // XXX
+  // XXX
+  //if (writer_)
+  //  writer_->Abort();  // XXX
 }
 
 bool ClientAsyncWriterImpl2::ResumeWriting() {
-  assert(writer_);
+  // XXX assert(writer_);
   // XXX assert(!writer_->IsQueueEmpty());
-  if (writer_->IsWriting())
-    return true;
+  // if (writer_->CanWriteNext()) ...
+  //if (writer_->IsWriting())
+  //  return true;
   auto sptr = shared_from_this();  // CqTag will keep sptr
   CompleteCb cb = [sptr](bool success) {
     sptr->OnWritten(success);
   };
-  return writer_->WriteNext(cb);
+  return false;  // XXX writer_->WriteNext(cb);
 }
 
 }  // namespace grpc_cb_core

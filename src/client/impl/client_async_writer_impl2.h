@@ -8,6 +8,7 @@
 #include <memory>  // for enable_shared_from_this<>
 #include <mutex>
 #include <string>
+#include <queue>
 
 #include <grpc_cb_core/client/channel_sptr.h>           // for ChannelSptr
 #include <grpc_cb_core/client/close_cb.h>               // for CloseCb
@@ -45,7 +46,8 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
   // Todo: Force to close, cancel all writing.
   // Todo: get queue size
 
-  void OnWritten(bool success) {}  // XXX
+  // for ClientSendMsgCqTag::OnComplete()
+  void OnWritten(bool success);
 
  private:
   void SendCloseIfNot();
@@ -68,8 +70,7 @@ class ClientAsyncWriterImpl2 GRPC_FINAL
 
   bool writing_closing_ = false;  // Set by Close()
   bool writing_ended_ = false;  // all written?
-
-  std::unique_ptr<ClientAsyncWriteWorker> writer_;
+  std::queue<std::string> msg_queue_;  // Cache messages to write.
 };  // class ClientAsyncWriterImpl2
 
 }  // namespace grpc_cb_core

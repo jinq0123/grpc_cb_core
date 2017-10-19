@@ -15,7 +15,6 @@
 #include <grpc_cb_core/common/completion_queue_sptr.h>  // for CompletionQueueSptr
 #include <grpc_cb_core/common/status.h>                 // for Status
 #include <grpc_cb_core/common/support/config.h>         // for GRPC_FINAL
-#include "client_async_read_worker_sptr.h"  // for ClientAsyncReadWorkerWptr
 
 namespace grpc_cb_core {
 
@@ -52,7 +51,7 @@ class ClientAsyncReaderImpl GRPC_FINAL
   Status status_;
   StatusCb status_cb_;
 
-  ClientAsyncReadWorkerWptr reader_wptr_;
+  // XXX ClientAsyncReadWorkerWptr reader_wptr_;
   bool reading_started_ = false;
   bool reading_ended_ = false;
 };  // class ClientAsyncReaderImpl
