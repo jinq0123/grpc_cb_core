@@ -55,9 +55,7 @@ class ClientAsyncReaderImpl GRPC_FINAL
   Status status_;
   MsgStrCb msg_cb_;
   StatusCb status_cb_;
-
-  bool reading_started_ = false;
-  bool reading_ended_ = false;
+  bool is_started_ = false;
 };  // class ClientAsyncReaderImpl
 
 }  // namespace grpc_cb_core

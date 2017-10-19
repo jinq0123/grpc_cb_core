@@ -12,6 +12,8 @@
 
 namespace grpc_cb_core {
 
+// XXX move request to Start()?
+
 ClientAsyncReaderImpl::ClientAsyncReaderImpl(
     const ChannelSptr& channel, const std::string& method,
     const std::string& request, const CompletionQueueSptr& cq_sptr,
@@ -23,32 +25,20 @@ ClientAsyncReaderImpl::ClientAsyncReaderImpl(
   assert(call_sptr_);
 }
 
-bool ClientAsyncReaderImpl::Init() {
-  // private function has no Guard
-  auto* tag = new ClientReaderInitCqTag(call_sptr_);
-  if (tag->Start(request_))
-    return true;
-
-  delete tag;
-  status_.SetInternalError("Failed to start async client reader.");
-  CallStatusCb();  // must after Start()
-  return false;
-}
-
 ClientAsyncReaderImpl::~ClientAsyncReaderImpl() {}
 
 void ClientAsyncReaderImpl::Start(const MsgStrCb& msg_cb/* = nullptr*/,
     const StatusCb& status_cb/* = nullptr*/) {
   Guard g(mtx_);
-  if (reading_started_)
+  if (is_started_)
     return;  // already started
-  reading_started_ = true;
+  is_started_ = true;
   msg_cb_ = msg_cb;
   status_cb_ = status_cb;
 
   assert(status_.ok());
   if (Init()) ReadNext();
-}
+}  // Start()
 
 static void RecvStatus(const CallSptr& call_sptr, const StatusCb& status_cb) {
   assert(call_sptr);
@@ -60,11 +50,11 @@ static void RecvStatus(const CallSptr& call_sptr, const StatusCb& status_cb) {
   delete tag;
   if (status_cb)
     status_cb(Status::InternalError("Failed to receive status."));
-}
+}  // RecvStatus()
 
 void ClientAsyncReaderImpl::OnRead(bool success, ClientReaderReadCqTag& tag) {
   Guard g(mtx_);  // Callback need guard.
-  assert(reading_started_);
+  assert(is_started_);
   assert(status_.ok());
   if (!success) {
     status_.SetInternalError("ClientReaderReadCqTag failed.");
@@ -94,6 +84,19 @@ void ClientAsyncReaderImpl::OnRead(bool success, ClientReaderReadCqTag& tag) {
   ReadNext();
 }  // OnRead()
 
+bool ClientAsyncReaderImpl::Init() {
+  // private function has no Guard
+  assert(status_.ok());
+  auto* tag = new ClientReaderInitCqTag(call_sptr_);
+  if (tag->Start(request_))
+    return true;
+
+  delete tag;
+  status_.SetInternalError("Failed to start async client reader.");
+  CallStatusCb();  // must after Start()
+  return false;
+}  // Init()
+
 void ClientAsyncReaderImpl::ReadNext() {
   // private function has no Guard
   assert(status_.ok());
@@ -107,9 +110,10 @@ void ClientAsyncReaderImpl::ReadNext() {
   delete tag;
   status_.SetInternalError("Failed to async read server stream.");
   CallStatusCb();
-}
+}  // ReadNext()
 
 void ClientAsyncReaderImpl::CallStatusCb() {
+  // private function has no Guard
   if (!status_cb_) return;
   status_cb_(status_);
   status_cb_ = nullptr;
