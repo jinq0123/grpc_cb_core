@@ -55,9 +55,9 @@ class GRPC_CB_CORE_API ServiceStub {
   }
 
   // ServiceStub can set timeout for all methods calls.
-  int64_t GetCallTimeoutMs() const { return call_timeout_ms_; }
+  int64_t GetCallTimeoutMs() const { return *call_timeout_ms_sptr_; }
   void SetCallTimeoutMs(int64_t timeout_ms) {
-    call_timeout_ms_ = timeout_ms;
+    *call_timeout_ms_sptr_ = timeout_ms;
   }
 
  public:
@@ -87,15 +87,20 @@ class GRPC_CB_CORE_API ServiceStub {
   CallSptr MakeSharedCall(const string& method, CompletionQueue& cq) const;
 
  private:
-  const ChannelSptr channel_sptr_;
+  ChannelSptr channel_sptr_;
   CompletionQueueForNextSptr cq4n_sptr_;
 
   ErrorCb error_cb_;  // callback on error
-  std::atomic_int64_t call_timeout_ms_;
+  std::shared_ptr<std::atomic_int64_t> call_timeout_ms_sptr_;  // copyable
 
  private:
   static ErrorCb default_error_cb_;
 };  // class ServiceStub
+
+static_assert(std::is_copy_constructible<ServiceStub>::value,
+              "ServiceStub should be copyable");
+static_assert(std::is_copy_assignable<ServiceStub>::value,
+              "ServiceStub should be copyable");
 
 }  // namespace grpc_cb_core
 #endif  // GRPC_CB_CORE_CLIENT_SERVICE_STUB_H
