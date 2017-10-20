@@ -43,7 +43,7 @@ bool ServerWriterImpl::SyncWrite(const string& response) {
     std::this_thread::yield();
 
   Guard g(mtx_);
-  return closed_;
+  return !closed_;
 }
 
 bool ServerWriterImpl::AsyncWrite(const string& response) {
@@ -86,8 +86,9 @@ void ServerWriterImpl::TryToWriteNext() {
 
   is_sending_ = false;  // Prev msg sending completed.
   if (!queue_.empty()) {
-    const string& msg = queue_.front();
-    SendMsg(msg);
+    SendMsg(queue_.front());
+    queue_.pop();
+    assert(is_sending_);
     return;
   }
 
@@ -97,7 +98,7 @@ void ServerWriterImpl::TryToWriteNext() {
   }
 
   // No message and no close.
-  is_sending_ = false;
+  assert(!is_sending_);
 }
 
 void ServerWriterImpl::SendStatus() {
