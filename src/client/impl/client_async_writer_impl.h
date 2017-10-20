@@ -47,7 +47,7 @@ class ClientAsyncWriterImpl GRPC_FINAL
   void SendClose();
   void TryToCallCloseCb();  // always on error
   void CallCloseCb(const std::string& sMsg = "");
-  bool TryToSendNext();
+  bool SendNext();
 
  private:
   // The callback may lock the mutex recursively.

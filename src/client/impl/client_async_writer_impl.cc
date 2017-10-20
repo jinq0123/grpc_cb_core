@@ -46,7 +46,7 @@ bool ClientAsyncWriterImpl::Write(const std::string& request) {
   bool is_sending = !msg_queue_.empty();  // Is sending the front msg?
   msg_queue_.push(request);
   if (is_sending) return true;
-  return TryToSendNext();  // Resume sending.
+  return SendNext();  // Resume sending.
 }  // Write()
 
 void ClientAsyncWriterImpl::Close(const CloseCb& close_cb/* = nullptr*/) {
@@ -80,7 +80,7 @@ void ClientAsyncWriterImpl::OnSent(bool success) {
   }
 
   if (!msg_queue_.empty()) {
-    TryToSendNext();
+    SendNext();
     return;
   }
 
@@ -93,9 +93,9 @@ void ClientAsyncWriterImpl::OnSent(bool success) {
 void ClientAsyncWriterImpl::SendClose() {
   // private function need no Guard.
   assert(is_closing_);  // Must after Close().
-  assert(status_.ok());
   assert(!has_sent_close_);
   assert((has_sent_close_ = true));
+  assert(status_.ok());
 
   auto sptr = shared_from_this();
   auto* tag = new ClientWriterCloseCqTag(call_sptr_);
@@ -145,10 +145,11 @@ void ClientAsyncWriterImpl::OnClosed(bool success, ClientWriterCloseCqTag& tag) 
   CallCloseCb(sMsg);  // normal end
 }  // OnClosed()
 
-bool ClientAsyncWriterImpl::TryToSendNext() {
+bool ClientAsyncWriterImpl::SendNext() {
   // private function has no Guard.
   assert(!msg_queue_.empty());
   assert(status_.ok());
+  assert(call_sptr_);
 
   auto* tag = new ClientSendMsgCqTag(call_sptr_);
   auto sptr = shared_from_this();  // CqTag will keep sptr
@@ -157,13 +158,13 @@ bool ClientAsyncWriterImpl::TryToSendNext() {
   };
   tag->SetCompleteCb(complete_cb);
 
-  bool ok = tag->Start(msg_queue_.front());  // Send the front.
-  if (ok) return true;
+  if (tag->Start(msg_queue_.front()))  // Send the front.
+    return true;
 
   delete tag;
   status_.SetInternalError("Failed to write client-side streaming.");
   TryToCallCloseCb();
   return false;
-}  // TryToSendNext()
+}  // SendNext()
 
 }  // namespace grpc_cb_core

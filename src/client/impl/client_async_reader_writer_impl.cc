@@ -92,6 +92,10 @@ void ClientAsyncReaderWriterImpl::OnSent(bool success) {
     assert(!status_cb_);  // already called and rest
     return;
   }
+  if (!success) {
+    SetInternalError("Failed to send message.");
+    return;
+  }
 
   if (!msg_queue_.empty()) {
     SendNext();
@@ -109,6 +113,7 @@ void ClientAsyncReaderWriterImpl::OnSent(bool success) {
 void ClientAsyncReaderWriterImpl::OnRead(bool success,
     ClientReaderReadCqTag& tag) {
   Guard g(mtx_);  // Callback needs Guard.
+  assert(reading_started_);
   if (!status_.ok()) {
     assert(!status_cb_);  // already called and reset
     return;
@@ -151,14 +156,14 @@ void ClientAsyncReaderWriterImpl::InitIfNot() {
   ClientSendInitMdCqTag* send_tag = new ClientSendInitMdCqTag(call_sptr_);
   if (!send_tag->Start()) {
     delete send_tag;
-    SetInternalError("Failed to send init metadata to init bidirectional streaming.");
+    SetInternalError("Failed to send init metadata to init bi-directional streaming.");
     return;
   }  // if
 
   ClientRecvInitMdCqTag* recv_tag = new ClientRecvInitMdCqTag(call_sptr_);
   if (!recv_tag->Start()) {
     delete recv_tag;
-    SetInternalError("Failed to receive init metadata to init bidirectional streaming.");
+    SetInternalError("Failed to receive init metadata to init bi-directional streaming.");
     return;
   }  // if
 }  // InitIfNot()
@@ -166,23 +171,27 @@ void ClientAsyncReaderWriterImpl::InitIfNot() {
 bool ClientAsyncReaderWriterImpl::SendNext() {
   // private function has no Guard
   assert(!msg_queue_.empty());
+  assert(status_.ok());
   assert(call_sptr_);
+
   auto* tag = new ClientSendMsgCqTag(call_sptr_);
   auto sptr = shared_from_this();
   CompleteCb complete_cb = [sptr](bool success) {
     sptr->OnSent(success);
   };
   tag->SetCompleteCb(complete_cb);
-  bool ok = tag->Start(msg_queue_.front());
-  if (ok) return true;
+
+  if (tag->Start(msg_queue_.front()))  // Send the front.
+    return true;
 
   delete tag;
-  SetInternalError("Failed to write bidirectional streaming.");
+  SetInternalError("Failed to write bi-directional streaming.");
   return false;
 }  // SendNext()
 
 void ClientAsyncReaderWriterImpl::ReadNext() {
   // private function has no Guard
+  assert(status_.ok());
   auto* tag = new ClientReaderReadCqTag(call_sptr_);
   auto sptr = shared_from_this();
   tag->SetCompleteCb([sptr, tag](bool success) {
@@ -191,15 +200,17 @@ void ClientAsyncReaderWriterImpl::ReadNext() {
   if (tag->Start()) return;
 
   delete tag;
-  SetInternalError("Failed to async read bidi streaming.");
+  SetInternalError("Failed to async read bi-directional streaming.");
 }  // ReadNext()
 
 // Send close to half-close when writing are ended.
 void ClientAsyncReaderWriterImpl::SendClose() {
   // private function has no Guard
+  assert(writing_closing_);  // Must after CloseWriting().
   assert(!has_sent_close_);
   assert((has_sent_close_ = true));
   assert(status_.ok());
+
   writing_ended_ = true;  // Normal end.
   ClientSendCloseCqTag* tag = new ClientSendCloseCqTag(call_sptr_);
   if (tag->Start()) return;
