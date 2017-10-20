@@ -61,6 +61,16 @@ bool ServerWriterImpl::AsyncWrite(const string& response) {
   return SendMsg(response);
 }
 
+size_t ServerWriterImpl::GetHighQueueSize() const {
+  Guard g(mtx_);
+  return high_queue_size_;
+}
+
+void ServerWriterImpl::SetHighQueueSize(size_t high_queue_size) {
+  Guard g(mtx_);
+  high_queue_size_ = high_queue_size;
+}
+
 void ServerWriterImpl::SyncClose(const Status& status) {
   AsyncClose(status);
   while (GetQueueSize())

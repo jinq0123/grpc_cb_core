@@ -35,14 +35,8 @@ class ServerWriterImpl GRPC_FINAL
     Guard g(mtx_);
     return queue_.size();
   }
-  size_t GetHighQueueSize() const {
-    Guard g(mtx_);
-    return high_queue_size_;
-  }
-  void SetHighQueueSize(size_t high_queue_size) {
-    Guard g(mtx_);
-    high_queue_size_ = high_queue_size;
-  }
+  size_t GetHighQueueSize() const;
+  void SetHighQueueSize(size_t high_queue_size);
 
   // Close() is optional. Dtr() will auto SyncClose().
   // Redundant Close() will be ignored.
