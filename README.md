@@ -8,8 +8,6 @@ Using this lib,
  it is possible to make grpc library using an IDL other than protobuf,
  or to bind a script language other than lua. 
 
-NOT READY!
-
 ## Build
 
 ### Build with conan
@@ -21,11 +19,7 @@ NOT READY!
 ### VS solution
 See [premake/README.md](premake/README.md) to use premake5 to generate VS solution.
 
-## Todo
-1. Lua binding. Convert grpc_byte_buffer to string, which is needed by lua.
-1. Connect and disconnect event.
-1. Export for unity.
-1. Compression
-1. Security
-1. Metadata
-
+## Not supported yet
+* Compression
+* Security
+* Metadata
