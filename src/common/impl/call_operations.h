@@ -9,7 +9,6 @@
 #include <string>
 
 #include <grpc/impl/codegen/grpc_types.h>           // for grpc_op
-#include <grpc/support/port_platform.h>             // for GRPC_MUST_USE_RESULT
 #include "call_op_data.h"  // for CodSendInitMd
 #include "metadata_vector.h"  // for MetadataVector
 #include <grpc_cb_core/common/status.h>                // for Status
@@ -73,7 +72,7 @@ class CallOperations GRPC_FINAL {
                                const std::string& status_details);
 
  private:
-  inline void SendMsg(const CodSendMsg& cod_send_msg) GRPC_MUST_USE_RESULT;
+  inline void SendMsg(const CodSendMsg& cod_send_msg);
 
  private:
   static const size_t MAX_OPS = 8;
