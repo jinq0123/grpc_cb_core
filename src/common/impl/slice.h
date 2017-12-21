@@ -34,6 +34,8 @@
 #ifndef GRPC_CB_CORE_SUPPORT_SLICE_H
 #define GRPC_CB_CORE_SUPPORT_SLICE_H
 
+#include <grpc/impl/codegen/slice.h>  // for GRPC_SLICE_START_PTR and grpc_slice
+
 #include "string_ref.h"
 
 namespace grpc_cb_core {
@@ -44,6 +46,7 @@ inline string_ref StringRefFromSlice(const grpc_slice* slice) {
       GRPC_SLICE_LENGTH(*slice));
 }
 
+// XXX Change to StringFromSlice(const grpc_slice& slice)
 inline std::string StringFromCopiedSlice(grpc_slice slice) {
   return std::string(reinterpret_cast<char*>(GRPC_SLICE_START_PTR(slice)),
                       GRPC_SLICE_LENGTH(slice));

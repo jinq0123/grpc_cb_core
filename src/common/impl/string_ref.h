@@ -36,6 +36,7 @@
 
 #include <iterator>
 #include <iosfwd>
+#include <string>
 
 #include <grpc_cb_core/common/support/config.h>
 
