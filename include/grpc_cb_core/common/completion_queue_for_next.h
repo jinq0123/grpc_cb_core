@@ -3,6 +3,7 @@
 #define GRPC_CB_CORE_COMMON_COMPLETION_QUEUE_FOR_NEXT_H
 
 #include <grpc_cb_core/common/completion_queue.h>  // for CompletionQueue
+#include <grpc_cb_core/common/support/time.h>      // for TimePoint
 
 namespace grpc_cb_core {
 
