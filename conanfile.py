@@ -10,11 +10,8 @@ class GrpccbConan(ConanFile):
     options = {"shared": [True, False]}
     default_options = "shared=False"
     
-    # conan remote add jinq0123 https://api.bintray.com/conan/jinq0123/test
-    # before install, or create from:
-    # https://github.com/jinq0123/conan-grpc
-    requires = "gRPC/1.6.6@jinq0123/testing"
-    
+    requires = "gRPC/1.8.3@inexorgame/stable",
+
     generators = "cmake", "Premake"  # A custom generator: PremakeGen/0.1@memsharded/testing
     build_requires = "PremakeGen/0.1@memsharded/testing"
     exports_sources = "src*", "include*", "CMakeLists.txt"
