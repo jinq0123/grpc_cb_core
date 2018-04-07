@@ -4,6 +4,7 @@
 #ifndef GRPC_CB_CORE_SERVER_H
 #define GRPC_CB_CORE_SERVER_H
 
+#include <list>
 #include <unordered_map>
 #include <vector>
 
