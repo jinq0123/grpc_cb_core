@@ -25,7 +25,7 @@ ServiceStub::ServiceStub(
       cq4n_sptr_(cq4n_sptr),
       error_cb_(default_error_cb_),
       call_timeout_ms_sptr_(
-          new std::atomic_int64_t(channel_sptr->GetCallTimeoutMs())) {
+          new std::atomic<int64_t>(channel_sptr->GetCallTimeoutMs())) {
   assert(channel_sptr);
   // Use an internal cq if no external cq.
   if (!cq4n_sptr_) cq4n_sptr_.reset(new CompletionQueueForNext);

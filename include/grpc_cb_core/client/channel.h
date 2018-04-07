@@ -4,7 +4,7 @@
 #ifndef GRPC_CB_CORE_CHANNEL_H
 #define GRPC_CB_CORE_CHANNEL_H
 
-#include <atomic>  // for atomic_int64_t
+#include <atomic>  // for atomic<>
 #include <memory>  // for unique_ptr<>
 #include <string>
 
@@ -45,7 +45,7 @@ class GRPC_CB_CORE_API Channel : public GrpcLibrary,
  private:
   const std::unique_ptr<grpc_channel, void (*)(grpc_channel*)>
       c_channel_uptr_;  // owned
-  std::atomic_int64_t call_timeout_ms_{ INT64_MAX };
+  std::atomic<int64_t> call_timeout_ms_{ INT64_MAX };
 };
 
 }  // namespace grpc_cb_core

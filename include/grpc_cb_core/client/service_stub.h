@@ -3,7 +3,7 @@
 #ifndef GRPC_CB_CORE_CLIENT_SERVICE_STUB_H
 #define GRPC_CB_CORE_CLIENT_SERVICE_STUB_H
 
-#include <atomic>  // for atomic_int64_t
+#include <atomic>  // for atomic<>
 #include <cassert>  // for assert()
 
 #include <grpc_cb_core/client/channel_sptr.h>     // for ChannelSptr
@@ -91,7 +91,7 @@ class GRPC_CB_CORE_API ServiceStub {
   CompletionQueueForNextSptr cq4n_sptr_;
 
   ErrorCb error_cb_;  // callback on error
-  std::shared_ptr<std::atomic_int64_t> call_timeout_ms_sptr_;  // copyable
+  std::shared_ptr<std::atomic<int64_t>> call_timeout_ms_sptr_;  // copyable
 
  private:
   static ErrorCb default_error_cb_;
