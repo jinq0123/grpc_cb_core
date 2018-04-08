@@ -146,7 +146,7 @@ bool ServerWriterImpl::SendMsg(const string& msg) {
 
   delete tag;
   closed_ = true;  // error
-  queue_ = {};  // reset to break SyncWrite().
+  queue_ = std::queue<string>();  // reset to break SyncWrite().
   // Todo: do sth. on error?
   return false;
 }
