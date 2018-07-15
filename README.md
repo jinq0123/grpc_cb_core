@@ -26,7 +26,7 @@ conan remote add remote_bintray_jinq0123 https://api.bintray.com/conan/jinq0123/
 conan create user/channel --build missing
 ```
 
-### VS solution
+## VS solution
 See [premake/README.md](premake/README.md) to use premake5 to generate VS solution.
 
 ## Not supported yet
