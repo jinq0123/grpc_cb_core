@@ -2,6 +2,11 @@
 
 * WriteOptions
 * Connect and disconnect event.
+    + Add ConnectionInfo
+    + Add ConnectionHandler
+        - Id()
+        - OnBegin()
+        - OnEnd()
 * Compression
 * Security
 * Metadata
