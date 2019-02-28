@@ -23,7 +23,7 @@ conan remote add remote_bintray_bincrafters https://api.bintray.com/conan/bincra
 conan remote add remote_bintray_inexorgame https://api.bintray.com/conan/inexorgame/inexor-conan
 conan remote add remote_bintray_conan https://api.bintray.com/conan/conan/conan-transit
 conan remote add remote_bintray_jinq0123 https://api.bintray.com/conan/jinq0123/conan
-conan create user/channel --build missing
+conan create . user/channel --build missing
 ```
 
 ## VS solution
