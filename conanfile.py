@@ -2,7 +2,7 @@ from conans import ConanFile, CMake
 
 class GrpccbConan(ConanFile):
     name = "grpc_cb_core"
-    version = "0.2"
+    version = "0.3"
     license = "Apache-2.0"
     url = "https://github.com/jinq0123/grpc_cb_core"
     description = "C++ gRPC core library with callback interface."
@@ -10,7 +10,7 @@ class GrpccbConan(ConanFile):
     options = {"shared": [True, False]}
     default_options = "shared=False"
     
-    requires = "grpc/1.13.0@inexorgame/stable ",
+    requires = "grpc/1.13.0@inexorgame/stable",
 
     generators = "cmake", "Premake"  # A custom generator: PremakeGen/0.1@memsharded/testing
     build_requires = "PremakeGen/0.1@memsharded/testing"
