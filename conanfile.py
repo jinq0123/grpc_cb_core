@@ -2,7 +2,7 @@ from conans import ConanFile, CMake
 
 class GrpccbConan(ConanFile):
     name = "grpc_cb_core"
-    version = "0.3"
+    version = "0.2"
     license = "Apache-2.0"
     url = "https://github.com/jinq0123/grpc_cb_core"
     description = "C++ gRPC core library with callback interface."
