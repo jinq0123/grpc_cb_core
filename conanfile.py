@@ -10,10 +10,9 @@ class GrpccbConan(ConanFile):
     options = {"shared": [True, False]}
     default_options = "shared=False"
     
-    requires = "grpc/1.17.2@inexorgame/stable",
+    requires = "grpc/1.44.0@",
 
-    generators = "cmake", "Premake"  # A custom generator: PremakeGen/0.1@memsharded/testing
-    build_requires = "PremakeGen/0.1@memsharded/testing"
+    generators = "cmake", "premake"  # The builtin premake generator
     exports_sources = "src*", "include*", "CMakeLists.txt"
 
     def build(self):
